@@ -17,7 +17,12 @@ import time
 from pathlib import Path
 
 from pydantic import BaseModel
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove, Update
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ReplyKeyboardRemove,
+    Update,
+)
 from telegram.ext import ContextTypes
 
 from app import config
@@ -116,7 +121,7 @@ def avanzar(ses: SesionNegocio, ent: rd.Entrada, bot_username: str = "<bot>", ba
             transcriptor=None, adaptador=None) -> rd.Respuesta:
     """Un paso. Muta `ses`. En el paso `alta` delega en `repartidor_dialogo` y se salta la identificación."""
     b = ent.boton
-    texto = rd._norm(ent.texto) if ent.texto and not b else ""  # noqa: SLF001
+    texto = rd._norm(ent.texto) if ent.texto and not b else ""
 
     if ses.paso == "pregunta":
         if b == "nr:no" or texto.startswith("no"):
@@ -137,7 +142,7 @@ def avanzar(ses: SesionNegocio, ent: rd.Entrada, bot_username: str = "<bot>", ba
         if b == "nr:yo" or "yo" in texto.split():
             ses.paso = "alta"
             ses.rep = rd.Sesion(chat_id=ses.chat_id, demo_data=config.settings.demo_mode or altas.usar_respaldo())
-            r = rd._ir_a(ses.rep, "nombre")  # noqa: SLF001 — sin aviso de privacidad: lo registra el negocio
+            r = rd._ir_a(ses.rep, "nombre")
             return rd.Respuesta(texto="Va, te pregunto por tu repartidor. " + r.texto, botones=r.botones)
         return _opciones()
 
@@ -146,7 +151,7 @@ def avanzar(ses: SesionNegocio, ent: rd.Entrada, bot_username: str = "<bot>", ba
                        adaptador=AdaptadorNegocio(ses.negocio_id, adaptador))
         if ses.rep.paso in ("id_tipo", "id_foto"):  # el negocio no manda identificación ajena
             ses.rep.tipo_id = ses.rep.id_foto = None
-            r = rd._tras_paso(ses.rep, lambda: rd._ir_a(ses.rep, "alcaldia"), "alcaldia")  # noqa: SLF001
+            r = rd._tras_paso(ses.rep, lambda: rd._ir_a(ses.rep, "alcaldia"), "alcaldia")
         if ses.rep.paso == "fin":
             ses.paso = "fin"
             if ses.rep.repartidor_id:
