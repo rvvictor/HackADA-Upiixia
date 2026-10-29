@@ -7,7 +7,7 @@ type LogoProps = {
   marca?: boolean;
 };
 
-/** colonIA: the "IA" always in rosa mexicano. */
+/** colonIA: the "IA" always in the brand terracotta (--pb-marca). */
 export function Logo({ className = "text-xl", oscuro = false, marca = true }: LogoProps) {
   return (
     <span className={`pb-display inline-flex items-center gap-[0.3em] font-extrabold ${className}`} aria-label="colonIA">

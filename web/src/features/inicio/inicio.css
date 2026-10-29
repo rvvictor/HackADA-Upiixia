@@ -1,19 +1,16 @@
-/* Landing colonIA (PB-023). Autocontenida: no depende de los tokens de lib/ui, así que se ve igual antes y después de PB-029. */
+/* Landing colonIA. Base clara y sin brillos (IDEA-v2 §3): todos los colores salen de lib/ui/tokens.css. */
 .ci {
-  --ci-bg: #0b0f14;
-  --ci-bg-2: #10161f;
-  --ci-tarjeta: #141c28;
-  --ci-borde: #26324a;
-  --ci-texto: #f4f1ea;
-  --ci-texto-2: #b9c2d0;
-  --ci-rosa: #e6007e;
-  --ci-rosa-luz: #ff4fa8;
-  --ci-cempasuchil: #ffb703;
-  --ci-jade: #00a86b;
-  --ci-jade-luz: #3fd6a0;
-  --ci-anil: #1f3b8c;
-  --ci-anil-luz: #2c4fb0;
-  --ci-foco: #ffb703;
+  --ci-bg: var(--pb-fondo);
+  --ci-bg-2: var(--pb-superficie-2);
+  --ci-tarjeta: var(--pb-superficie);
+  --ci-borde: var(--pb-borde);
+  --ci-texto: var(--pb-texto);
+  --ci-texto-2: var(--pb-texto-2);
+  --ci-acento: var(--pb-acento);
+  --ci-cempasuchil: var(--pb-cempasuchil);
+  --ci-jade: var(--pb-jade);
+  --ci-anil: var(--pb-anil);
+  --ci-foco: var(--pb-foco);
 
   position: relative;
   height: 100%;
@@ -75,7 +72,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ci-cempasuchil);
+  color: var(--ci-acento);
 }
 
 .ci-kicker::before {
@@ -124,33 +121,33 @@
 }
 
 .ci-btn-primario {
-  background: var(--ci-rosa);
-  color: #fff;
-  box-shadow: 0 10px 30px -10px rgb(230 0 126 / 0.7);
+  background: var(--ci-acento);
+  color: var(--pb-sobre-acento);
+  box-shadow: var(--pb-sombra);
 }
 
 .ci-btn-primario:hover {
-  background: #c8006b;
+  background: var(--pb-acento-fuerte);
 }
 
 .ci-btn-sec {
-  background: transparent;
+  background: var(--ci-tarjeta);
   color: var(--ci-texto);
-  border-color: rgb(244 241 234 / 0.35);
+  border-color: var(--pb-borde-fuerte);
 }
 
 .ci-btn-sec:hover {
-  border-color: var(--ci-cempasuchil);
-  color: var(--ci-cempasuchil);
+  border-color: var(--ci-acento);
+  color: var(--ci-acento);
 }
 
 .ci-btn-jade {
   background: var(--ci-jade);
-  color: #04110b;
+  color: var(--pb-sobre-acento);
 }
 
 .ci-btn-jade:hover {
-  background: #00935d;
+  background: var(--pb-real-texto);
 }
 
 /* ---------- HERO ---------- */
@@ -160,19 +157,6 @@
   padding: 56px 0 72px;
   overflow: hidden;
   isolation: isolate;
-}
-
-.ci-hero-glow {
-  position: absolute;
-  inset: -20% -10% auto;
-  height: 120%;
-  z-index: -1;
-  background:
-    radial-gradient(60% 55% at 78% 40%, rgb(255 183 3 / 0.22), transparent 70%),
-    radial-gradient(55% 60% at 30% 30%, rgb(230 0 126 / 0.32), transparent 70%),
-    radial-gradient(50% 50% at 60% 90%, rgb(31 59 140 / 0.35), transparent 70%);
-  filter: blur(8px);
-  animation: ci-respira 9s ease-in-out infinite alternate;
 }
 
 .ci-hero-grid {
@@ -198,16 +182,10 @@
   line-height: 0.86;
   letter-spacing: -0.05em;
   color: var(--ci-texto);
-  text-shadow: 0 0 60px rgb(230 0 126 / 0.25);
 }
 
 .ci-marca-ia {
-  color: var(--ci-rosa-luz);
-  background: linear-gradient(180deg, var(--ci-rosa-luz) 10%, var(--ci-rosa) 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 28px rgb(230 0 126 / 0.55));
+  color: var(--pb-marca);
 }
 
 .ci-tagline {
@@ -215,7 +193,19 @@
   font-size: clamp(1.4rem, 3vw, 1.9rem);
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--ci-cempasuchil);
+  color: var(--pb-acento-fuerte);
+}
+
+.ci-wow {
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-left: 4px solid var(--ci-acento);
+  border-radius: 0 12px 12px 0;
+  background: var(--pb-acento-suave);
+  color: var(--ci-texto);
+  font-size: 1.125rem;
+  font-weight: 600;
+  max-width: 52ch;
 }
 
 .ci-pitch {
@@ -265,8 +255,9 @@
   gap: 8px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgb(11 15 20 / 0.85);
+  background: var(--ci-tarjeta);
   border: 1px solid var(--ci-borde);
+  box-shadow: var(--pb-sombra);
   font-size: 0.875rem;
   color: var(--ci-texto-2);
 }
@@ -275,16 +266,15 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--ci-jade-luz);
-  box-shadow: 0 0 0 0 rgb(63 214 160 / 0.7);
-  animation: ci-latido 1.8s ease-out infinite;
+  background: var(--ci-jade);
+  animation: ci-latido 1.8s ease-in-out infinite alternate;
 }
 
 /* Hexágonos: estado base y olas */
 .hx {
   fill: var(--c);
   fill-opacity: var(--o);
-  stroke: rgb(244 241 234 / 0.07);
+  stroke: var(--ci-tarjeta);
   stroke-width: 1.2;
   stroke-linejoin: round;
   animation: ci-hex 7.2s ease-in-out infinite;
@@ -320,23 +310,12 @@
   }
 }
 
-@keyframes ci-respira {
+@keyframes ci-latido {
   from {
-    opacity: 0.85;
-    transform: scale(1);
+    opacity: 1;
   }
   to {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
-@keyframes ci-latido {
-  0% {
-    box-shadow: 0 0 0 0 rgb(63 214 160 / 0.7);
-  }
-  100% {
-    box-shadow: 0 0 0 12px rgb(63 214 160 / 0);
+    opacity: 0.35;
   }
 }
 
@@ -398,7 +377,7 @@
 }
 
 .ci-fuente a {
-  color: var(--ci-cempasuchil);
+  color: var(--ci-acento);
   text-underline-offset: 3px;
 }
 
@@ -444,7 +423,7 @@
   height: 42px;
   border-radius: 12px;
   background: var(--acc);
-  color: #0b0f14;
+  color: var(--pb-sobre-acento);
   font-weight: 800;
   font-size: 1.1rem;
 }
@@ -491,7 +470,7 @@
 
 .ci-paso-link:hover {
   background: var(--acc);
-  color: #0b0f14;
+  color: var(--pb-sobre-acento);
 }
 
 .ci-ruta {
@@ -608,7 +587,7 @@
 }
 
 .ci-lista svg {
-  color: var(--ci-jade-luz);
+  color: var(--ci-jade);
   margin-top: 4px;
 }
 
@@ -624,16 +603,18 @@
   place-items: center;
   aspect-ratio: 1.15;
   border-radius: 8px;
-  background: var(--ci-anil);
-  color: #e9edf7;
+  background: var(--ci-bg-2);
+  border: 1px solid var(--ci-borde);
+  color: var(--ci-texto-2);
   font-size: 0.8rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .ci-alcaldias span.on {
-  background: var(--ci-jade);
-  color: #04110b;
+  background: var(--ci-acento);
+  border-color: var(--ci-acento);
+  color: var(--pb-sobre-acento);
 }
 
 .ci-helice {
@@ -675,17 +656,8 @@
   padding: 88px 0;
   text-align: center;
   overflow: hidden;
-  isolation: isolate;
-}
-
-.ci-cierre::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(45% 70% at 50% 0%, rgb(255 183 3 / 0.22), transparent 70%),
-    radial-gradient(50% 60% at 50% 100%, rgb(230 0 126 / 0.3), transparent 70%);
+  background: var(--pb-acento-suave);
+  border-top: 1px solid var(--ci-borde);
 }
 
 .ci-cierre h2 {

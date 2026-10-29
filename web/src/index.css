@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource-variable/geist";
 @import "mapbox-gl/dist/mapbox-gl.css";
+@import "./lib/ui/tokens.css";
 
 @theme {
   --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
@@ -13,6 +14,6 @@ html {
 
 body {
   margin: 0;
-  background: #fbfaf7;
-  color: #1c1917;
+  background: var(--pb-fondo);
+  color: var(--pb-texto);
 }
