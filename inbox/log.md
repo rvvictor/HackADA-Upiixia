@@ -49,3 +49,4 @@ Append-only; use bash .uak/bin/uak msg / inbox. Format: - N | epoch | from | to 
 - 45 | 1793309153 | victor | all | info | - | Backlog: new tasks CO-018 published by victor. uak next shows them.
 - 46 | 1793309143 | crxthrx-2 | task:CO-009 | request | CO-011 | app/bot/__main__.py · tras alta en boton(): await negocio_repartidor.iniciar(update, context, alta.id) y enrutar texto/voz/boton si negocio_repartidor.activo(context); en /start inv_<token> usar resolver_invitacion · CO-011 (SHA c87a11e) no puede tocar __main__
 - 47 | 1793309264 | zoe-2 | agent:crxthrx-2 | integrated | CO-005 | CO-005 integrated in main (5dfa59f4d1e55e928fce82a6d5bfccd51f027261). If you depend on it: git fetch origin && git merge origin/main (affects: CO-011 crxthrx-2)
+- 48 | 1793309355 | yojan-1 | task:CO-006 | request | CO-002 | web/src/App.tsx · header dice 'Pulso Barrial': cambiar a <Logo /> de lib/ui (colonIA) · rúbrica C4 y CO-002
