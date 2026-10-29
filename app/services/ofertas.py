@@ -25,6 +25,30 @@ DEMO = [
 ]
 
 
+# Rutas fijas del repartidor demo (R-00001): se siembran la primera vez que entra, con o sin DEMO_MODE.
+RUTAS_REPARTIDOR_DEMO = [
+    {"id": "O-FIJA1", "negocio_id": "N-DEMO", "negocio_nombre": "Fonda Doña Lupe", "tipo_negocio": "negocio_local",
+     "colonia": "San Lucas",
+     "paradas": [{"lat": 19.3468, "lng": -99.1617, "colonia": "San Lucas"},
+                 {"lat": 19.3490, "lng": -99.1590, "colonia": "San Lucas"}],
+     "distancia_m": 850, "minutos_est": 12, "pago_est": 45, "tipo_dato_pago": "simulado"},
+    {"id": "O-FIJA2", "negocio_id": "N-DEMO2", "negocio_nombre": "Panadería del mercado", "tipo_negocio": "mercado",
+     "colonia": "San Lucas",
+     "paradas": [{"lat": 19.3471, "lng": -99.1620, "colonia": "San Lucas"}],
+     "distancia_m": 400, "minutos_est": 6, "pago_est": 25, "tipo_dato_pago": "simulado"},
+    {"id": "O-FIJA3", "negocio_id": "N-DEMO3", "negocio_nombre": "Tianguis de San Lucas", "tipo_negocio": "tianguis",
+     "colonia": "San Lucas",
+     "paradas": [{"lat": 19.3455, "lng": -99.1632, "colonia": "San Lucas"},
+                 {"lat": 19.3481, "lng": -99.1648, "colonia": "San Lucas"},
+                 {"lat": 19.3502, "lng": -99.1611, "colonia": "San Lucas"}],
+     "distancia_m": 1300, "minutos_est": 18, "pago_est": 60, "tipo_dato_pago": "simulado"},
+    {"id": "O-FIJA4", "negocio_id": "N-DEMO", "negocio_nombre": "Fonda Doña Lupe", "tipo_negocio": "negocio_local",
+     "colonia": "San Lucas", "estado": "completada",
+     "paradas": [{"lat": 19.3462, "lng": -99.1605, "colonia": "San Lucas"}],
+     "distancia_m": 600, "minutos_est": 8, "pago_est": 30, "tipo_dato_pago": "simulado"},
+]
+
+
 class NoEncontrada(Exception):
     pass
 
@@ -73,6 +97,14 @@ def _sembrar_demo(ahora: float) -> None:
             crear({**d, "demo_data": True}, ahora=ahora - VENTANA_S * 10)
 
 
+def _sembrar_rutas_repartidor_demo(ahora: float) -> None:
+    hay = {o.get("id") for o in _todas()}
+    for d in RUTAS_REPARTIDOR_DEMO:
+        if d["id"] not in hay:
+            extra = {"repartidor_id": repartidores.DEMO_ID} if d.get("estado") == "completada" else {}
+            crear({**d, **extra, "demo_data": True}, ahora=ahora - 3600)
+
+
 # ---------- orden ----------
 
 def _cercania(r: dict, oferta: dict) -> int:
@@ -103,6 +135,8 @@ def ofertas_para(rid: str, desde: float | None = None, ahora: float | None = Non
     repartidores.obtener(rid)
     ahora = ahora if ahora is not None else time.time()
     _sembrar_demo(ahora)
+    if repartidores.DEMO_CODIGO and rid == repartidores.DEMO_ID:
+        _sembrar_rutas_repartidor_demo(ahora)
     visibles = []
     for o in _todas():
         if o.get("estado") in ("tomada", "completada"):

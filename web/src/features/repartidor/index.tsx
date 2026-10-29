@@ -12,6 +12,8 @@ export const label = "Repartidor";
 export const order = 4;
 
 const SONDEO_MS = 5000;
+// Número del repartidor demo (app/services/repartidores.py), prellenado para la demo.
+const DEMO_ID = import.meta.env.VITE_REPARTIDOR_DEMO_ID ?? "R-00001";
 const dinero = (n: number) => `$${n.toFixed(0)} MXN`;
 const km = (m: number) => (m >= 1000 ? `${(m / 1000).toFixed(1)} km` : `${m} m`);
 
@@ -22,7 +24,7 @@ export default function Repartidor(_props: FeatureProps) {
 }
 
 function Acceso({ onEntrar }: { onEntrar: (s: Sesion) => void }) {
-  const [id, setId] = useState("");
+  const [id, setId] = useState(DEMO_ID);
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 

@@ -97,3 +97,11 @@ def test_mis_rutas_tomada_y_completada_solo_del_dueno(live) -> None:
     assert [(o["id"], o["estado"]) for o in lista] == [(oid, "completada")]
     assert all(k not in lista[0] for k in ("prioridad", "edad", "foto_id"))
     assert client.get(f"/api/ofertas?repartidor_id={b}", headers=hb).json() == []
+
+
+def test_repartidor_demo_tiene_rutas_fijas_sin_demo_mode(live, monkeypatch) -> None:
+    monkeypatch.setattr(ofertas.settings, "demo_mode", False)
+    rid = repartidores.DEMO_ID
+    ids = {o["id"] for o in ofertas.ofertas_para(rid)}
+    assert {"O-FIJA1", "O-FIJA2", "O-FIJA3", "O-FIJA4"} <= ids
+    assert len(ofertas.ofertas_para(rid)) == len(ids)  # no se duplican al volver a entrar
