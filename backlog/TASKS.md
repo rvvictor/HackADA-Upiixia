@@ -123,3 +123,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - No cambia cifras, comandos ni imágenes
 - **Verify:** `! grep -q "What is colonIA" README.md && grep -q "Qué es colonIA" README.md`
 - **Next step:** buscar `What is colonIA` en README.md
+
+## CO-023 · Bot: altas y repartidores contra la API desplegada (Render) y links públicos (follow-up of CO-009)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-009
+- **Follow-up of:** CO-009
+- **Paths:** app/bot/, app/services/repartidor_dialogo.py, app/tests/test_bot_repartidor.py
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Bot: altas y repartidores contra la API desplegada (Render) y links públicos
+- **Verify:** `uv run pytest -q app/tests/test_bot_repartidor.py`
