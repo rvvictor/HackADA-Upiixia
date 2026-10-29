@@ -89,3 +89,21 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Ninguna respuesta incluye prioridad, edad, foto de ID ni datos de otro repartidor
 - **Verify:** `uv run pytest -q app/tests/test_ofertas.py app/tests/test_demo_repartidor.py && npm --prefix web run build`
 - **Next step:** `app/services/ofertas.py:108` (`ofertas_para`)
+## CO-021 · Mapas de toda la app: puntos por tipo con su color/forma y el mismo contenedor en Vecina y Repartidor
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 20 min
+- **Rubric / Spec:** C4, C1 · `IDEA-v2.md` §1.3, §9 · hallazgo del dueño en https://colonia-hackada.onrender.com
+- **Depends on:** None
+- **Uses contract:** CO-007
+- **Paths:** web/src/features/mapa/, web/src/features/usuario/, web/src/features/repartidor/MapaOfertas.tsx, web/src/features/negocio/, web/src/lib/map/MapaBase.tsx, web/src/lib/map/camara.ts
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - En `#/mapa` los puntos ya no salen todos negros: tianguis (círculo terracota), mercado (cuadro verde-azulado) y negocio local (triángulo) con su color y forma, igual que los chips; sin neón y con borde claro para leerse sobre el mapa base (hoy la capa de puntos pinta todos de negro: revisa la expresión de color/`match` por `tipo` en `MapaHex.tsx` y el adaptador `ChipsAdaptador.tsx`; si `web/src/lib/map/iconos.ts` y `ChipsTipo.tsx` de CO-007 ya están en `main`, úsalos en lugar del adaptador mínimo)
+  - Los puntos no tapan la lectura: con zoom lejano se agrupan (cluster con conteo) y con zoom cercano se ven individuales; 1,696 puntos más negocios locales no deben volverlo ilegible
+  - El mismo problema de contenedor de mapa (`.mapboxgl-map{position:relative}` pisa `absolute inset-0` y deja el mapa en alto 0) se corrige en todos los mapas de la app: sección Vecina (`web/src/features/usuario/MapaRuta.tsx`, ruta de compras), portal del repartidor (`MapaOfertas.tsx`), Negocio si tiene mapa, y `web/src/lib/map/MapaBase.tsx`
+  - Verificación visual con Playwright (movimiento reducido, estado final) a 1280×720 de `#/mapa`, `#/usuario` (armar una ruta de compras) y `#/repartidor` (con el repartidor sembrado por `scripts/simular_repartidor.py` o el modo mock): los tres mapas visibles, con marcadores legibles; capturas en la evidencia de `uak done`
+  - Las pruebas existentes siguen en verde sin editarlas
+- **Verify:** `npm --prefix web run build`
+- **Next step:** `web/src/features/mapa/MapaHex.tsx` (capa de puntos) y `web/src/features/usuario/MapaRuta.tsx`
