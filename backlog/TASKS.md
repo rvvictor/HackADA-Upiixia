@@ -38,3 +38,21 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - No menciona la rúbrica ni puntos de evaluación
 - **Verify:** `bash -c 'test -s README.md && grep -q "colonIA" README.md && test $(ls docs/media | wc -l) -ge 3 && ! grep -q "TODO" README.md'`
 - **Next step:** leer el README de referencia y capturar las pantallas con Playwright
+## CO-018 · Marca única colonIA y tarjeta de alcaldía compacta en el mapa
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 20 min
+- **Rubric / Spec:** C4 · `IDEA-v2.md` §0 (nombre), §9 (pantallas)
+- **Depends on:** None
+- **Uses contract:** None
+- **Paths:** web/src/App.tsx, web/src/features/mapa/, web/src/features/negocio/, web/src/features/usuario/, app/main.py, app/services/paginas.py, app/templates/pagina.html, app/fixtures/sedeco_crecimiento.json, app/fixtures/negocio_detalle.json, pipeline/negocios/programas.py
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Ningún texto visible ni de API dice "Pulso Barrial": la barra superior (`App.tsx`), título de FastAPI, páginas públicas de negocio, fuentes en fixtures y mocks dicen "colonIA"; `rg -n -i "pulso barrial" web/src app pipeline/negocios` no devuelve nada (el lema y los textos de la home los cambia CO-002, no los toques; `web/index.html`, `web/src/features/inicio/`, `web/src/lib/ui/`, `README.md` y `docs/` quedan fuera)
+  - La tarjeta de alcaldía del mapa ya no tapa los chips de tipo, el aviso del mapa ni las gráficas: va compacta (selector y conteos), con la serie y las cifras plegadas tras un botón "Ver detalle", altura máxima con scroll interno, y colocada debajo de los chips sin solaparlos a 1280×720 y a 390 px de ancho
+  - Los chips, el selector de capa y la leyenda siguen visibles y utilizables con la tarjeta abierta; el aviso sin llave de Mapbox se ve completo
+  - Captura a 1280×720 (Playwright, movimiento reducido) que lo demuestre, guardada en la evidencia de `uak done`
+  - Las pruebas existentes siguen en verde sin editarlas
+- **Verify:** `bash -c '! rg -n -i "pulso barrial" web/src app pipeline/negocios' && uv run pytest -q app/tests && npm --prefix web run build'`
+- **Next step:** `rg -n -i "pulso barrial" web/src app pipeline/negocios` y `web/src/features/mapa/index.tsx:194` (posición de la tarjeta)
