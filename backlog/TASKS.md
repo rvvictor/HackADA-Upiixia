@@ -107,3 +107,19 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Las pruebas existentes siguen en verde sin editarlas
 - **Verify:** `npm --prefix web run build`
 - **Next step:** `web/src/features/mapa/MapaHex.tsx` (capa de puntos) y `web/src/features/usuario/MapaRuta.tsx`
+## CO-022 · README todo en español (quitar el bloque en inglés)
+
+- **Type:** docs
+- **Priority:** P0
+- **Estimate:** 10 min
+- **Rubric / Spec:** C4 · petición del dueño
+- **Depends on:** None
+- **Uses contract:** None
+- **Paths:** README.md
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Todo el `README.md` en español de México: el bloque "What is colonIA" (inglés) se reemplaza por una sección "¿Qué es colonIA?" en español con el mismo contenido (un mapa vivo del comercio de barrio de la CDMX; la nota de voz por Telegram; el LLM solo extrae campos, cada número y cada ruta es código determinista y toda cifra lleva `tipo_dato`: `real`, `estimado` o `simulado`); la barra de navegación y los enlaces internos se actualizan al nuevo título
+  - Ningún párrafo ni encabezado en inglés (salvo nombres propios, comandos y términos técnicos como Telegram, FastAPI, badges)
+  - No cambia cifras, comandos ni imágenes
+- **Verify:** `! grep -q "What is colonIA" README.md && grep -q "Qué es colonIA" README.md`
+- **Next step:** buscar `What is colonIA` en README.md
