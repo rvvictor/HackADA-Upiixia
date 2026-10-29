@@ -124,3 +124,61 @@ def test_resumen_altas_hoy_y_rutas(datos) -> None:
     assert body["rutas_por_hexagono"] == {"89x": 3}
     assert body["abiertos"] == 6 and body["poblacion_cubierta_pct"] > 0
     assert body["tipo_campos"]["poblacion_cubierta_pct"] == "estimado"
+
+
+# ---------- CO-012: /api/puntos y /api/alcaldias ----------
+
+def test_puntos_filtra_por_tipo_y_trae_fuente(datos) -> None:
+    body = client.get("/api/puntos", params={"tipo": "tianguis"}).json()
+    assert body["total"] == 6 and body["tipos"] == ["tianguis"]
+    for p in body["puntos"]:
+        assert p["tipo"] == "tianguis" and p["tipo_dato"] and p["fuente"]
+    assert client.get("/api/puntos", params={"tipo": "mercado"}).json()["puntos"] == []
+
+
+def test_puntos_bbox_y_tope(datos) -> None:
+    fuera = client.get("/api/puntos", params={"bbox": "0,0,1,1"}).json()
+    assert fuera["puntos"] == []
+    lim = client.get("/api/puntos", params={"limite": 2}).json()
+    assert len(lim["puntos"]) == 2 and lim["truncado"] is True
+    assert client.get("/api/puntos", params={"bbox": "basura"}).status_code == 200
+
+
+def test_negocio_local_vacio_sin_archivo_y_con_archivo(datos) -> None:
+    body = client.get("/api/puntos", params={"tipo": "negocio_local"}).json()
+    assert body["puntos"] == [] and body["total"] == 0
+    (datos / "processed" / "negocios_denue.json").write_text(json.dumps([
+        {"id": "n1", "nombre": "Tienda", "alcaldia_cvegeo": "09003", "lat": 19.34, "lng": -99.16, "tipo_dato": "real", "fuente": "DENUE"},
+        {"id": "n2", "nombre": "Lejos", "alcaldia_cvegeo": "09007", "lat": 10.0, "lng": -90.0, "tipo_dato": "real", "fuente": "DENUE"},
+    ]))
+    dentro = client.get("/api/puntos", params={"tipo": "negocio_local", "bbox": "-99.2,19.3,-99.1,19.4"}).json()
+    assert [p["id"] for p in dentro["puntos"]] == ["n1"] and dentro["puntos"][0]["tipo"] == "negocio_local"
+
+
+def test_alcaldias_16_con_prioritarias_primero(datos) -> None:
+    (datos / "processed" / "colonias.json").write_text(json.dumps([
+        {"alcaldia_cvegeo": f"090{n:02d}", "alcaldia": f"Alcaldía {n}"} for n in range(2, 18)
+    ]))
+    filas = client.get("/api/alcaldias").json()
+    assert len(filas) == 16
+    assert [a["cvegeo"] for a in filas[:2]] == ["09003", "09007"]
+    assert [a["prioridad"] for a in filas] == [True, True] + [False] * 14
+    assert filas[0]["cnbv"]["tipo_dato"] == "simulado"
+
+
+def test_datos_reales_16_alcaldias() -> None:
+    filas = client.get("/api/alcaldias").json()
+    assert len(filas) == 16 and filas[0]["cvegeo"] == "09003"
+    body = client.get("/api/puntos", params={"tipo": "tianguis,mercado"}).json()
+    assert {p["tipo"] for p in body["puntos"]} <= {"tianguis", "mercado"} and body["total"] == 1696
+
+
+def test_negocio_local_datos_reales_coyoacan_e_iztapalapa() -> None:
+    mapa._indice_negocios.clear()
+    for cve in ("09003", "09007"):
+        body = client.get("/api/puntos", params={"tipo": "negocio_local", "alcaldia": cve}).json()
+        assert body["total"] > 0 and 0 < len(body["puntos"]) <= mapa.TOPE_NEGOCIOS
+        assert all(p["alcaldia_cvegeo"] == cve and p["tipo_dato"] == "real" and p["fuente"] for p in body["puntos"])
+    p = body["puntos"][0]
+    caja = f"{p['lng'] - 0.01},{p['lat'] - 0.01},{p['lng'] + 0.01},{p['lat'] + 0.01}"
+    assert client.get("/api/puntos", params={"tipo": "negocio_local", "bbox": caja}).json()["puntos"]

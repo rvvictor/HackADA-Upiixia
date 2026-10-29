@@ -1,6 +1,7 @@
 import mapboxgl, { type FilterSpecification } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
 import { pintarCapa } from "../../lib/map/hex";
+import { TIPOS, type PuntoMapa } from "./puntos";
 import type { Alta, CapaHex, ColeccionHex, Tianguis } from "./datos";
 
 // Cámara inicial: 50° sobre Coyoacán con Iztapalapa a la vista (IDEA.md §4 paso 1).
@@ -13,6 +14,7 @@ type Props = {
   capa: CapaHex;
   datoReal: boolean;
   tianguis: Tianguis[];
+  puntos?: PuntoMapa[];
   altas: Alta[];
   seleccionado: string | null;
   onSeleccion: (h3: string | null) => void;
@@ -31,7 +33,7 @@ function pintarHex(map: mapboxgl.Map, capa: CapaHex, datoReal: boolean) {
   ]);
 }
 
-export function MapaHex({ hex, capa, datoReal, tianguis, altas, seleccionado, onSeleccion }: Props) {
+export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, seleccionado, onSeleccion }: Props) {
   const contenedor = useRef<HTMLDivElement>(null);
   const mapaRef = useRef<mapboxgl.Map | null>(null);
   const marcasRef = useRef(new Map<string, mapboxgl.Marker>());
@@ -72,6 +74,28 @@ export function MapaHex({ hex, capa, datoReal, tianguis, altas, seleccionado, on
         type: "fill-extrusion",
         source: "hex",
         paint: { "fill-extrusion-opacity": 0.88, "fill-extrusion-vertical-gradient": true },
+      });
+      mapa.addSource("puntos", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+      // TODO CO-007: sustituir por los íconos de lib/map/iconos.ts. Aquí: color + forma de borde por tipo.
+      mapa.addLayer({
+        id: "puntos",
+        type: "circle",
+        source: "puntos",
+        paint: {
+          "circle-radius": ["match", ["get", "tipo"], "mercado", 7, "negocio_local", 4, 5],
+          "circle-color": ["match", ["get", "tipo"], ...TIPOS.flatMap((t) => [t.id, t.color]), "#57534e"],
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": ["match", ["get", "tipo"], "mercado", 3, 1.5],
+        },
+      });
+      mapa.on("click", "puntos", (e) => {
+        const f = e.features?.[0];
+        if (!f) return;
+        const pr = f.properties ?? {};
+        new mapboxgl.Popup({ offset: 12 })
+          .setLngLat(e.lngLat)
+          .setText(`${pr.nombre ?? pr.tipo} (${pr.tipo}). ${pr.tipo_dato} · Fuente: ${pr.fuente}`)
+          .addTo(mapa);
       });
       mapa.addSource("tianguis", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
       mapa.addLayer({
@@ -132,6 +156,19 @@ export function MapaHex({ hex, capa, datoReal, tianguis, altas, seleccionado, on
       })),
     });
   }, [listo, tianguis]);
+
+  useEffect(() => {
+    const mapa = mapaRef.current;
+    if (!mapa || !listo) return;
+    (mapa.getSource("puntos") as mapboxgl.GeoJSONSource).setData({
+      type: "FeatureCollection",
+      features: puntos.map((p) => ({
+        type: "Feature" as const,
+        geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
+        properties: { tipo: p.tipo, nombre: p.nombre, tipo_dato: p.tipo_dato, fuente: p.fuente },
+      })),
+    });
+  }, [listo, puntos]);
 
   // Altas nuevas: punto que pulsa.
   useEffect(() => {

@@ -7,6 +7,7 @@ Días: 0 = lunes … 6 = domingo (misma convención que `pipeline.geo`).
 
 import json
 import math
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -26,6 +27,7 @@ ARCHIVOS = {
     "hex": ("hex.geojson", ("hex.geojson", "hex.json")),
     "dinero": ("cnbv_tpv_municipios.json", ("dinero_alcaldias.json", "cnbv_tpv_municipios.json")),
     "tianguis": ("tianguis_abierto.json", ("tianguis.json", "tianguis_abierto.json")),
+    "colonias": ("colonias.json", ("colonias.json",)),
 }
 
 _cache: dict[Path, tuple[float, Any]] = {}
@@ -236,3 +238,141 @@ def resumen(dia: int | None = None, hora: str | None = None) -> dict:
             "desiertos": "estimado",
         },
     }
+
+
+# ---------- puntos por tipo y alcaldías (CO-012) ----------
+
+TIPOS_PUNTO = ("tianguis", "mercado", "negocio_local")
+PRIORITARIAS = ("09003", "09007")
+TOPE_PUNTOS = 3000
+TOPE_NEGOCIOS = 1500
+NEGOCIOS_DENUE = "negocios_denue.json"  # CO-004; puede no existir
+
+
+def _bbox(texto: str | None) -> tuple[float, float, float, float] | None:
+    if not texto:
+        return None
+    try:
+        a, b, c, d = (float(x) for x in texto.split(","))
+    except ValueError:
+        return None
+    return min(a, c), min(b, d), max(a, c), max(b, d)
+
+
+def _en_bbox(p: dict, caja: tuple[float, float, float, float] | None) -> bool:
+    if caja is None:
+        return True
+    try:
+        return caja[0] <= float(p["lng"]) <= caja[2] and caja[1] <= float(p["lat"]) <= caja[3]
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
+def _punto(p: dict, tipo: str) -> dict:
+    return {
+        "id": p.get("id"), "tipo": tipo, "nombre": p.get("nombre"),
+        "alcaldia_cvegeo": p.get("alcaldia_cvegeo"), "colonia": p.get("colonia"),
+        "lat": p.get("lat"), "lng": p.get("lng"),
+        "dias": p.get("dias"), "abre": p.get("abre"), "cierra": p.get("cierra"),
+        "tipo_dato": p.get("tipo_dato") or "simulado",
+        "fuente": p.get("fuente") or "sin fuente registrada",
+    }
+
+
+_indice_negocios: dict[Path, tuple[float, list[dict]]] = {}
+
+
+def _norm(nombre: str | None) -> str:
+    sin = unicodedata.normalize("NFKD", nombre or "")
+    return "".join(c for c in sin if not unicodedata.combining(c)).upper().strip()
+
+
+def _negocios_indexados(ruta: Path) -> list[dict]:
+    """Lista de negocios con `alcaldia_cvegeo` resuelto desde el nombre; se calcula una vez por mtime."""
+    mtime = ruta.stat().st_mtime
+    hit = _indice_negocios.get(ruta)
+    if hit and hit[0] == mtime:
+        return hit[1]
+    datos = _leer_json(ruta)
+    filas = datos if isinstance(datos, list) else (datos.get("negocios") or []) if isinstance(datos, dict) else []
+    por_nombre = {_norm(n): c for c, n in _nombres_alcaldias().items()}
+    listos = []
+    for p in filas:
+        if not isinstance(p, dict):
+            continue
+        cve = p.get("alcaldia_cvegeo") or por_nombre.get(_norm(p.get("alcaldia")))
+        listos.append({**p, "alcaldia_cvegeo": cve, "id": p.get("id") or p.get("id_denue")})
+    _indice_negocios[ruta] = (mtime, listos)
+    return listos
+
+
+def _negocios_locales(caja, alcaldia: str | None, tope: int) -> tuple[list[dict], int]:
+    ruta = PROCESSED_DIR / NEGOCIOS_DENUE
+    if not ruta.is_file():
+        return [], 0
+    try:
+        filas = _negocios_indexados(ruta)
+    except (OSError, ValueError):
+        return [], 0
+    sel = [p for p in filas if _en_bbox(p, caja) and (not alcaldia or p.get("alcaldia_cvegeo") == alcaldia)]
+    return [_punto(p, "negocio_local") for p in sel[:tope]], len(sel)
+
+
+def puntos(tipos: str | None, bbox: str | None, alcaldia: str | None = None, limite: int = TOPE_PUNTOS) -> dict:
+    pedidos = [t.strip() for t in (tipos or "").split(",") if t.strip() in TIPOS_PUNTO] or list(TIPOS_PUNTO[:2])
+    caja = _bbox(bbox)
+    datos, origen = _cargar("tianguis")
+    res: list[dict] = []
+    total = 0
+    for p in _lista(datos, "puntos") or _lista(datos, "tianguis"):
+        tipo = p.get("tipo") or "tianguis"
+        if tipo not in pedidos or not _en_bbox(p, caja):
+            continue
+        if alcaldia and p.get("alcaldia_cvegeo") != alcaldia:
+            continue
+        total += 1
+        if len(res) < limite:
+            res.append(_punto(p, tipo))
+    if "negocio_local" in pedidos:
+        neg, n = _negocios_locales(caja, alcaldia, min(TOPE_NEGOCIOS, max(0, limite - len(res))))
+        res += neg
+        total += n
+    return {"puntos": res, "total": total, "truncado": total > len(res), "origen": origen, "tipos": pedidos}
+
+
+def _nombres_alcaldias() -> dict[str, str]:
+    colonias, _ = _cargar("colonias")
+    nombres: dict[str, str] = {}
+    for c in _lista(colonias, "colonias"):
+        if c.get("alcaldia_cvegeo") and c.get("alcaldia"):
+            nombres.setdefault(c["alcaldia_cvegeo"], c["alcaldia"])
+    return nombres
+
+
+def alcaldias() -> list[dict]:
+    """16 alcaldías (colonias.json); 09003 y 09007 con prioridad: true van primero."""
+    colonias, _ = _cargar("colonias")
+    nombres: dict[str, str] = {}
+    for c in _lista(colonias, "colonias"):
+        if c.get("alcaldia_cvegeo") and c.get("alcaldia"):
+            nombres.setdefault(c["alcaldia_cvegeo"], c["alcaldia"])
+    pts, _ = _cargar("tianguis")
+    cuenta: dict[str, dict[str, int]] = {}
+    for p in _lista(pts, "puntos"):
+        d = cuenta.setdefault(p.get("alcaldia_cvegeo"), {})
+        d[p.get("tipo")] = d.get(p.get("tipo"), 0) + 1
+    dinero = {d.get("cvegeo"): d for d in dinero_alcaldias()}
+    filas = []
+    for cve in sorted(nombres):
+        din = dinero.get(cve)
+        filas.append({
+            "cvegeo": cve, "nombre": nombres[cve], "prioridad": cve in PRIORITARIAS,
+            "puntos_por_tipo": cuenta.get(cve, {}),
+            "tipo_dato": "real",
+            "fuente": "data/processed/colonias.json y tianguis_abierto.json (datos abiertos CDMX)",
+            "cnbv": ({"trimestre": din.get("trimestre"), "tpv_por_adulto": din.get("tpv_por_adulto"),
+                      "tipo_dato": din.get("tipo_dato"), "fuente": din.get("fuente_url") or "CNBV (sin URL registrada)"}
+                     if din else None),
+        })
+    filas.sort(key=lambda a: (not a["prioridad"], PRIORITARIAS.index(a["cvegeo"]) if a["prioridad"] else 0, a["nombre"]))
+    return filas

@@ -1,0 +1,118 @@
+{
+  "GET /api/ofertas": {
+    "repartidor_id": "R-00042",
+    "ts": 1793306810.0,
+    "ofertas": [
+      {
+        "id": "O-0007",
+        "ts": 1793306600.0,
+        "negocio_id": "neg-0001",
+        "negocio_nombre": "Carnicería Doña Toña",
+        "tipo_negocio": "negocio_local",
+        "paradas": [
+          {
+            "lat": 19.335641,
+            "lng": -99.146795,
+            "h3": "89499585c27ffff",
+            "colonia": "Santa Catarina"
+          },
+          {
+            "lat": 19.332641,
+            "lng": -99.143795,
+            "h3": "89499585c23ffff",
+            "colonia": "Santa Catarina"
+          }
+        ],
+        "distancia_m": 1400,
+        "minutos_est": 9,
+        "pago_est": 45.0,
+        "tipo_dato_pago": "simulado",
+        "colonia": "Santa Catarina",
+        "estado": "abierta",
+        "repartidor_id": null,
+        "demo_data": true
+      },
+      {
+        "id": "O-0008",
+        "ts": 1793306700.0,
+        "negocio_id": "sim-09003-01",
+        "negocio_nombre": "Mercado Santa Catarina",
+        "tipo_negocio": "mercado",
+        "paradas": [
+          {
+            "lat": 19.321457,
+            "lng": -99.170424,
+            "h3": "89499584337ffff",
+            "colonia": "Ex Hacienda Coapa"
+          }
+        ],
+        "distancia_m": 900,
+        "minutos_est": 6,
+        "pago_est": 35.0,
+        "tipo_dato_pago": "simulado",
+        "colonia": "Ex Hacienda Coapa",
+        "estado": "abierta",
+        "repartidor_id": null,
+        "demo_data": true
+      }
+    ]
+  },
+  "POST /api/ofertas/{id}/tomar": {
+    "id": "O-0007",
+    "ts": 1793306600.0,
+    "negocio_id": "neg-0001",
+    "negocio_nombre": "Carnicería Doña Toña",
+    "tipo_negocio": "negocio_local",
+    "paradas": [
+      {
+        "lat": 19.335641,
+        "lng": -99.146795,
+        "h3": "89499585c27ffff",
+        "colonia": "Santa Catarina"
+      },
+      {
+        "lat": 19.332641,
+        "lng": -99.143795,
+        "h3": "89499585c23ffff",
+        "colonia": "Santa Catarina"
+      }
+    ],
+    "distancia_m": 1400,
+    "minutos_est": 9,
+    "pago_est": 45.0,
+    "tipo_dato_pago": "simulado",
+    "colonia": "Santa Catarina",
+    "estado": "tomada",
+    "repartidor_id": "R-00042",
+    "demo_data": true
+  },
+  "POST /api/ofertas/{id}/completar": {
+    "id": "O-0007",
+    "ts": 1793306600.0,
+    "negocio_id": "neg-0001",
+    "negocio_nombre": "Carnicería Doña Toña",
+    "tipo_negocio": "negocio_local",
+    "paradas": [
+      {
+        "lat": 19.335641,
+        "lng": -99.146795,
+        "h3": "89499585c27ffff",
+        "colonia": "Santa Catarina"
+      },
+      {
+        "lat": 19.332641,
+        "lng": -99.143795,
+        "h3": "89499585c23ffff",
+        "colonia": "Santa Catarina"
+      }
+    ],
+    "distancia_m": 1400,
+    "minutos_est": 9,
+    "pago_est": 45.0,
+    "tipo_dato_pago": "simulado",
+    "colonia": "Santa Catarina",
+    "estado": "completada",
+    "repartidor_id": "R-00042",
+    "demo_data": true
+  }
+}
