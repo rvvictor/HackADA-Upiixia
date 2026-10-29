@@ -147,7 +147,8 @@ export default function Mapa(_props: FeatureProps) {
 
   return (
     <div className="flex h-full flex-col lg:grid lg:grid-cols-[70fr_30fr]">
-      <div className="relative h-[60vh] min-w-0 lg:h-full">
+      <div className="flex min-w-0 flex-col lg:relative lg:h-full">
+       <div className="relative h-[60vh] lg:absolute lg:inset-0 lg:h-full">
         <MapaHex
           hex={hexCapas}
           capa={capa}
@@ -159,7 +160,20 @@ export default function Mapa(_props: FeatureProps) {
           onSeleccion={setSeleccion}
         />
 
-        <div className="pointer-events-none absolute inset-x-0 top-3 flex flex-wrap items-start justify-between gap-2 px-3">
+        <div className="pointer-events-none absolute bottom-3 right-3 z-10 flex max-w-[calc(100%-1.5rem)]">
+          <div className="pointer-events-auto">
+            <Leyenda capa={capa} tipoDato={capa === "rutas" ? rutas?.tipo_dato : undefined} />
+          </div>
+        </div>
+
+        {propsSeleccion && (
+          <div className="absolute inset-x-3 bottom-3 flex justify-start">
+            <TarjetaHex p={propsSeleccion} onCerrar={() => setSeleccion(null)} />
+          </div>
+        )}
+       </div>
+        <div className="pointer-events-none order-first relative z-10 flex flex-col items-start gap-2 px-3 py-3 lg:absolute lg:inset-x-0 lg:top-0 lg:py-0 lg:pt-3">
+         <div className="flex flex-wrap items-start justify-between gap-2 self-stretch">
           <div role="group" aria-label="Capa del mapa" className="pointer-events-auto flex flex-wrap gap-1 rounded-2xl bg-white p-1.5 shadow-md">
             {CAPAS.map((c) => (
               <button
@@ -182,25 +196,12 @@ export default function Mapa(_props: FeatureProps) {
               Datos de ejemplo
             </span>
           )}
-        </div>
-
-        <div className="pointer-events-none absolute bottom-3 right-3 z-10 flex max-w-[calc(100%-1.5rem)]">
-          <div className="pointer-events-auto">
-            <Leyenda capa={capa} tipoDato={capa === "rutas" ? rutas?.tipo_dato : undefined} />
-          </div>
-        </div>
-
-        {infoAlcaldias.length > 0 && (
-          <div className="pointer-events-none absolute left-3 top-24 z-10">
+         </div>
+          {infoAlcaldias.length > 0 && (
             <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaSel} onSeleccion={setAlcaldiaSel} />
-          </div>
-        )}
+          )}
+        </div>
 
-        {propsSeleccion && (
-          <div className="absolute inset-x-3 bottom-3 flex justify-start">
-            <TarjetaHex p={propsSeleccion} onCerrar={() => setSeleccion(null)} />
-          </div>
-        )}
       </div>
 
       <aside aria-label="Panel SEDECO" className="min-h-0 min-w-0 border-l border-stone-300 bg-stone-50 lg:h-full">

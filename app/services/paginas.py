@@ -57,7 +57,7 @@ def wa_url(telefono: Any) -> str | None:
         digitos = "52" + digitos
     if len(digitos) < 12:
         return None
-    texto = quote("Hola, vi tu página en Pulso Barrial.")
+    texto = quote("Hola, vi tu página en colonIA.")
     return f"https://wa.me/{digitos}?text={texto}"
 
 

@@ -51,7 +51,7 @@ export default function App() {
     <div className="flex h-[100dvh] flex-col font-sans">
       <header className="flex shrink-0 items-center gap-6 border-b border-stone-300 bg-white px-5 py-3">
         <a href="#/mapa" className="text-xl font-semibold tracking-tight text-stone-900">
-          Pulso Barrial
+          colonIA
         </a>
         <nav aria-label="Elegir vista" className="flex gap-2">
           {features.map((f) => {

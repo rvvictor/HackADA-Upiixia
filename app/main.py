@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app import routers
 
-app = FastAPI(title="Pulso Barrial")
+app = FastAPI(title="colonIA")
 
 
 @app.get("/api/health")

@@ -1,6 +1,6 @@
 """Programas a los que puede entrar un negocio de barrio (vista Negocio). Se escribe en data/processed/programas.json.
 
-estado: existe (programa público vigente), por_verificar (no se muestra como hecho), propuesta (idea de Pulso Barrial).
+estado: existe (programa público vigente), por_verificar (no se muestra como hecho), propuesta (idea de colonIA).
 """
 
 FECHA = "2026-10-25"
@@ -49,7 +49,7 @@ PROGRAMAS = [
     {
         "id": "puntos-de-barrio",
         "nombre": "Puntos de barrio",
-        "que_es": "Propuesta de Pulso Barrial: puntos por comprar en negocios de barrio, inspirada en Onnuri (Corea) y PayPay (Japón).",
+        "que_es": "Propuesta de colonIA: puntos por comprar en negocios de barrio, inspirada en Onnuri (Corea) y PayPay (Japón).",
         "para_quien": "Vecinos y negocios de barrio de la red.",
         "como_entrar": "Es una propuesta para un piloto con SEDECO; todavía no existe.",
         "url_oficial": None,

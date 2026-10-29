@@ -217,7 +217,7 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
         </div>
       )}
       {aviso && (
-        <div role="status" className="absolute inset-0 flex items-center justify-center p-6">
+        <div role="status" className="absolute inset-0 flex items-center justify-center p-6 lg:pl-[22rem]">
           <div className="max-w-md rounded-2xl border border-stone-400 bg-white p-6 shadow-md">
             <p className="text-xl font-semibold text-stone-900">{aviso.titulo}</p>
             <p className="mt-2 text-lg leading-relaxed text-stone-800">{aviso.texto}</p>

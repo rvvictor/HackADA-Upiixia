@@ -105,7 +105,7 @@ export const mockDonaLupe = {
       id: "puntos-barrio",
       nombre: "Puntos de barrio",
       que_es: "Puntos para quien compra en negocios de barrio.",
-      como_entrar: "Aún no existe: es una propuesta de Pulso Barrial.",
+      como_entrar: "Aún no existe: es una propuesta de colonIA.",
       url_oficial: null,
       estado: "propuesta",
       puede_entrar: null,
