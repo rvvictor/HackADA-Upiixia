@@ -1,4 +1,4 @@
-> **HackADA (nuevo evento):** este archivo viene de Pulso Barrial (Chilangatón 2026) y es la base de partida. La versión original de las tareas está en `docs/historico/`. Se reescribe con el reto nuevo antes de aprobar el backlog.
+> **HackADA (nuevo evento):** este archivo viene de Pulso Barrial (Chilangatón 2026) y es la base de partida. La versión original de las tareas está en `docs/historico/`. El producto ahora se llama **colonIA** y los cambios de HackADA están en `IDEA-v2.md`: si algo de ese archivo contradice a este, manda `IDEA-v2.md`. El backlog es `.uak/TASKS.md` (CO-01..CO-15).
 
 # IDEA · Pulso Barrial
 

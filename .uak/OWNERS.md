@@ -5,3 +5,11 @@ An owner is not a prerequisite for everyone: consumers work on published contrac
 
 | Pattern | Owner task |
 |---|---|
+| app/schemas/ | CO-01 |
+| app/config.py | CO-01 |
+| web/src/lib/types.ts | CO-01 |
+| web/src/index.css | CO-02 |
+| web/src/lib/ui/ | CO-02 |
+| web/src/App.tsx | CO-06 |
+| web/src/lib/map/hex.ts | CO-06 |
+| data/fuentes/ | CO-03 |
