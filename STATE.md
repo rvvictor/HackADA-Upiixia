@@ -1,17 +1,17 @@
 # STATE
 
 Phase: execution
-Updated: 1793306890
+Updated: 1793306990
 AVAILABLE: CO-002 CO-005 CO-006 CO-007 CO-008 CO-009 CO-010 CO-011 CO-012 CO-013 CO-014 CO-015 
-CLAIMED: CO-001 CO-003 CO-004 
+CLAIMED: CO-001 CO-004 
 BLOCKED: -
-REVIEW: -
+REVIEW: CO-003 
 INTEGRATED: -
 CANCELLED: -
 
 Claims (first 24; status --task ID shows detail):
 CO-001 | CLAIMED | crxthrx-1 | until 1793309590
-CO-003 | CLAIMED | victor-2 | until 1793309300
+CO-003 | REVIEW | victor-2 | until 1793321390
 CO-004 | CLAIMED | victor-1 | until 1793309282
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
