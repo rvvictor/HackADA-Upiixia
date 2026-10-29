@@ -1,0 +1,4 @@
+{"type":"FeatureCollection","features":[
+{"type":"Feature","properties":{"cve_alc":"003","alc":"Coyoacán","cve_col":"003-001","colonia":"Viveros","clasif":"Colonia"},"geometry":{"type":"Polygon","coordinates":[[[-99.0,19.0],[-98.0,19.0],[-98.0,20.0],[-99.0,20.0],[-99.0,19.0]]]}},
+{"type":"Feature","properties":{"cve_alc":"007","alc":"Iztapalapa","cve_col":"007-001","colonia":"Santa Martha Acatitla","clasif":"Colonia"},"geometry":{"type":"MultiPolygon","coordinates":[[[[-99.0,19.0],[-98.9,19.0],[-98.9,19.1],[-99.0,19.0]]]]}},
+{"type":"Feature","properties":{"cve_alc":"010","alc":"Álvaro Obregón","cve_col":"010-001","colonia":"Sin Cruce","clasif":"Colonia"},"geometry":{"type":"Polygon","coordinates":[[[-99.0,19.0],[-98.0,19.0],[-98.0,20.0],[-99.0,19.0]]]}}]}

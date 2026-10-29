@@ -1,0 +1,8 @@
+# Ficha: tianguis (real)
+
+- **Archivo:** `data/raw/ubicacion_tianguis.csv` (no se versiona). Sitio exacto de descarga: por confirmar (datos.cdmx.gob.mx, INEGI, CONAPO y SIEG CDMX fueron consultados el 2026-10-25).
+- **Salida:** `data/processed/tianguis_abierto.json` (1,367 tianguis + 329 mercados = 1,696 filas, forma de `app/schemas/entidades.py::TianguisAbierto`) con `tipo: "tianguis"`, `tipo_dato: "real"`, `fuente` y `fecha_consulta: "2026-10-25"`. Este archivo sustituye los datos simulados anteriores.
+- **Columnas de origen:** alcaldia, colonia, ubicacion, giro, dia, horario, latitud, longitud. Se agregan `id` (`real-t-<cve>-NNNN`), `nombre` ("Tianguis <colonia>"), `alcaldia_cvegeo`, `h3` (res. 9), `dias` (0 = lunes), `abre`/`cierra`.
+- **Filas por alcaldía:** Iztapalapa 360, Gustavo A. Madero 206, Coyoacán 137, Tlalpan 135, Álvaro Obregón 130, Cuauhtémoc 65, Benito Juárez 59, Iztacalco 42, Xochimilco 42, Tláhuac 39, Venustiano Carranza 37, Azcapotzalco 35, Miguel Hidalgo 35, La Magdalena Contreras 23, Cuajimalpa 11, Milpa Alta 11. Las 16 están presentes.
+- **Calidad:** acentos mal codificados (`BRASILEÃ‘OS`), 4 filas, reparados con cp1252->utf-8; en al menos un caso la Ñ se perdió en origen (`LA CAADA`) y no se puede recuperar. Alcaldía con variantes (`COYOACAN`/`COYOACÁN`, `CUAUHTEMOC`/`CUAUHTÉMOC`) unificadas a la clave INEGI 09002..09017. `giro` viene `NA` o `0` en 1,189 de 1,367 filas: queda en lista vacía. Días con varios valores (11 filas) se convierten a lista. Los 1,367 horarios y coordenadas se parsearon sin descartes.
+- **Sigue simulado / vacío:** `productos`, `formas_pago`, `acepta_mercomuna`, `fecha_verificacion` y `verificado_por` (la fuente no los trae); no hay verificación de campo.
