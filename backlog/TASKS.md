@@ -56,3 +56,19 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Las pruebas existentes siguen en verde sin editarlas
 - **Verify:** `bash -c '! rg -n -i "pulso barrial" web/src app pipeline/negocios' && uv run pytest -q app/tests && npm --prefix web run build'`
 - **Next step:** `rg -n -i "pulso barrial" web/src app pipeline/negocios` y `web/src/features/mapa/index.tsx:194` (posición de la tarjeta)
+## CO-019 · Favicon colonIA y mapa visible en Render
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 20 min
+- **Rubric / Spec:** C4, C1 · `IDEA-v2.md` §9
+- **Depends on:** None
+- **Uses contract:** CO-002
+- **Paths:** web/public/, web/src/features/mapa/
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Icono de pestaña de colonIA (`web/public/favicon.svg`, sobrio, sin neón, reconocible a 16 px; forma de hexágono o pin de barrio con la "c"/"IA") que reemplaza al rayo morado por defecto; el título de la pestaña lo cambia CO-002 en `web/index.html` (si al integrarse CO-002 aún dice "Pulso Barrial", avisa en el reporte)
+  - En https://colonia-hackada.onrender.com/#/mapa el mapa de Mapbox se ve: con Playwright (movimiento reducido) carga esa URL, registra errores de consola y respuestas de red fallidas, y diagnostica la causa (token con restricción de URL, WebGL, `/api/hex` o `/api/puntos` fallando, ruta de assets, etc.). Si la causa está en el código del mapa se corrige dentro de `web/src/features/mapa/`; si es configuración del token de Mapbox (restricciones de URL) o de Render, se documenta el paso exacto para el humano en la evidencia, sin tocar secretos
+  - Captura del mapa funcionando (o del error exacto) guardada en la evidencia de `uak done`; sin llave visible en ningún archivo
+- **Verify:** `bash -c 'test -s web/public/favicon.svg && ! grep -q "Pulso" web/public/favicon.svg' && npm --prefix web run build`
+- **Next step:** abrir la URL de Render con Playwright y leer la consola
