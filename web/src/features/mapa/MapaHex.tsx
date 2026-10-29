@@ -210,7 +210,7 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-stone-200">
-      <div ref={contenedor} className="absolute inset-0" role="region" aria-label="Mapa de Coyoacán e Iztapalapa" />
+      <div ref={contenedor} className="h-full w-full" role="region" aria-label="Mapa de Coyoacán e Iztapalapa" />
       {estado === "cargando" && token && (
         <div className="absolute inset-0 flex items-center justify-center text-lg text-stone-700" role="status">
           Cargando mapa…
