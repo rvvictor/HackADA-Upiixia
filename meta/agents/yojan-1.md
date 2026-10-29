@@ -1,11 +1,11 @@
 # yojan-1
 Agent: yojan-1
 Started: 1793309380
-Events: 1
-Events-Since-Checkpoint: 1
-Checkpoints: 0
+Events: 2
+Events-Since-Checkpoint: 0
+Checkpoints: 1
 Sessions: 1
-Last-Checkpoint: 0
+Last-Checkpoint: 1793310313
 Human: yojan
 Last-Session: yojan-1-1793307966
-Updated: 1793309380
+Updated: 1793310313
