@@ -1,114 +1,120 @@
+<div align="center">
+
+<img src="docs/media/banner.png" alt="colonIA, pantalla de Inicio: la red viva de la economía de barrio" width="860">
+
 # colonIA
 
-**colonIA es una herramienta de IA que conecta tianguis, mercados y pequeños negocios de barrio de la CDMX con vecinas, vecinos y repartidores locales, para que el dinero se quede circulando en la colonia.**
+## La red viva de la economía de barrio
 
-> English, in one line: colonIA turns a voice note into a neighborhood business listing and a local courier sign-up (Telegram), shows it on a city map, and plans shopping routes that only pass through neighborhood businesses. The LLM extracts fields; it never produces a number you see on screen. Run it with no keys: `DEMO_MODE=1 bash scripts/demo.sh`.
+**Una nota de voz da de alta un negocio de barrio; aparece en el mapa de la ciudad y su repartidor de la misma colonia ve su primera ruta.**
 
-Proyecto del equipo UPIIXIA para **HackADA** (reto *Mercaditos locales*: comercio de proximidad y redes comunitarias de distribución). Se construyó sobre la base de Pulso Barrial (Chilangatón 2026); lo que cambió está en `IDEA-v2.md`.
+Mapa de tianguis, mercados y negocios locales de la CDMX, rutas de compra sin cadenas y un portal de repartidores con incentivos. La IA solo extrae campos; las cifras y las rutas las calcula código determinista.
+
+![licencia](https://img.shields.io/badge/licencia-sin_definir-lightgrey)
+![stack](https://img.shields.io/badge/stack-FastAPI_·_React-009688)
+![datos](https://img.shields.io/badge/datos-reales_+_simulados_(etiquetados)-orange)
+![evento](https://img.shields.io/badge/HackADA-Upiixia-8A2BE2)
+
+[Pruébalo](#pruébalo-en-30-segundos) · [El problema](#el-problema) · [Qué hace](#qué-hace) · [Cómo funciona la IA](#cómo-funciona-la-ia) · [Datos](#datos-reales-vs-simulados) · [Estructura](#estructura-del-repo) · [Llaves](#llaves-y-variables) · [Agentic Kit](#cómo-se-coordinó-el-equipo-upiixia-agentic-kit)
+
+</div>
+
+---
+
+## What is colonIA
+
+colonIA is a living map of neighborhood commerce in Mexico City. A shop owner sends a voice note to a Telegram bot; an LLM extracts structured fields (name, trade, address, delivery person), and the shop appears on the map next to 1,367 street markets (tianguis) and 329 public markets from open data. Shoppers get a route that avoids chain stores; local couriers get a portal with incentives. **The LLM only extracts fields: every number and every route is deterministic code, and every figure carries a `tipo_dato` (`real`, `estimado` or `simulado`).**
+
+## Pruébalo en 30 segundos
+
+Sin internet ni llaves (respuestas grabadas; necesita `uv` y Node):
+
+```bash
+git clone git@github.com:rvvictor/HackADA-Upiixia.git && cd HackADA-Upiixia && DEMO_MODE=1 bash scripts/demo.sh
+```
+
+Abre http://127.0.0.1:8000 · SEDECO `#/sedeco` · Vecina `#/usuario` · Negocio `#/negocio` · Repartidor `#/repartidor`.
+
+App en vivo: **https://colonia-hackada.onrender.com** (plan gratuito: la primera visita tarda ~1 min en despertar).
+
+El alta por nota de voz también se simula sin Telegram: `uv run python scripts/simular_alta.py --caso dona-lupe --url http://127.0.0.1:8000`.
+
+## Sin colonIA / Con colonIA
+
+| Sin colonIA | Con colonIA |
+|---|---|
+| El negocio de barrio no existe en ningún mapa | Se da de alta con una nota de voz en Telegram |
+| Comprar local obliga a recorrer la colonia a ciegas | Ruta de compras sin cadenas, con tianguis abiertos hoy |
+| El repartidor no tiene pedidos ni ruta cerca de casa | Portal de repartidores de la misma colonia, con incentivos |
+| SEDECO decide con datos sueltos | Un mapa con actividad, oferta barrial, impulso y crecimiento, cada cifra con su fuente |
 
 ## El problema
 
-- El comercio de barrio vende poco en línea: **6.7 %** de los negocios vendió en línea en 2023 (STyFE CDMX con datos de Censos Económicos 2024, cita en `IDEA.md` §10).
-- La CDMX tiene **1,367 tianguis** y **329 mercados públicos** (tabla de abajo), pero no aparecen juntos en un mapa vivo con su oferta.
-- Entregar a domicilio hoy depende de plataformas que cobran comisión; la última milla no la resuelve el barrio.
-- Doña Lupe, que vende nopales y no usa apps, no va a llenar formularios.
+Los tianguis, mercados y tienditas sostienen el abasto de las colonias, pero casi no aparecen en mapas ni plataformas, y los pedidos a domicilio se los quedan las cadenas. Sin datos visibles es difícil comprar local, repartir local o priorizar apoyos.
 
 ## Qué hace
 
-1. **Comerciante:** manda una nota de voz por Telegram; la IA extrae la ficha (nombre, giro, productos, horario, formas de pago) y el negocio aparece en el mapa y en una página web propia.
-2. **Repartidor:** se da de alta por Telegram con texto o voz (en curso, CO-009 y CO-014) y verá ofertas de ruta en un portal web.
-3. **Vecino:** escribe su lista del mandado y recibe una ruta a pie que pasa solo por negocios de barrio, nunca por cadenas.
-4. **Mapa (SEDECO / alcaldía):** hexágonos por colonia con una capa a la vez; cada cifra lleva su `tipo_dato` y su fuente.
+<img src="docs/media/mapa.png" alt="Mapa de colonIA con panel de día y hora; sin llave de Mapbox el mapa base no se dibuja y el panel sigue funcionando" width="640">
 
-Regla de oro: **el modelo nunca produce una cifra que se muestre.** Rutas, prioridades y cifras son código determinista y todas llevan `tipo_dato` (`real`, `estimado` o `simulado`). Detalle en `docs/entregables/flujo_ia.md`.
+*Captura sin `VITE_MAPBOX_TOKEN`: el mapa base pide la llave y el panel lateral sigue funcionando.*
 
-## Cómo correrlo
+- **Mapa** (`#/mapa`): tianguis, mercados y negocios locales; capas de actividad, oferta barrial, población, impulso, crecimiento y rutas; filtro por día y hora.
+- **Alta por nota de voz en Telegram:** el negocio manda un audio, se transcribe y se extraen los campos; queda en el mapa (`app/bot/`, `app/routers/altas.py`).
+- **Ruta de compras** (`#/usuario`): ruta sin cadenas entre negocios locales (`app/routers/ruta.py`).
+- **Portal de repartidores** (`#/repartidor`): entra con número de repartidor y código de 6 dígitos; ve ofertas cercanas e incentivos (`app/routers/repartidores.py`, `app/routers/incentivos.py`).
 
-Requisitos: `uv` (Python 3.12 o más) y Node con `npm`.
+<img src="docs/media/repartidor.png" alt="Portal de repartidores de colonIA" width="640">
 
-```bash
-DEMO_MODE=1 bash scripts/demo.sh      # sin internet ni llaves: respuestas grabadas (plan B)
-bash scripts/demo.sh                  # con llaves en .env (OpenAI, Mapbox, Telegram)
+## Cómo funciona la IA
+
+1. **El LLM solo extrae campos** de la nota de voz transcrita (nombre, giro, colonia, repartidor). No inventa cifras ni rutas.
+2. **Las cifras y las rutas son código determinista** (`app/services/`): alcance a 800 m, población con tianguis, índice de impulso, distancia de ruta.
+3. **Cada dato lleva `tipo_dato`** (`real`, `estimado`, `simulado`) y `fuente`; la interfaz los muestra junto a la cifra.
+4. **Plan B sin red:** con `DEMO_MODE=1` las respuestas del LLM y de Mapbox son grabadas (`app/fixtures/`).
+
+## Datos reales vs simulados
+
+Fichas de fuente en `data/fuentes/*.md`; salidas en `data/processed/`.
+
+| Dato | Cifra | `tipo_dato` | Fuente |
+|---|---|---|---|
+| Tianguis | 1,367 | real | Datos abiertos CDMX (`data/fuentes/tianguis.md`) |
+| Mercados públicos | 329 | real | Datos abiertos CDMX (`data/fuentes/mercados.md`) |
+| Colonias | 1,543 | real | Catálogo de colonias CDMX (`data/fuentes/colonias.md`) |
+| Marginación por colonia | 849 colonias cruzadas de 2,243 en CONAPO 2020 | real | CONAPO (`data/fuentes/marginacion.md`) |
+| Negocios locales | 59,871 (consulta del 2026-10-29) | real | INEGI, DENUE (`data/fuentes/denue.md`) |
+| Población por hexágono | totales inventados | simulado | `data/fuentes/geo.md` |
+| Negocios por hexágono, programas, ventas | derivados de la población simulada | simulado | `data/fuentes/geo.md`, `data/fuentes/negocios.md` |
+| Dinero con tarjeta (CNBV) | totales por alcaldía inventados | simulado | `data/fuentes/geo.md` |
+
+## Estructura del repo
+
+```
+app/        API FastAPI: routers/, services/, schemas/, bot/ (Telegram), tests/
+web/        React + Vite + Tailwind (features: inicio, mapa, usuario, negocio, repartidor)
+pipeline/   Procesamiento de datos abiertos, DENUE y negocios (con pruebas)
+data/       fuentes/ (fichas), processed/ (salidas JSON/GeoJSON)
+scripts/    demo.sh, simular_alta.py, simular_repartidor.py, generar_historia.py
+docs/       entregables/, pitch/, media/ (capturas de este README)
+.uak/       Agentic Kit: tareas, reglas y coordinación del equipo
 ```
 
-`scripts/demo.sh` hace `uv sync`, genera `data/demo/plataforma_simulada.json` si falta (`scripts/generar_historia.py`), construye el web (`npm --prefix web ci` y `npm --prefix web run build`) y levanta FastAPI en `http://127.0.0.1:8000` (cambia el puerto con `PORT`). Si hay `TELEGRAM_BOT_TOKEN` y no es `DEMO_MODE=1`, también arranca el bot. Pantallas: `#/sedeco` (mapa), `#/usuario` (vecina), `#/negocio` (negocio).
+## Llaves y variables
 
-Plan B del alta por voz, sin Telegram:
+Se configuran en `.env` (no versionado; plantilla en `.env.example`). Solo nombres:
 
-```bash
-uv run python scripts/simular_alta.py --caso dona-lupe --url http://127.0.0.1:8000
-```
+`OPENAI_API_KEY` · `MAPBOX_TOKEN` · `VITE_MAPBOX_TOKEN` · `TELEGRAM_BOT_TOKEN` · `DENUE_TOKEN`
 
-Pruebas del backend: `uv run pytest -q --tb=short -x` (la configuración está en `pyproject.toml`).
+Sin llaves, `DEMO_MODE=1` ejecuta todo con respuestas grabadas.
 
-## Llaves necesarias
+## Cómo se coordinó el equipo (UPIIXIA Agentic Kit)
 
-Van solo en `.env` (está en `.gitignore`; nunca se versionan). Sin ellas, `DEMO_MODE=1` funciona completo con respuestas grabadas.
+colonIA se construyó con el [UPIIXIA Agentic Kit](https://github.com/JoahanMorales/upiixia-agentic-kit): varios agentes de IA por cada persona del equipo trabajando en paralelo, sin servidor, solo con una rama de Git (`claims`) y Bash.
 
-| Variable | Para qué | Respaldo sin llave |
-|---|---|---|
-| `OPENAI_API_KEY` | Transcripción de voz y extracción estructurada | Respuestas grabadas en `app/bot/fixtures/` |
-| `MAPBOX_TOKEN` | Rutas y orden de paradas (servidor) | Vecino más cercano en Python |
-| `VITE_MAPBOX_TOKEN` | Mapa base en el navegador (token público) | Mapa sin base |
-| `TELEGRAM_BOT_TOKEN` | Bot de altas | `scripts/simular_alta.py` |
-| `DENUE_TOKEN` | Descarga de negocios del DENUE (INEGI) en el pipeline | Datos ya procesados en `data/processed/` |
+- **Un agente por humano, una tarea por agente:** cada tarea tiene su rama, su worktree y su claim (`bash .uak/bin/wt new ID`).
+- **Claims y archivos reservados:** nadie edita archivos de otra tarea; se pide por mensaje (`uak msg`).
+- **Revisión cruzada:** el autor nunca revisa; otro agente revisa el SHA exacto y corre el `Verify` de la tarea.
+- **Merges con compuerta:** solo se integra lo aprobado (`uak merge`); sin force-push ni borrado del trabajo ajeno.
+- **Bucles acotados:** implementar, verificar, corregir; tras 2 fallos idénticos la tarea se marca BLOCKED.
 
-También existe `DEMO_MODE` (`1` activa el modo sin red). Los modelos se fijan en `app/config.py`.
-
-## Stack
-
-- **Backend:** Python 3.12, FastAPI, Pydantic, H3 (rejilla hexagonal), RapidFuzz, `python-telegram-bot`, SDK de OpenAI, `uv`.
-- **Frontend:** React 19, Vite, TypeScript, Tailwind v4, Mapbox GL JS, Motion (`web/`).
-- **Datos:** JSON y GeoJSON en `data/processed/`, generados por `pipeline/`.
-
-## Estructura de carpetas
-
-| Carpeta | Contenido |
-|---|---|
-| `app/` | API (`routers/`), lógica (`services/`), contrato de datos (`schemas/`), bot de Telegram (`bot/`), fixtures y pruebas |
-| `web/` | Interfaz React: mapa, vecina, negocio (y, en curso, portal de repartidores) |
-| `pipeline/` | Generadores y procesadores de datos (geo, negocios, artículos, datos reales) |
-| `data/fuentes/` | Una ficha por fuente: qué es, de dónde sale, qué es real y qué es simulado |
-| `data/processed/` | Datos listos para la app (`data/raw/` y `data/live/` no se versionan) |
-| `scripts/` | `demo.sh`, `simular_alta.py`, `generar_historia.py` |
-| `docs/entregables/` | Prompt inicial, flujo de IA, cuello de botella, ficha de impacto, ruta a 30 días |
-| `docs/legal/` | Pendientes legales (priorización por edad y estudiante, aviso de privacidad) |
-| `.uak/` | UPIIXIA Agentic Kit: tablero de tareas, reglas y comandos del equipo |
-
-## Datos reales vs. simulados
-
-Cada fila de datos trae `tipo_dato`. Las fichas completas están en `data/fuentes/`.
-
-| Dato | `tipo_dato` | Notas |
-|---|---|---|
-| 1,367 tianguis de la CDMX (16 alcaldías) | real | `data/fuentes/tianguis.md`; sitio exacto de descarga por confirmar |
-| 329 mercados públicos | real | `data/fuentes/mercados.md`; sin horarios reales (el horario por defecto está marcado) |
-| 1,543 colonias (nombre, alcaldía, centroide) | real | `data/fuentes/colonias.md` |
-| Marginación por colonia (CONAPO 2020) | real | Cruce parcial con el catálogo: 849 colonias |
-| Nivel de contaminación por colonia | real, método por confirmar | Cruce parcial: 649 colonias |
-| Negocios locales del DENUE (Coyoacán e Iztapalapa) | real | En revisión (rama `feat/co-004`, `data/fuentes/denue.md`); en `main` los 520 negocios son simulados |
-| Población y negocios por hexágono | simulado | `data/fuentes/geo.md` |
-| Dinero con tarjeta (CNBV) por alcaldía | simulado | Pendiente de la base real |
-| Actividad de pago por hexágono | estimado (sobre dato simulado) | Reparto proporcional |
-| Historial de la plataforma (búsquedas, rutas, "compré aquí") | simulado | `demo_data: true` |
-| Repartidores, ofertas, incentivos y pagos de la demo | simulado | `demo_data: true`; en curso |
-
-## UPIIXIA Agentic Kit (cómo se coordinó el equipo)
-
-Cuatro personas (Cris, Yojan, Victor, Zoe) y ocho agentes de Claude Code trabajaron en paralelo durante unas **3 horas** (13:00 a 16:00, 29-oct-2026) con el UPIIXIA Agentic Kit 5.3, modo *sprint*:
-
-- Un backlog de tareas verticales (`.uak/TASKS.md`, CO-001 a CO-015), cada una con criterios, rutas permitidas y un comando de verificación exacto.
-- Cada tarea tiene su propia rama, su propio *worktree* y un reclamo en la rama `claims`; ningún agente edita archivos de otra tarea.
-- Revisión cruzada: quien revisa nunca es quien escribió; se aprueba o rechaza un SHA concreto tras correr el `Verify`.
-- Mensajes cortos entre tareas cuando cambia un contrato, y un congelamiento de código a las 15:45.
-
-El tablero y las reglas están en `.uak/` y `AGENTS.md`.
-
-## Entregables de la rúbrica
-
-- Prompt inicial: `docs/entregables/prompt_inicial.md`
-- Flujo de IA: `docs/entregables/flujo_ia.md`
-- Cuello de botella: `docs/entregables/cuello_botella.md`
-- Ficha de impacto económico: `docs/entregables/ficha_impacto.md`
-- Ruta de maduración a 30 días: `docs/entregables/ruta_30_dias.md`
-- Pendiente legal: `docs/legal/priorizacion.md`
+El backlog está en `.uak/TASKS.md` y las reglas en `AGENTS.md`.
