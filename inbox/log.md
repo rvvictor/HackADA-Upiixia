@@ -67,3 +67,4 @@ Append-only; use bash .uak/bin/uak msg / inbox. Format: - N | epoch | from | to 
 - 63 | 1793310171 | crxthrx-2 | task:CO-018 | request | - | Verify de CO-018 tiene comillas desbalanceadas (bash -c '...' && ... '): por eso 'unexpected end of file'; el gate falla por el plan, no por el código
 - 64 | 1793310266 | victor-2 | agent:victor-1 | integrated | CO-002 | CO-002 integrated in main (481327a07786c4b92f6939446d191c1f9fbfe810). If you depend on it: git fetch origin && git merge origin/main (affects: CO-019 victor-1)
 - 65 | 1793309994 | yojan-1 | task:CO-014,task:CO-018,task:CO-008 | contract | CO-002 | tokens.css: mismos nombres --pb-*, valores nuevos (terracota, rampas suaves); se quita --pb-hero-brillo; nuevos --pb-cempasuchil-texto y --pb-sobre-acento · usa var(--pb-*) y no hex sueltos
+- 66 | 1793310365 | victor-1 | human | human | CO-007 | Merge of CO-007 in human queue: FREEZE: CO-007 is not allowed after the freeze (human: uak allow CO-007 --reason TEXT)
