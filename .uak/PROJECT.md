@@ -8,10 +8,10 @@
 |---|---|
 | Event / challenge | HackADA · challenge: Mercaditos locales (comercio de proximidad y redes comunitarias de distribución): herramienta de IA que conecta mercados públicos, tianguis y pequeños comercios con consumidores y repartidores locales (catálogos digitales, pedidos, rutas de entrega, distribución comunitaria, análisis de demanda local) · goal: fortalecer circuitos económicos de proximidad, subir ventas de pequeños comerciantes y que el valor económico circule dentro de las comunidades · product name: **colonIA** (ya no Pulso Barrial) |
 | Start | 2026-10-29 13:00 America/Mexico_City |
-| Official deadline | 2026-10-29 15:00 America/Mexico_City · platforms: form link not announced yet (TBD) |
-| Freeze | 2026-10-29 14:30 (Freeze-Epoch 1793305800) · plan-B video 14:00 |
-| Clean rehearsal / plan B | 14:40 |
-| Internal submission | 14:45 |
+| Official deadline | 2026-10-29 16:00 America/Mexico_City (moved from 15:00) · platforms: form link not announced yet (TBD) |
+| Freeze | 2026-10-29 15:30 (Freeze-Epoch 1793309400) · plan-B video 14:30 |
+| Clean rehearsal / plan B | 15:40 |
+| Internal submission | 15:45 |
 | Humans | Cris, Yojan, Victor, Zoe · submission owner: Victor |
 | Agents | cris-1, cris-2, yojan-1, yojan-2, victor-1, victor-2, zoe-1, zoe-2 (all Claude Code) |
 | Machines | `<laptop, Jetson…>` · ports already taken: `<8000…>` |
@@ -35,7 +35,7 @@ Required deliverables (from the sheet): prototipo, demo, README, datos o estruct
 | Format and video limits | TBD (nothing special announced) | - |
 
 ## Plan B
-- A video of the whole flow at `docs/plan-b/colonia.mp4` (v1 at 13:45, final at 14:00). Use it if the network, the mic or an external API fails.
+- A video of the whole flow at `docs/plan-b/colonia.mp4` (v1 at 14:00, final at 14:30). Use it if the network, the mic or an external API fails.
 
 ## Executable config
 A human sets `yes`. A missing field means `no`.
@@ -48,7 +48,7 @@ Autonomy: yes
 Auto-Merge: yes
 Review-Mode: claims
 Plan-Channel: claims
-Freeze-Epoch: 1793305800
+Freeze-Epoch: 1793309400
 Lease-Seconds: 2700
 Review-Lease-Seconds: 14400
 Events-Per-Session: 100
