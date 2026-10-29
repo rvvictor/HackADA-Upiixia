@@ -38,9 +38,10 @@ def test_giros_objetivo() -> None:
 
 
 def test_centros_cubren_coyoacan_e_iztapalapa_completas() -> None:
-    alcs = [a for a, _, _ in centros()]
-    assert alcs.count("3") == 153 and alcs.count("7") == 293
-    assert alcs.count("5") <= 8
+    # muestra grabada del CSV real: 3 colonias de Coyoacán (3), 3 de Iztapalapa (7) y 20 de Gustavo A. Madero (5)
+    alcs = [a for a, _, _ in centros(AQUI / "muestras" / "denue_colonias.csv")]
+    assert alcs.count("3") == 3 and alcs.count("7") == 3  # las dos alcaldías completas, sin recorte
+    assert alcs.count("5") <= 8  # el resto, acotado
 
 
 def test_salida_y_sin_token() -> None:

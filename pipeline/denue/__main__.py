@@ -95,10 +95,10 @@ def acotar(negocios: list[dict]) -> list[dict]:
     return sorted(salida, key=lambda x: x["id_denue"])
 
 
-def centros() -> list[tuple[str, float, float]]:
+def centros(ruta: Path = COLONIAS) -> list[tuple[str, float, float]]:
     """(cve_alcaldia, lat, lng) por colonia: 09003 y 09007 completas, el resto una muestra acotada y repartida."""
     por_alc: dict[str, list[tuple[float, float]]] = {}
-    with COLONIAS.open(encoding="utf-8") as f:
+    with ruta.open(encoding="utf-8") as f:
         for fila in csv.DictReader(f):
             lat, lng = (float(x) for x in fila["Geo Point"].split(","))
             por_alc.setdefault(fila["CVE_ALC"], []).append((lat, lng))
