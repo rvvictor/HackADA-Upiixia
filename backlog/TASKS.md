@@ -168,3 +168,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Capturas a 1280×720 (con el panel) en la evidencia; `npm --prefix web run build` y las pruebas siguen en verde sin editarlas
 - **Verify:** `npm --prefix web run build`
 - **Next step:** `web/src/features/mapa/index.tsx` (tarjeta y `tianguis={abiertos}`) y `PanelSedeco.tsx`
+
+## CO-026 · Entrar al portal solo con numero de repartidor valido, sin codigo (follow-up of CO-008)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-008
+- **Follow-up of:** CO-008
+- **Paths:** web/src/features/repartidor/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Entrar al portal solo con numero de repartidor valido, sin codigo
+- **Verify:** `npm --prefix web run build`
