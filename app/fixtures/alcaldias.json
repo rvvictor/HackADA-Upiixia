@@ -1,0 +1,175 @@
+{
+  "_nota": "Colonias de demo: nombre y coordenada de un punto de tianguis_abierto.json en esa colonia, no su centroide.",
+  "GET /api/alcaldias": [
+    {
+      "alcaldia_cvegeo": "09003",
+      "alcaldia_nombre": "Coyoacán",
+      "prioridad": true,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09007",
+      "alcaldia_nombre": "Iztapalapa",
+      "prioridad": true,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09002",
+      "alcaldia_nombre": "Azcapotzalco",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09004",
+      "alcaldia_nombre": "Cuajimalpa de Morelos",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09005",
+      "alcaldia_nombre": "Gustavo A. Madero",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09006",
+      "alcaldia_nombre": "Iztacalco",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09008",
+      "alcaldia_nombre": "La Magdalena Contreras",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09009",
+      "alcaldia_nombre": "Milpa Alta",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09010",
+      "alcaldia_nombre": "Álvaro Obregón",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09011",
+      "alcaldia_nombre": "Tláhuac",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09012",
+      "alcaldia_nombre": "Tlalpan",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09013",
+      "alcaldia_nombre": "Xochimilco",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09014",
+      "alcaldia_nombre": "Benito Juárez",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09015",
+      "alcaldia_nombre": "Cuauhtémoc",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09016",
+      "alcaldia_nombre": "Miguel Hidalgo",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    },
+    {
+      "alcaldia_cvegeo": "09017",
+      "alcaldia_nombre": "Venustiano Carranza",
+      "prioridad": false,
+      "colonias": [],
+      "fuente": "INEGI, Marco Geoestadístico (claves de alcaldía)",
+      "demo_data": false
+    }
+  ],
+  "GET /api/alcaldias/{cvegeo}/colonias": {
+    "alcaldia_cvegeo": "09003",
+    "alcaldia_nombre": "Coyoacán",
+    "colonias": [
+      {
+        "id": "09003-santa-catarina",
+        "nombre": "Santa Catarina",
+        "lat": 19.333641,
+        "lng": -99.146795
+      },
+      {
+        "id": "09003-ex-hacienda-coapa",
+        "nombre": "Ex Hacienda Coapa",
+        "lat": 19.320457,
+        "lng": -99.168424
+      },
+      {
+        "id": "09003-pueblo-de-los-reyes",
+        "nombre": "Pueblo de Los Reyes",
+        "lat": 19.283447,
+        "lng": -99.158246
+      },
+      {
+        "id": "09003-campestre-churubusco",
+        "nombre": "Campestre Churubusco",
+        "lat": 19.314756,
+        "lng": -99.194899
+      },
+      {
+        "id": "09003-carrasco",
+        "nombre": "Carrasco",
+        "lat": 19.315469,
+        "lng": -99.133538
+      },
+      {
+        "id": "09003-covadonga",
+        "nombre": "Covadonga",
+        "lat": 19.306824,
+        "lng": -99.139362
+      }
+    ]
+  }
+}

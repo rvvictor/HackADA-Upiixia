@@ -16,6 +16,7 @@ TipoDato = Literal["real", "estimado", "simulado"]
 TipoEvento = Literal["busqueda", "aparicion_ruta", "compre_aqui", "vista_pagina", "alta"]
 OrigenAlta = Literal["telegram", "campo", "demo"]
 EstadoPrograma = Literal["existe", "por_verificar", "propuesta"]
+TipoPunto = Literal["tianguis", "mercado", "negocio_local"]
 
 HORA = r"^([01]\d|2[0-3]):[0-5]\d$"
 DIAS = ("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")
@@ -45,10 +46,10 @@ class LatLng(Modelo):
 
 
 class PuntoBarrial(Modelo):
-    """Tianguis Abierto v0.1 (`data/processed/tianguis_abierto.json`): tianguis o mercado."""
+    """Tianguis Abierto v0.1 (`data/processed/tianguis_abierto.json`): tianguis, mercado o negocio local (v2 §2)."""
 
     id: str
-    tipo: str = Field(description="tianguis · mercado")
+    tipo: TipoPunto
     nombre: str
     alcaldia_cvegeo: str
     colonia: str | None = None

@@ -2,3 +2,4 @@
 
 from app.schemas.api import *
 from app.schemas.entidades import *
+from app.schemas.repartidores import *

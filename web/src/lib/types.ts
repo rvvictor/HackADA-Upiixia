@@ -6,6 +6,7 @@ export type TipoDato = "real" | "estimado" | "simulado";
 export type TipoEvento = "busqueda" | "aparicion_ruta" | "compre_aqui" | "vista_pagina" | "alta";
 export type OrigenAlta = "telegram" | "campo" | "demo";
 export type EstadoPrograma = "existe" | "por_verificar" | "propuesta";
+export type TipoPunto = "tianguis" | "mercado" | "negocio_local";
 
 export const DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"] as const;
 
@@ -30,7 +31,7 @@ export interface LatLng {
 
 export interface PuntoBarrial {
   id: string;
-  tipo: string; // tianguis · mercado
+  tipo: TipoPunto;
   nombre: string;
   alcaldia_cvegeo: string;
   colonia: string | null;
@@ -315,4 +316,191 @@ export interface SedecoCrecimiento {
   rutas_por_hexagono: Record<string, unknown>;
   escala: Record<string, unknown>;
   demo_data: boolean;
+}
+
+// ---------- v2 (IDEA-v2.md §7, §8): repartidores, ofertas, incentivos, alcaldías, puntos ----------
+// Mirror of app/schemas/repartidores.py. Fixtures with one entry per endpoint: app/fixtures/{repartidores,ofertas,alcaldias}.json.
+// The full Repartidor (priority, age range, student, ID type) never leaves the backend: the frontend only sees RepartidorPublico.
+
+export type Transporte = "bici" | "bici_electrica" | "a_pie" | "scooter_electrico" | "moto" | "auto";
+export type EstadoRepartidor = "pendiente_verificacion" | "activo" | "rechazado";
+export type EstadoOferta = "abierta" | "tomada" | "completada" | "cancelada";
+export type EstadoIncentivo = "existe" | "propuesta";
+export type TipoId = "ine" | "pasaporte" | "credencial_escolar";
+
+export const TRANSPORTE_ECOLOGICO: Transporte[] = ["bici", "bici_electrica", "a_pie", "scooter_electrico"];
+
+export interface Disponibilidad {
+  dias: number[]; // 0 = lunes … 6 = domingo
+  desde: string; // "HH:MM"
+  hasta: string;
+}
+
+export interface RepartidorPublico {
+  id: string; // R-XXXXX
+  ts_alta: number;
+  nombre_mostrar: string;
+  alcaldia_cvegeo: string;
+  colonias: string[];
+  transporte: Transporte;
+  disponibilidad: Disponibilidad;
+  id_verificada: boolean;
+  estado: EstadoRepartidor;
+  negocio_id: string | null;
+  rutas_completadas: number;
+  demo_data: boolean;
+}
+
+export interface ParadaOferta {
+  lat: number;
+  lng: number;
+  h3: string;
+  colonia: string | null;
+}
+
+export interface Oferta {
+  id: string;
+  ts: number;
+  negocio_id: string;
+  negocio_nombre: string | null;
+  tipo_negocio: TipoPunto; // map icon
+  paradas: ParadaOferta[];
+  distancia_m: number;
+  minutos_est: number;
+  pago_est: number;
+  tipo_dato_pago: TipoDato;
+  colonia: string;
+  estado: EstadoOferta;
+  repartidor_id: string | null;
+  demo_data: boolean;
+}
+
+/** GET /api/incentivos → Incentivo[], featured (bici) first. */
+export interface Incentivo {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  rutas_requeridas: number;
+  destacado: boolean;
+  imagen: string | null;
+  patrocinador: string | null;
+  estado: EstadoIncentivo;
+  tipo_dato: TipoDato;
+}
+
+export interface Colonia {
+  id: string;
+  nombre: string;
+  lat: number;
+  lng: number;
+}
+
+/** GET /api/alcaldias → Alcaldia[] (priority first, colonias empty). */
+export interface Alcaldia {
+  alcaldia_cvegeo: string;
+  alcaldia_nombre: string;
+  prioridad: boolean;
+  colonias: Colonia[];
+  fuente: string | null;
+  demo_data: boolean;
+}
+
+/** GET /api/alcaldias/{cvegeo}/colonias */
+export interface ColoniasResponse {
+  alcaldia_cvegeo: string;
+  alcaldia_nombre: string;
+  colonias: Colonia[];
+}
+
+export interface PuntoMapa {
+  id: string;
+  tipo: TipoPunto;
+  nombre: string;
+  alcaldia_cvegeo: string;
+  colonia: string | null;
+  lat: number;
+  lng: number;
+  h3: string;
+  fuente: string | null;
+  tipo_dato: TipoDato;
+}
+
+/** GET /api/puntos?tipo=&bbox= */
+export interface PuntosResponse {
+  total: number;
+  puntos: PuntoMapa[];
+}
+
+/** POST /api/repartidores (from the bot) */
+export interface RepartidorAltaRequest {
+  chat_id: number | string;
+  acepta_privacidad: true;
+  nombre_mostrar: string;
+  edad: number; // >= 18; only the range is stored
+  estudiante: boolean;
+  alcaldia_cvegeo: string;
+  colonias: string[]; // 1 to 3
+  transporte: Transporte;
+  disponibilidad: Disponibilidad;
+  tipo_id?: TipoId | null;
+  negocio_id?: string | null;
+  invitacion?: string | null;
+  demo_data?: boolean;
+}
+
+export interface RepartidorAltaResponse {
+  id: string;
+  estado: EstadoRepartidor;
+  portal_url: string;
+  aviso_transporte: string | null;
+}
+
+/** POST /api/repartidores/invitacion */
+export interface InvitacionResponse {
+  token: string;
+  link: string;
+  negocio_id: string;
+  expira_ts: number;
+}
+
+/** POST /api/repartidores/codigo, body {id} */
+export interface CodigoResponse {
+  enviado: boolean;
+  canal: "telegram";
+  codigo_demo: string | null; // only with DEMO_MODE
+}
+
+/** POST /api/repartidores/sesion */
+export interface SesionRequest {
+  id: string;
+  codigo: string; // 6 digits
+}
+
+export interface SesionResponse {
+  token: string;
+  repartidor_id: string;
+  expira_ts: number;
+}
+
+export interface AvanceIncentivo {
+  incentivo_id: string;
+  rutas_requeridas: number;
+  rutas_completadas: number;
+  pct: number; // 0-100
+  alcanzado: boolean;
+}
+
+/** GET /api/repartidores/{id} */
+export interface RepartidorPerfil {
+  repartidor: RepartidorPublico;
+  rutas: Oferta[];
+  avance_incentivos: AvanceIncentivo[];
+  aviso_transporte: string | null;
+}
+
+/** GET /api/ofertas?repartidor_id=&desde=ts; POST /api/ofertas/{id}/tomar|completar → Oferta */
+export interface OfertasResponse {
+  repartidor_id: string;
+  ts: number; // send back as `desde`
+  ofertas: Oferta[];
 }

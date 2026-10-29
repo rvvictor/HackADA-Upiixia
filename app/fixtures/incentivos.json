@@ -1,0 +1,68 @@
+[
+  {
+    "id": "bici",
+    "nombre": "Bicicleta urbana",
+    "descripcion": "Una bici para repartir en tu barrio al llegar a las rutas requeridas.",
+    "rutas_requeridas": 150,
+    "destacado": true,
+    "imagen": null,
+    "patrocinador": null,
+    "estado": "propuesta",
+    "tipo_dato": "simulado"
+  },
+  {
+    "id": "casco",
+    "nombre": "Casco",
+    "descripcion": "Casco certificado para ciclismo urbano.",
+    "rutas_requeridas": 20,
+    "destacado": false,
+    "imagen": null,
+    "patrocinador": null,
+    "estado": "propuesta",
+    "tipo_dato": "simulado"
+  },
+  {
+    "id": "luces",
+    "nombre": "Juego de luces",
+    "descripcion": "Luz delantera y trasera recargables.",
+    "rutas_requeridas": 35,
+    "destacado": false,
+    "imagen": null,
+    "patrocinador": null,
+    "estado": "propuesta",
+    "tipo_dato": "simulado"
+  },
+  {
+    "id": "candado",
+    "nombre": "Candado en U",
+    "descripcion": "Candado para dejar la bici segura en cada entrega.",
+    "rutas_requeridas": 50,
+    "destacado": false,
+    "imagen": null,
+    "patrocinador": null,
+    "estado": "propuesta",
+    "tipo_dato": "simulado"
+  },
+  {
+    "id": "mochila",
+    "nombre": "Mochila térmica",
+    "descripcion": "Mochila para entregas de comida.",
+    "rutas_requeridas": 75,
+    "destacado": false,
+    "imagen": null,
+    "patrocinador": null,
+    "estado": "propuesta",
+    "tipo_dato": "simulado"
+  },
+  {
+    "id": "mantenimiento",
+    "nombre": "Mantenimiento de bici",
+    "descripcion": "Un servicio de ajuste y frenos en un taller del barrio.",
+    "rutas_requeridas": 100,
+    "destacado": false,
+    "imagen": null,
+    "patrocinador": null,
+    "estado": "propuesta",
+    "tipo_dato": "simulado"
+  }
+]
