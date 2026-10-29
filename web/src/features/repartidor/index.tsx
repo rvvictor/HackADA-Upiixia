@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 import type { FeatureProps } from "../../App";
 import { Boton, Etiqueta, Tarjeta } from "../../lib/ui";
 import { CodigoInvalido, completarOferta, enModoMock, iniciarSesion, listarOfertas, pedirCodigo, tomarOferta } from "./cliente";
+import { Incentivos } from "./Incentivos";
 import { MapaOfertas } from "./MapaOfertas";
 import { ECOLOGICOS, type Oferta, type Sesion } from "./tipos";
 
@@ -113,7 +114,7 @@ function Acceso({ onEntrar }: { onEntrar: (s: Sesion) => void }) {
 function Portal({ sesion, onSalir }: { sesion: Sesion; onSalir: () => void }) {
   const [ofertas, setOfertas] = useState<Oferta[]>([]);
   const [elegida, setElegida] = useState<string | null>(null);
-  const [pestana, setPestana] = useState<"ofertas" | "mias">("ofertas");
+  const [pestana, setPestana] = useState<"ofertas" | "mias" | "incentivos">("ofertas");
   const [error, setError] = useState("");
   const [ocupada, setOcupada] = useState<string | null>(null);
 
@@ -153,7 +154,7 @@ function Portal({ sesion, onSalir }: { sesion: Sesion; onSalir: () => void }) {
   const completadas = mias.filter((o) => o.estado === "completada").length;
   const noEcologico = sesion.transporte && !ECOLOGICOS.includes(sesion.transporte);
   const demo = enModoMock() || sesion.demo_data || ofertas.some((o) => o.demo_data);
-  const visibles = pestana === "ofertas" ? abiertas : mias;
+  const visibles = pestana === "ofertas" ? abiertas : pestana === "mias" ? mias : [];
 
   return (
     <main className="mx-auto w-full max-w-[1400px] px-4 py-6">
@@ -207,13 +208,17 @@ function Portal({ sesion, onSalir }: { sesion: Sesion; onSalir: () => void }) {
             <Pestana activa={pestana === "mias"} onClick={() => setPestana("mias")}>
               Mis rutas ({mias.length})
             </Pestana>
+            <Pestana activa={pestana === "incentivos"} onClick={() => setPestana("incentivos")}>
+              Incentivos
+            </Pestana>
           </div>
           {pestana === "mias" && (
             <p className="text-lg" aria-live="polite">
               Llevas <strong>{completadas}</strong> {completadas === 1 ? "ruta completada" : "rutas completadas"} de {mias.length}.
             </p>
           )}
-          {visibles.length === 0 && (
+          {pestana === "incentivos" && <Incentivos completadas={completadas} />}
+          {pestana !== "incentivos" && visibles.length === 0 && (
             <p className="rounded-(--pb-radio-tarjeta) border border-(--pb-borde) bg-(--pb-superficie) p-5 text-lg text-(--pb-texto-2)">
               {pestana === "ofertas"
                 ? "No hay ofertas abiertas ahora. Esta pantalla se actualiza sola cada 5 segundos."
