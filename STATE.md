@@ -1,7 +1,7 @@
 # STATE
 
 Phase: execution
-Updated: 1793309002
+Updated: 1793309045
 AVAILABLE: CO-010 CO-015 CO-016 
 CLAIMED: CO-002 CO-007 CO-011 
 BLOCKED: -
@@ -20,6 +20,7 @@ Current decisions (last 5):
 - 1793308456 | plan | victor/victor | tasks added: CO-016 | Why: backlog without PR (Plan-Channel: claims)
 - 1793308349 | CO-001 | fixtures multi-endpoint como objeto con clave por endpoint | Why: Paths limitan a un archivo por entidad
 - 1793308566 | CO-005 | modelos y pesos locales sin contrato CO-001 | Why: CO-001 sin schema publicado
+- 1793309045 | plan | victor/victor | tasks added: CO-017 | Why: backlog without PR (Plan-Channel: claims)
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.

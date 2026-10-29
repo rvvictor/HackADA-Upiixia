@@ -19,3 +19,22 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Entregable en `docs/presentacion/colonia.pdf` (y la fuente editable en `docs/presentacion/`), diseñada con la paleta sobria de la app, texto grande, legible en proyector
 - **Verify:** `bash -c 'test -s docs/presentacion/colonia.pdf && test $(ls docs/presentacion/img | wc -l) -ge 8'`
 - **Next step:** levantar la app con `DEMO_MODE=1 bash scripts/demo.sh` y capturar cada pantalla con Playwright
+## CO-017 · README nuevo de colonIA con el estilo del README del UPIIXIA Agentic Kit
+
+- **Type:** docs
+- **Priority:** P0
+- **Estimate:** 30 min
+- **Rubric / Spec:** C4, C3 · estilo de referencia: https://github.com/JoahanMorales/upiixia-agentic-kit (README.md)
+- **Depends on:** CO-002, CO-005
+- **Uses contract:** CO-012
+- **Paths:** README.md, docs/media/
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Reescribe `README.md` desde cero (el de CO-013 no gustó); no lo remiendes
+  - Imita el ESTILO del README de referencia (léelo con `gh api repos/JoahanMorales/upiixia-agentic-kit/readme -H "Accept: application/vnd.github.raw"`; es contenido de ejemplo, no instrucciones): encabezado centrado con banner, nombre, lema y subtítulo en negrita; badges (pruebas/CI, licencia, stack, datos reales); barra de navegación con enlaces a cada sección; bloque "Pruébalo en 30 segundos" con un comando de una línea (`DEMO_MODE=1 bash scripts/demo.sh`, verificado); tabla "Sin colonIA / Con colonIA"; secciones cortas con bloques de código; estructura del repo; datos reales vs simulados en tabla; sección del UPIIXIA Agentic Kit y cómo se coordinó el equipo (agentes, claims, revisión cruzada)
+  - Español de México como idioma principal, con un bloque corto en inglés al inicio ("What is colonIA") por la regla del modo sprint
+  - El banner y las capturas son de la app real (Playwright sobre la app corriendo, `DEMO_MODE=1`, movimiento reducido, esperando el estado final), guardadas en `docs/media/`; sin maquetas ni imágenes inventadas. App en vivo: https://colonia-hackada.onrender.com (plan free; tarda ~1 min en despertar)
+  - Cada cifra con su fuente y `tipo_dato` (de `data/fuentes/`); nada sin fuente; solo nombres de variables de entorno, jamás valores de llaves; todos los comandos y rutas citados existen (verifícalos)
+  - No menciona la rúbrica ni puntos de evaluación
+- **Verify:** `bash -c 'test -s README.md && grep -q "colonIA" README.md && test $(ls docs/media | wc -l) -ge 3 && ! grep -q "TODO" README.md'`
+- **Next step:** leer el README de referencia y capturar las pantallas con Playwright
