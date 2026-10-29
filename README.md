@@ -15,15 +15,15 @@ Mapa de tianguis, mercados y negocios locales de la CDMX, rutas de compra sin ca
 ![datos](https://img.shields.io/badge/datos-reales_+_simulados_(etiquetados)-orange)
 ![evento](https://img.shields.io/badge/HackADA-Upiixia-8A2BE2)
 
-[Pruébalo](#pruébalo-en-30-segundos) · [El problema](#el-problema) · [Qué hace](#qué-hace) · [Cómo funciona la IA](#cómo-funciona-la-ia) · [Datos](#datos-reales-vs-simulados) · [Estructura](#estructura-del-repo) · [Llaves](#llaves-y-variables) · [Agentic Kit](#cómo-se-coordinó-el-equipo-upiixia-agentic-kit)
+[¿Qué es colonIA?](#qué-es-colonia) · [Pruébalo](#pruébalo-en-30-segundos) · [El problema](#el-problema) · [Qué hace](#qué-hace) · [Cómo funciona la IA](#cómo-funciona-la-ia) · [Datos](#datos-reales-vs-simulados) · [Estructura](#estructura-del-repo) · [Llaves](#llaves-y-variables) · [Agentic Kit](#cómo-se-coordinó-el-equipo-upiixia-agentic-kit)
 
 </div>
 
 ---
 
-## What is colonIA
+## ¿Qué es colonIA?
 
-colonIA is a living map of neighborhood commerce in Mexico City. A shop owner sends a voice note to a Telegram bot; an LLM extracts structured fields (name, trade, address, delivery person), and the shop appears on the map next to 1,367 street markets (tianguis) and 329 public markets from open data. Shoppers get a route that avoids chain stores; local couriers get a portal with incentives. **The LLM only extracts fields: every number and every route is deterministic code, and every figure carries a `tipo_dato` (`real`, `estimado` or `simulado`).**
+colonIA es un mapa vivo del comercio de barrio de la Ciudad de México. La persona dueña de un negocio manda una nota de voz a un bot de Telegram; un LLM extrae campos estructurados (nombre, giro, dirección, repartidor) y el negocio aparece en el mapa junto a 1,367 tianguis y 329 mercados públicos de datos abiertos. Quien compra recibe una ruta que evita cadenas; los repartidores locales tienen un portal con incentivos. **El LLM solo extrae campos: cada número y cada ruta es código determinista, y toda cifra lleva `tipo_dato` (`real`, `estimado` o `simulado`).**
 
 ## Pruébalo en 30 segundos
 
