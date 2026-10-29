@@ -151,3 +151,20 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Verificación visual en `https://colonia-hackada.onrender.com/#/mapa` o local con Playwright (movimiento reducido) tras acercar a Coyoacán: las tres formas se distinguen; captura en la evidencia
 - **Verify:** `npm --prefix web run build`
 - **Next step:** `web/src/lib/map/iconos.ts:88` (`icon-size`)
+## CO-025 · Mapa limpio: sin círculos sin explicar, alcaldía en el panel derecho e íconos legibles
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 20 min
+- **Rubric / Spec:** C4 · petición del dueño sobre https://colonia-hackada.onrender.com/#/mapa
+- **Depends on:** None
+- **Uses contract:** None
+- **Paths:** web/src/features/mapa/, web/src/lib/map/iconos.ts
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Sin nada seleccionado ya no salen los círculos terracota grandes (capa "tianguis abiertos ahora"): se muestran solo si la persona lo pide con un botón "Resaltar tianguis abiertos" en la sección de día y hora del panel derecho (apagado por defecto)
+  - La tarjeta de Alcaldía deja de flotar sobre el mapa: pasa a una sección del panel derecho (selector de las 16 alcaldías, conteos con `tipo_dato` y fuente, y "Ver detalle" plegable); el mapa queda libre con las capas y los chips
+  - Los íconos individuales (tianguis, mercado, negocio local) crecen con el zoom y se distinguen por forma al acercar; los clusters mantienen el conteo legible
+  - Capturas a 1280×720 (con el panel) en la evidencia; `npm --prefix web run build` y las pruebas siguen en verde sin editarlas
+- **Verify:** `npm --prefix web run build`
+- **Next step:** `web/src/features/mapa/index.tsx` (tarjeta y `tianguis={abiertos}`) y `PanelSedeco.tsx`
