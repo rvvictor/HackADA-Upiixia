@@ -1,6 +1,6 @@
 > **HackADA (nuevo evento):** este archivo viene de Pulso Barrial (Chilangatón 2026) y es la base de partida. La versión original de las tareas está en `docs/historico/`. El producto ahora se llama **colonIA** y los cambios de HackADA están en `IDEA-v2.md`: si algo de ese archivo contradice a este, manda `IDEA-v2.md`. El backlog es `.uak/TASKS.md` (CO-001..CO-015).
 
-# IDEA · Pulso Barrial
+# IDEA · colonIA (antes Pulso Barrial)
 
 > Reto: **Reto 1 · Comercio popular y barrial** · Evento: **Chilangatón 2026 (México Tech Week)**, domingo 25 de octubre de 2026, Utopía Elena Poniatowska Amor, Coyoacán, CDMX. Entrega: **18:00 CST** [To validate].
 > Etiquetas: **[Decided]** · **[Recommended]** · **[To validate]**.
