@@ -20,18 +20,10 @@ function cabeceras(token?: string): HeadersInit {
   return token && token !== "mock" ? { "Content-Type": "application/json", Authorization: `Bearer ${token}` } : { "Content-Type": "application/json" };
 }
 
-export async function pedirCodigo(id: string): Promise<void> {
+// Entrada solo con el número de repartidor (CO-026): la API abre sesión si el número existe.
+export async function iniciarSesion(id: string): Promise<Sesion> {
   try {
-    await api("/repartidores/codigo", { method: "POST", body: JSON.stringify({ id }) });
-  } catch (e) {
-    if (!sinApi(e)) throw e;
-    mock = true;
-  }
-}
-
-export async function iniciarSesion(id: string, codigo: string): Promise<Sesion> {
-  try {
-    const s = await api<Sesion>("/repartidores/sesion", { method: "POST", body: JSON.stringify({ id, codigo }) });
+    const s = await api<Sesion>("/repartidores/sesion", { method: "POST", body: JSON.stringify({ id }) });
     mock = false;
     return { ...s, repartidor_id: s.repartidor_id ?? id };
   } catch (e) {
@@ -41,7 +33,7 @@ export async function iniciarSesion(id: string, codigo: string): Promise<Sesion>
       locales = ofertasMock();
       return sesionMock(id);
     }
-    throw new CodigoInvalido("Número o código incorrecto.");
+    throw new CodigoInvalido("Ese número de repartidor no está registrado.");
   }
 }
 

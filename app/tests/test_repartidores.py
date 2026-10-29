@@ -75,3 +75,10 @@ def test_perfil_e_incentivos_bici_primero(live) -> None:
     assert cat[0]["id"] == "bici" and cat[0]["destacado"] is True
     assert all(i["tipo_dato"] == "simulado" for i in cat)
     assert client.get("/api/repartidores/R-00000").status_code == 404
+
+
+def test_sesion_solo_con_numero_valido(live) -> None:
+    rid = client.post("/api/repartidores", json=alta()).json()["id"]
+    ses = client.post("/api/repartidores/sesion", json={"id": rid})
+    assert ses.status_code == 200 and ses.json()["repartidor_id"] == rid and ses.json()["token"]
+    assert client.post("/api/repartidores/sesion", json={"id": "R-99999"}).status_code == 401

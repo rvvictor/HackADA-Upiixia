@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, type FormEvent } from "react";
 
 import type { FeatureProps } from "../../App";
 import { Boton, Etiqueta, Tarjeta } from "../../lib/ui";
-import { CodigoInvalido, completarOferta, enModoMock, iniciarSesion, listarOfertas, pedirCodigo, tomarOferta } from "./cliente";
+import { CodigoInvalido, completarOferta, enModoMock, iniciarSesion, listarOfertas, tomarOferta } from "./cliente";
 import { Incentivos } from "./Incentivos";
 import { MapaOfertas } from "./MapaOfertas";
 import { ECOLOGICOS, type Oferta, type Sesion } from "./tipos";
@@ -23,32 +23,18 @@ export default function Repartidor(_props: FeatureProps) {
 
 function Acceso({ onEntrar }: { onEntrar: (s: Sesion) => void }) {
   const [id, setId] = useState("");
-  const [codigo, setCodigo] = useState("");
   const [error, setError] = useState("");
-  const [aviso, setAviso] = useState("");
   const [cargando, setCargando] = useState(false);
 
   const idValido = /^R-\d{5}$/.test(id);
-  const codigoValido = /^\d{6}$/.test(codigo);
-
-  async function pedir() {
-    setError("");
-    setAviso("");
-    try {
-      await pedirCodigo(id);
-      setAviso("Te enviamos el código por Telegram. Escríbelo aquí abajo.");
-    } catch {
-      setError("No pudimos pedir el código. Intenta de nuevo en un momento.");
-    }
-  }
 
   async function entrar(e: FormEvent) {
     e.preventDefault();
-    if (!idValido || !codigoValido) return;
+    if (!idValido) return;
     setCargando(true);
     setError("");
     try {
-      onEntrar(await iniciarSesion(id, codigo));
+      onEntrar(await iniciarSesion(id));
     } catch (err) {
       setError(err instanceof CodigoInvalido ? err.message : "No pudimos entrar. Intenta de nuevo.");
     } finally {
@@ -75,37 +61,16 @@ function Acceso({ onEntrar }: { onEntrar: (s: Sesion) => void }) {
               aria-invalid={id !== "" && !idValido}
             />
           </label>
-          <div>
-            <Boton type="button" variante="secundario" disabled={!idValido} onClick={pedir}>
-              Pedir código por Telegram
-            </Boton>
-            {aviso && (
-              <p role="status" className="mt-3 text-(--pb-texto-2)">
-                {aviso}
-              </p>
-            )}
-          </div>
-          <label className="block text-lg font-medium">
-            Código de 6 dígitos
-            <input
-              className={campo}
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value.replace(/\D/g, "").slice(0, 6))}
-              placeholder="000000"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-            />
-          </label>
           {error && (
             <p role="alert" className="font-medium text-(--pb-error,var(--pb-texto))">
               {error}
             </p>
           )}
-          <Boton type="submit" tamano="lg" anchoCompleto disabled={!idValido || !codigoValido || cargando}>
+          <Boton type="submit" tamano="lg" anchoCompleto disabled={!idValido || cargando}>
             {cargando ? "Entrando…" : "Entrar"}
           </Boton>
         </form>
-        <p className="mt-5 text-(--pb-texto-2)">Sin tu número y tu código no se muestra ninguna ruta.</p>
+        <p className="mt-5 text-(--pb-texto-2)">Escribe tu número de repartidor (R-12345) para ver tus rutas.</p>
       </Tarjeta>
     </main>
   );
