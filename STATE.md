@@ -1,17 +1,17 @@
 # STATE
 
 Phase: execution
-Updated: 1793312302
-AVAILABLE: CO-026 CO-024 
-CLAIMED: CO-016 CO-023 
+Updated: 1793312283
+AVAILABLE: CO-026 CO-024 
+CLAIMED: CO-016 
 BLOCKED: -
-REVIEW: -
-INTEGRATED: (22; last 12) ... CO-011 CO-012 CO-013 CO-014 CO-015 CO-017 CO-018 CO-019 CO-020 CO-021 CO-022 CO-025 
+REVIEW: CO-023 
+INTEGRATED: (22; last 12) ... CO-011 CO-012 CO-013 CO-014 CO-015 CO-017 CO-018 CO-019 CO-020 CO-021 CO-022 CO-025 
 CANCELLED: -
 
 Claims (first 24; status --task ID shows detail):
 CO-016 | CLAIMED | yojan-1 | until 1793314168
-CO-023 | CLAIMED | crxthrx-2 | until 1793314688
+CO-023 | REVIEW | crxthrx-2 | until 1793326683
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
