@@ -60,7 +60,9 @@ export function MapaBase({ onReady, className = "", children, estilo = "claro" }
 
   return (
     <div className={`relative h-full min-h-80 w-full overflow-hidden bg-(--pb-superficie-2) ${className}`}>
-      <div ref={contenedor} className="absolute inset-0" aria-label="Mapa de Coyoacán e Iztapalapa" role="region" />
+      <div className="absolute inset-0">
+        <div ref={contenedor} className="h-full w-full" aria-label="Mapa de Coyoacán e Iztapalapa" role="region" />
+      </div>
       {estado === "cargando" && (
         <div className="absolute inset-0 animate-pulse bg-(--pb-superficie-2)" aria-hidden="true" />
       )}
