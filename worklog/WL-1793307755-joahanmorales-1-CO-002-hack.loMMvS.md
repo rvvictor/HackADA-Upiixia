@@ -10,3 +10,4 @@
 
 ## History
 - 1793307755 | CLAIMED | joahanmorales-1 | claim; next: `rg -n "luz|glow|shadow" web/src/features/inicio/inicio.css`
+- 1793307966 | CLAIMED | joahanmorales-1 | handover; joahanmorales-1 → yojan-1 by joahanmorales-1
