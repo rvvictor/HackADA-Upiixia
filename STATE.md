@@ -1,8 +1,8 @@
 # STATE
 
 Phase: feature freeze; authorized fixes, rehearsal and submission only
-Updated: 1793312019
-AVAILABLE: CO-024 
+Updated: 1793312011
+AVAILABLE: CO-026 CO-024 
 CLAIMED: CO-016 CO-023 
 BLOCKED: -
 REVIEW: CO-025 
