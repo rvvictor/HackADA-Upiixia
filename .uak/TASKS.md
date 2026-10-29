@@ -14,9 +14,9 @@ Plan de colonIA (HackADA, reto Mercaditos locales). Fuente: `IDEA-v2.md` (cambio
 C1 núcleo funcional · C2 uso inteligente de IA · C3 trazabilidad de datos · C4 diseño de experiencia (25 pts cada una).
 Reglas: el LLM nunca produce una cifra visible; toda cifra lleva `tipo_dato` (`real`/`estimado`/`simulado`); `DEMO_MODE=1` corre sin red ni llaves.
 `data/raw/` no se versiona: las pruebas usan mini-muestras en `pipeline/tests/` o `app/fixtures/`. Las llaves viven solo en `.env`.
-Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contract` + fixtures. Ola 2: CO-10, 11, 12, 14, 15.
+Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contract` + fixtures. Ola 2: CO-010, 11, 12, 14, 15.
 
-## CO-01 · Contrato v2: esquemas, fixtures y tipos TS
+## CO-001 · Contrato v2: esquemas, fixtures y tipos TS
 
 - **Type:** contract
 - **Priority:** P0
@@ -35,7 +35,7 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q app/tests/test_schemas_v2.py app/tests/test_schemas.py`
 - **Next step:** crear `app/schemas/repartidores.py` con los modelos de §7
 
-## CO-02 · Paleta sin neón y marca colonIA
+## CO-002 · Paleta sin neón y marca colonIA
 
 - **Type:** feature
 - **Priority:** P0
@@ -52,14 +52,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `bash -c '! rg -n "glow|text-shadow|drop-shadow\(0 0" web/src' && npm --prefix web run build`
 - **Next step:** `rg -n "luz|glow|shadow" web/src/features/inicio/inicio.css`
 
-## CO-03 · Datos reales de las 16 alcaldías: tianguis, mercados, colonias, marginación
+## CO-003 · Datos reales de las 16 alcaldías: tianguis, mercados, colonias, marginación
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 40 min
 - **Rubric / Spec:** C3 · `IDEA-v2.md` §5, `data/fuentes/raw.md`
 - **Depends on:** None
-- **Uses contract:** CO-01
+- **Uses contract:** CO-001
 - **Paths:** pipeline/reales/, pipeline/tests/test_reales.py, pipeline/tests/muestras/, data/processed/tianguis_abierto.json, data/processed/mercados.json, data/processed/colonias.json, data/processed/marginacion_colonia.json, data/processed/contaminacion_colonia.json, data/fuentes/
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -71,14 +71,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q pipeline/tests/test_reales.py`
 - **Next step:** `uv run python -m pipeline.reales` leyendo `data/raw/ubicacion_tianguis.csv`
 
-## CO-04 · DENUE: negocios locales reales (Coyoacán e Iztapalapa primero)
+## CO-004 · DENUE: negocios locales reales (Coyoacán e Iztapalapa primero)
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 40 min
 - **Rubric / Spec:** C3, C1 · `IDEA-v2.md` §2, `IDEA.md` A.7
 - **Depends on:** None
-- **Uses contract:** CO-01
+- **Uses contract:** CO-001
 - **Paths:** pipeline/denue/, pipeline/tests/test_denue.py, pipeline/tests/muestras/denue.json, data/processed/negocios_denue.json, data/fuentes/denue.md
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -89,14 +89,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q pipeline/tests/test_denue.py`
 - **Next step:** consulta `Buscar` de DENUE por radio desde el centro de cada colonia; solo la persona con `DENUE_TOKEN` en su `.env` puede reclamarla
 
-## CO-05 · API de repartidores, ofertas e incentivos con priorización
+## CO-005 · API de repartidores, ofertas e incentivos con priorización
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 40 min
 - **Rubric / Spec:** C1 · `IDEA-v2.md` §4.3, §4.5, §8
 - **Depends on:** None
-- **Uses contract:** CO-01
+- **Uses contract:** CO-001
 - **Paths:** app/routers/repartidores.py, app/routers/ofertas.py, app/routers/incentivos.py, app/services/repartidores.py, app/services/ofertas.py, app/tests/test_repartidores.py, app/tests/test_ofertas.py
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -107,14 +107,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q app/tests/test_repartidores.py app/tests/test_ofertas.py`
 - **Next step:** `app/services/ofertas.py` con la función de orden y su prueba
 
-## CO-06 · Mapa unificado: altura = color y sin vista Crecimiento
+## CO-006 · Mapa unificado: altura = color y sin vista Crecimiento
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 45 min
 - **Rubric / Spec:** C4, C1 · `IDEA-v2.md` §1.1, §1.2, §9
 - **Depends on:** None
-- **Uses contract:** CO-01
+- **Uses contract:** CO-001
 - **Paths:** web/src/lib/map/hex.ts, web/src/lib/map/hex.test.ts, web/src/features/mapa/, web/src/features/sedeco/, web/src/features/crecimiento/, web/src/App.tsx
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -125,31 +125,31 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `npm --prefix web run build && npm --prefix web test --if-present`
 - **Next step:** `web/src/lib/map/hex.ts:76` y `web/src/features/sedeco/MapaSedeco.tsx:39`
 
-## CO-07 · Íconos por tipo de negocio, cluster y chips
+## CO-007 · Íconos por tipo de negocio, cluster y chips
 
 - **Type:** feature
 - **Priority:** P1
 - **Estimate:** 30 min
 - **Rubric / Spec:** C4 · `IDEA-v2.md` §1.3
 - **Depends on:** None
-- **Uses contract:** CO-01
+- **Uses contract:** CO-001
 - **Paths:** web/src/lib/map/iconos.ts, web/src/lib/map/ChipsTipo.tsx, web/public/iconos/
 - **Freeze-Allowed:** no
 - **Acceptance:**
   - Tres SVG con forma distinta (`tianguis`, `mercado`, `negocio`) y `agregarIconos(map, puntos)` con cluster y conteo
   - `ChipsTipo` enciende y apaga cada tipo; tooltip con etiqueta, no solo color
-  - Se integra al mapa en CO-12, aquí solo se publica la API
+  - Se integra al mapa en CO-012, aquí solo se publica la API
 - **Verify:** `npm --prefix web run build`
 - **Next step:** `web/public/iconos/tianguis.svg` y `iconos.ts` con `map.addImage`
 
-## CO-08 · Portal de repartidores: acceso, mapa de ofertas y mis rutas
+## CO-008 · Portal de repartidores: acceso, mapa de ofertas y mis rutas
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 45 min
 - **Rubric / Spec:** C1, C4 · `IDEA-v2.md` §4.4, §9
 - **Depends on:** None
-- **Uses contract:** CO-01, CO-05
+- **Uses contract:** CO-001, CO-005
 - **Paths:** web/src/features/repartidor/
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -160,14 +160,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `npm --prefix web run build`
 - **Next step:** `web/src/features/repartidor/index.tsx` exportando `default`, `route: "repartidor"`, `label` y `order`
 
-## CO-09 · Bot de Telegram: alta de repartidor por texto y voz
+## CO-009 · Bot de Telegram: alta de repartidor por texto y voz
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 45 min
 - **Rubric / Spec:** C2, C1 · `IDEA-v2.md` §4.2, §4.5
 - **Depends on:** None
-- **Uses contract:** CO-01, CO-05
+- **Uses contract:** CO-001, CO-005
 - **Paths:** app/bot/, app/services/repartidor_dialogo.py, app/tests/test_bot_repartidor.py
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -178,14 +178,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q app/tests/test_bot_repartidor.py`
 - **Next step:** `app/services/repartidor_dialogo.py` con la máquina de estados y su prueba
 
-## CO-10 · Simulación para la demo: repartidor y ofertas
+## CO-010 · Simulación para la demo: repartidor y ofertas
 
 - **Type:** feature
 - **Priority:** P0
 - **Estimate:** 25 min
 - **Rubric / Spec:** C1 · `IDEA-v2.md` §11 criterio 10
-- **Depends on:** CO-05
-- **Uses contract:** CO-01
+- **Depends on:** CO-005
+- **Uses contract:** CO-001
 - **Paths:** scripts/simular_repartidor.py, scripts/demo.sh, data/demo/, app/tests/test_demo_repartidor.py
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -194,14 +194,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q app/tests/test_demo_repartidor.py`
 - **Next step:** reutilizar `scripts/simular_alta.py` como plantilla
 
-## CO-11 · Bot: ¿tienes repartidor para tu negocio? e invitación por link
+## CO-011 · Bot: ¿tienes repartidor para tu negocio? e invitación por link
 
 - **Type:** feature
 - **Priority:** P1
 - **Estimate:** 30 min
 - **Rubric / Spec:** C2, C1 · `IDEA-v2.md` §6
-- **Depends on:** CO-09
-- **Uses contract:** CO-05
+- **Depends on:** CO-009
+- **Uses contract:** CO-005
 - **Paths:** app/bot/negocio_repartidor.py, app/tests/test_bot_negocio_repartidor.py
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -210,24 +210,24 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `uv run pytest -q app/tests/test_bot_negocio_repartidor.py`
 - **Next step:** extender el flujo de alta en `app/bot/`
 
-## CO-12 · Integración del mapa: puntos con íconos, 16 alcaldías y datos reales
+## CO-012 · Integración del mapa: puntos con íconos, 16 alcaldías y datos reales
 
 - **Type:** integration
 - **Priority:** P0
 - **Estimate:** 35 min
 - **Rubric / Spec:** C1, C3, C4 · `IDEA-v2.md` §5, §8, §9
-- **Depends on:** CO-06, CO-03
-- **Uses contract:** CO-07, CO-04
+- **Depends on:** CO-006, CO-003
+- **Uses contract:** CO-007, CO-004
 - **Paths:** web/src/features/mapa/, app/routers/mapa.py, app/services/mapa.py, app/tests/test_mapa.py
 - **Freeze-Allowed:** no
 - **Acceptance:**
   - `GET /api/puntos?tipo=&bbox=` y `GET /api/alcaldias` sirven los datos reales de `data/processed/`; el frontend pide primero 09003 y 09007
-  - Íconos, chips y cluster de CO-07 conectados al mapa; cada cifra con `tipo_dato` y fuente visibles
+  - Íconos, chips y cluster de CO-007 conectados al mapa; cada cifra con `tipo_dato` y fuente visibles
   - Si el JSON de hexágonos pasa de ~5 MB, usar resolución 7 en zoom lejano
 - **Verify:** `uv run pytest -q app/tests/test_mapa.py && npm --prefix web run build`
 - **Next step:** `app/services/mapa.py` leyendo `data/processed/tianguis_abierto.json`
 
-## CO-13 · Entregables de la rúbrica: README, prompt, flujo de IA, cuello de botella, impacto y ruta a 30 días
+## CO-013 · Entregables de la rúbrica: README, prompt, flujo de IA, cuello de botella, impacto y ruta a 30 días
 
 - **Type:** docs
 - **Priority:** P0
@@ -244,14 +244,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `bash -c 'for f in prompt_inicial flujo_ia cuello_botella ficha_impacto ruta_30_dias; do test -s docs/entregables/$f.md || exit 1; done && test -s README.md'`
 - **Next step:** `docs/entregables/flujo_ia.md` con el diagrama de la nota de voz a la ficha
 
-## CO-14 · Portal de repartidores: incentivos con la bici destacada
+## CO-014 · Portal de repartidores: incentivos con la bici destacada
 
 - **Type:** feature
 - **Priority:** P1
 - **Estimate:** 25 min
 - **Rubric / Spec:** C4 · `IDEA-v2.md` §4.4
-- **Depends on:** CO-08
-- **Uses contract:** CO-05
+- **Depends on:** CO-008
+- **Uses contract:** CO-005
 - **Paths:** web/src/features/repartidor/Incentivos.tsx, web/src/features/repartidor/incentivos.css
 - **Freeze-Allowed:** no
 - **Acceptance:**
@@ -260,14 +260,14 @@ Ola 1 sin dependencias duras (CO-01..09, CO-13); consumidores usan `Uses contrac
 - **Verify:** `npm --prefix web run build`
 - **Next step:** consumir `GET /api/incentivos`
 
-## CO-15 · Ensayo limpio de la demo y video plan B
+## CO-015 · Ensayo limpio de la demo y video plan B
 
 - **Type:** demo
 - **Priority:** P0
 - **Estimate:** 30 min
 - **Rubric / Spec:** C1, C4 · `.uak/modes/sprint.md` §Submission checklist
-- **Depends on:** CO-12, CO-10
-- **Uses contract:** CO-08, CO-09
+- **Depends on:** CO-012, CO-010
+- **Uses contract:** CO-008, CO-009
 - **Paths:** docs/plan-b/, docs/demo/
 - **Freeze-Allowed:** yes
 - **Acceptance:**
