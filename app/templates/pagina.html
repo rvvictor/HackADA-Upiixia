@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ ficha.nombre or "Negocio de barrio" }} · Pulso Barrial</title>
+  <meta name="description" content="{{ descripcion }}">
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 20px; line-height: 1.5; color: #1d1d1b; background: #fbf8f3; }
+    main { max-width: 640px; margin: 0 auto; padding: 24px 16px 40px; }
+    h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+    h2 { font-size: 1.3rem; margin: 28px 0 8px; }
+    .giro { color: #5a5a55; margin: 0 0 16px; }
+    .descripcion { font-size: 1.1rem; margin: 0 0 8px; }
+    ul.lista { list-style: none; padding: 0; margin: 0; }
+    ul.lista li { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid #e6e0d4; }
+    ul.lista strong { margin-left: auto; font-size: 1.2rem; }
+    ul.lista small { color: #5a5a55; width: 100%; }
+    .chip { display: inline-block; background: #efe6d6; border-radius: 999px; padding: 4px 14px; margin: 0 6px 6px 0; }
+    .badge { display: inline-block; background: #2f6b4f; color: #fff; border-radius: 8px; padding: 6px 12px; margin-top: 12px; }
+    .boton { display: block; text-align: center; background: #25d366; color: #0b2e16; font-weight: 700; text-decoration: none; border-radius: 12px; padding: 16px; margin-top: 28px; font-size: 1.2rem; }
+    .qr { text-align: center; margin-top: 36px; }
+    .qr img { width: 200px; height: 200px; max-width: 70vw; }
+    .pie { color: #5a5a55; font-size: 0.9rem; text-align: center; margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>{{ ficha.nombre or "Negocio de barrio" }}</h1>
+    {% if ficha.giro or ficha.colonia %}
+    <p class="giro">{{ ficha.giro or "" }}{% if ficha.giro and ficha.colonia %} · {% endif %}{{ ficha.colonia or "" }}</p>
+    {% endif %}
+    <p class="descripcion">{{ descripcion }}</p>
+
+    {% if ficha.productos %}
+    <h2>Productos</h2>
+    <ul class="lista">
+      {% for p in ficha.productos %}
+      <li>
+        <span>{{ p.nombre }}</span>
+        {% if p.precio is not none %}<strong>${{ "%g"|format(p.precio) }}</strong>{% endif %}
+        {% if p.fecha %}<small>{{ p.fecha }}</small>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if ficha.horario %}
+    <h2>Horario</h2>
+    <p>{{ ficha.horario }}</p>
+    {% endif %}
+
+    {% if ficha.formas_pago or ficha.acepta_mercomuna %}
+    <h2>Formas de pago</h2>
+    <p>
+      {% for f in ficha.formas_pago %}<span class="chip">{{ f }}</span>{% endfor %}
+    </p>
+    {% if ficha.acepta_mercomuna %}<span class="badge">Acepta Mercomuna</span>{% endif %}
+    {% endif %}
+
+    {% if wa_url %}
+    <a class="boton" href="{{ wa_url }}" rel="noopener">Escribir por WhatsApp</a>
+    {% endif %}
+
+    <section class="qr">
+      <img src="{{ qr }}" alt="Código QR para abrir esta página">
+      <p>Escanea el código para abrir esta página.</p>
+    </section>
+
+    <p class="pie">Página creada con Pulso Barrial</p>
+  </main>
+</body>
+</html>

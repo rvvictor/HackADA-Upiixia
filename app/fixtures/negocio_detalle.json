@@ -1,0 +1,113 @@
+{
+ "id": "alta-puesto-de-dona-lupe",
+ "origen": "alta",
+ "ficha": {
+  "nombre": "Puesto de Doña Lupe",
+  "giro": "Frutas y verduras frescas",
+  "colonia": null,
+  "telefono": null,
+  "horario": "sábado a domingo de 07:00 a 15:00",
+  "formas_pago": [
+   "efectivo",
+   "transferencia"
+  ],
+  "productos": [
+   {
+    "nombre": "nopales",
+    "precio": 20.0,
+    "unidad": "kg"
+   },
+   {
+    "nombre": "jitomate",
+    "precio": 25.0,
+    "unidad": "kg"
+   }
+  ],
+  "acepta_mercomuna": false,
+  "ubicacion": "aproximada",
+  "aparecer_en_rutas": true
+ },
+ "descripcion": "Puesto de Doña Lupe es un negocio de frutas y verduras frescas. Vende nopales, jitomate. Horario: sábado a domingo de 07:00 a 15:00. Acepta efectivo, transferencia.",
+ "avance": {
+  "tipo_dato": "real",
+  "dias": 7,
+  "conteos": {
+   "busquedas": 0,
+   "rutas": 1,
+   "compre_aqui": 0,
+   "visitas_pagina": 0
+  }
+ },
+ "escalera": [
+  {
+   "orden": 1,
+   "nombre": "Visible",
+   "estado": "logrado",
+   "beneficio": "Apareces en el mapa del barrio y en las rutas de compra.",
+   "siguiente_accion": "Pon tu cartel con QR en el puesto."
+  },
+  {
+   "orden": 2,
+   "nombre": "Cobro digital",
+   "estado": "logrado",
+   "beneficio": "Tus clientes pagan con transferencia, DiMo o CoDi, sin comisión.",
+   "siguiente_accion": "Ya aceptas pagos digitales."
+  },
+  {
+   "orden": 3,
+   "nombre": "Historial",
+   "estado": "proximamente",
+   "beneficio": "Tu historial de pagos digitales te ayudará a tener más opciones.",
+   "siguiente_accion": "Próximamente. No necesitas hacer nada todavía."
+  },
+  {
+   "orden": 4,
+   "nombre": "Crédito",
+   "estado": "horizonte",
+   "beneficio": "Acceso a crédito para tu negocio con base en tu historial.",
+   "siguiente_accion": "Se habilita cuando exista el historial."
+  }
+ ],
+ "programas": [
+  {
+   "id": "mercomuna",
+   "nombre": "Mercomuna",
+   "que_es": "Vales del Gobierno de la CDMX que las familias canjean en negocios de barrio afiliados.",
+   "como_entrar": "Registrarse en el directorio oficial de comercios Mercomuna (requisitos de afiliación por confirmar).",
+   "url_oficial": "https://comercios-mercomuna.cdmx.gob.mx/",
+   "estado": "existe",
+   "fecha_verificacion": "2026-10-25"
+  },
+  {
+   "id": "dimo",
+   "nombre": "DiMo (Dinero Móvil, Banxico)",
+   "que_es": "Transferencias con el número de celular, sin comisión, desde la app del banco.",
+   "como_entrar": "Activar DiMo en la app de su banco y asociar su número de celular.",
+   "url_oficial": "https://www.banxico.org.mx",
+   "estado": "existe",
+   "fecha_verificacion": "2026-10-25"
+  },
+  {
+   "id": "codi",
+   "nombre": "CoDi (Cobro Digital, Banxico)",
+   "que_es": "Cobro con código QR desde la app del banco, sin comisión.",
+   "como_entrar": "Activar CoDi en la app de su banco y generar su QR de cobro.",
+   "url_oficial": "https://www.banxico.org.mx",
+   "estado": "existe",
+   "fecha_verificacion": "2026-10-25"
+  },
+  {
+   "id": "puntos-de-barrio",
+   "nombre": "Puntos de barrio",
+   "que_es": "Propuesta de Pulso Barrial: puntos por comprar en negocios de barrio, inspirada en Onnuri (Corea) y PayPay (Japón).",
+   "como_entrar": "Es una propuesta para un piloto con SEDECO; todavía no existe.",
+   "url_oficial": null,
+   "estado": "propuesta",
+   "fecha_verificacion": "2026-10-25"
+  }
+ ],
+ "pagina": {
+  "url": "/n/puesto-de-dona-lupe",
+  "cartel": "/n/puesto-de-dona-lupe/cartel"
+ }
+}

@@ -1,0 +1,50 @@
+{
+ "altas": [
+  {
+   "ficha": {
+    "nombre": "Puesto de Doña Lupe",
+    "giro": "Frutas y verduras frescas",
+    "clase_scian": "461130",
+    "productos": [
+     {
+      "nombre": "nopales",
+      "precio": 20.0,
+      "unidad": "kg"
+     },
+     {
+      "nombre": "jitomate",
+      "precio": 25.0,
+      "unidad": "kg"
+     }
+    ],
+    "dias": [
+     5,
+     6
+    ],
+    "abre": "07:00",
+    "cierra": "15:00",
+    "formas_pago": [
+     "efectivo",
+     "transferencia"
+    ],
+    "acepta_mercomuna": null,
+    "telefono": null
+   },
+   "lat": 19.3492,
+   "lng": -99.1538,
+   "origen": "demo",
+   "verificado_por": null,
+   "confirmado": true,
+   "consentimiento_publicar": true,
+   "demo_data": true,
+   "id": "alta-puesto-de-dona-lupe",
+   "slug": "puesto-de-dona-lupe",
+   "ts": 1792955792.7143009,
+   "h3": "89499585d6fffff",
+   "tianguis_id": null,
+   "tianguis_nombre": null
+  }
+ ],
+ "desde": 0.0,
+ "ultimo_ts": 1792955792.7143009
+}

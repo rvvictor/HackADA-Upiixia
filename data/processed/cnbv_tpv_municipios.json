@@ -1,0 +1,26 @@
+[
+  {
+    "adultos": 470000,
+    "cvegeo": "09003",
+    "fecha_descarga": null,
+    "fuente_url": null,
+    "monto_tpv": 555000000,
+    "municipio": "Coyoacán",
+    "tipo_dato": "simulado",
+    "tpv_por_adulto": 3.936,
+    "transacciones_tpv": 1850000,
+    "trimestre": "2023-T2"
+  },
+  {
+    "adultos": 1400000,
+    "cvegeo": "09007",
+    "fecha_descarga": null,
+    "fuente_url": null,
+    "monto_tpv": 690000000,
+    "municipio": "Iztapalapa",
+    "tipo_dato": "simulado",
+    "tpv_por_adulto": 1.643,
+    "transacciones_tpv": 2300000,
+    "trimestre": "2023-T2"
+  }
+]

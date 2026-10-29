@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cartel · {{ nombre }}</title>
+  <style>
+    @page { size: letter; margin: 14mm; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1d1d1b; background: #fff; text-align: center; }
+    .hoja { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box; }
+    h1 { font-size: 3rem; line-height: 1.1; margin: 0 0 12px; }
+    .pago { font-size: 2.2rem; font-weight: 700; margin: 8px 0 24px; }
+    .qr { width: min(80vmin, 560px); height: auto; }
+    .llamada { font-size: 2rem; margin: 20px 0 8px; }
+    .url { font-size: 1.3rem; color: #444; word-break: break-all; }
+    .no-imprimir { margin-top: 24px; font-size: 1.1rem; padding: 10px 18px; }
+    @media print { .no-imprimir { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="hoja">
+    <h1>{{ nombre }}</h1>
+    <p class="pago">Aceptamos transferencia / DiMo</p>
+    <img class="qr" src="{{ qr }}" alt="Código QR de la página del negocio">
+    <p class="llamada">Escanea y mira precios, horario y cómo pagar</p>
+    <p class="url">{{ url }}</p>
+    <button class="no-imprimir" onclick="window.print()">Imprimir cartel</button>
+  </div>
+</body>
+</html>

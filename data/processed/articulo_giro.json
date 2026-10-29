@@ -1,0 +1,3221 @@
+[
+ {
+  "articulo": "aceite",
+  "sinonimos": [
+   "aceite de cocina"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "acelga",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "achiote",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "agua",
+  "sinonimos": [
+   "agua embotellada",
+   "garrafon"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "agua de sabor",
+  "sinonimos": [
+   "agua fresca"
+  ],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "aguacate",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "agujetas",
+  "sinonimos": [],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ajo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ajonjoli",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "alaciado",
+  "sinonimos": [],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "alcohol",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "algodon",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "alitas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "apagador",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "arroz",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "arroz a granel",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "arroz con huevo",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "atole",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "atun",
+  "sinonimos": [
+   "lata de atun"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "audifonos",
+  "sinonimos": [],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "avena",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "azucar",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "barba",
+  "sinonimos": [
+   "arreglo de barba"
+  ],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "barbacoa",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "betabel",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "birote",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "bisagras",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "bistec",
+  "sinonimos": [
+   "bisteces"
+  ],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "bocina",
+  "sinonimos": [],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "boleado",
+  "sinonimos": [
+   "bolear zapatos"
+  ],
+  "clases_scian": [
+   "811430"
+  ],
+  "categoria_ui": "Reparación de calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "bolillo",
+  "sinonimos": [
+   "bolillos"
+  ],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "bolsas de basura",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "botas",
+  "sinonimos": [],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "brocha",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "brocoli",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "bufanda",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cable",
+  "sinonimos": [
+   "cable electrico"
+  ],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cable usb",
+  "sinonimos": [],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cacahuates",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cafe",
+  "sinonimos": [
+   "cafe soluble"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "calabaza",
+  "sinonimos": [
+   "calabacita",
+   "calabacitas"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "calcetines",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "calculadora",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "caldo de pollo",
+  "sinonimos": [
+   "caldo"
+  ],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cambio de bateria",
+  "sinonimos": [],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cambio de pantalla",
+  "sinonimos": [],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "camisa",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "candado",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "canela",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cargador",
+  "sinonimos": [
+   "cargador de celular"
+  ],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "carne de cerdo",
+  "sinonimos": [
+   "puerco"
+  ],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "carne de res",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "carne molida",
+  "sinonimos": [
+   "molida"
+  ],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "carne para asar",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cartulina",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cebolla",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cecina",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cemento",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cereal",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cerillos",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cerradura",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chamarra",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "champinones",
+  "sinonimos": [
+   "hongos"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chanclas",
+  "sinonimos": [],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chayote",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chia",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chicles",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chilaquiles",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile ancho",
+  "sinonimos": [
+   "ancho"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile chipotle",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile de arbol",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile guajillo",
+  "sinonimos": [
+   "guajillo"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile jalapeno",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile morita",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile mulato",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile pasilla",
+  "sinonimos": [
+   "pasilla"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile poblano",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chile serrano",
+  "sinonimos": [
+   "serrano"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chiles en lata",
+  "sinonimos": [
+   "chiles jalapenos"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chiles rellenos",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chiles secos",
+  "sinonimos": [
+   "chile seco"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chip",
+  "sinonimos": [
+   "chip telefonico"
+  ],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chispas de chocolate",
+  "sinonimos": [],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chocolate en polvo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chocolates",
+  "sinonimos": [],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chorizo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chorizo de cremeria",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "chuleta",
+  "sinonimos": [
+   "chuletas"
+  ],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cilantro",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cinta adhesiva",
+  "sinonimos": [
+   "diurex"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cinta de aislar",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "clavo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "clavos",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cloro",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "coliflor",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "colores",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "comida corrida",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "comino",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "concha",
+  "sinonimos": [
+   "conchas"
+  ],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "condones",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "consome",
+  "sinonimos": [
+   "consome en polvo"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "consome de barbacoa",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "contacto",
+  "sinonimos": [
+   "enchufe"
+  ],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "copias",
+  "sinonimos": [
+   "fotocopias"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "corte de cabello",
+  "sinonimos": [
+   "corte",
+   "corte de pelo"
+  ],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "costilla",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "crema",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cuaderno",
+  "sinonimos": [
+   "cuadernos",
+   "libreta"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cubeta",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cubrebocas",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "cuernito",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "curitas",
+  "sinonimos": [
+   "banditas"
+  ],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "depilacion",
+  "sinonimos": [],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "desarmador",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "desayuno",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "detergente",
+  "sinonimos": [
+   "jabon en polvo"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "dona",
+  "sinonimos": [
+   "donas"
+  ],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "dulces",
+  "sinonimos": [],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "durazno",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ejotes",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "elote",
+  "sinonimos": [
+   "elotes"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "empanadas",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "enchiladas",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "engrapadora",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "epazote",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "escoba",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "espinaca",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "extension",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "falda",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "fibra",
+  "sinonimos": [
+   "fibra para trastes"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "flautas",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "flor de jamaica",
+  "sinonimos": [
+   "jamaica"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "foco led",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "focos",
+  "sinonimos": [
+   "foco"
+  ],
+  "clases_scian": [
+   "461110",
+   "467111"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "folder",
+  "sinonimos": [
+   "folders"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "forro",
+  "sinonimos": [
+   "forros"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "fresa",
+  "sinonimos": [
+   "fresas"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "frijol",
+  "sinonimos": [
+   "frijoles"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "frijol a granel",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "funda de celular",
+  "sinonimos": [
+   "funda"
+  ],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "galletas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "garbanzo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "gasas",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "gelatina",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "glaseado",
+  "sinonimos": [],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "goma",
+  "sinonimos": [
+   "borrador"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "gorditas",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "gorra",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "gringas",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "guayaba",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "guisado",
+  "sinonimos": [
+   "guisados"
+  ],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "habas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "harina",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "hoja de laurel",
+  "sinonimos": [
+   "laurel"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "hojas blancas",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "huacal",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "huaraches de comida",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "huevo",
+  "sinonimos": [
+   "blanquillos",
+   "huevos"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ibuprofeno",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "impresiones",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jabon",
+  "sinonimos": [
+   "jabon de barra"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jamon",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jarabe",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jerga",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jicama",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jitomate",
+  "sinonimos": [
+   "tomate",
+   "tomate rojo"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "jugo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "lapiz",
+  "sinonimos": [
+   "lapices"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "leche",
+  "sinonimos": [
+   "leche en polvo"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "leche bronca",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "lechuga",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "lentejas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "liberar celular",
+  "sinonimos": [],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "lija",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "limon",
+  "sinonimos": [
+   "limones"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "llave de agua",
+  "sinonimos": [
+   "llave"
+  ],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "longaniza",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "maiz pozolero",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mallas",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mamey",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mango",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "manguera",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mantequilla",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "manzana",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "marcadores",
+  "sinonimos": [
+   "plumones"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "martillo",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "masa",
+  "sinonimos": [
+   "masa de maiz"
+  ],
+  "clases_scian": [
+   "311830"
+  ],
+  "categoria_ui": "Tortillería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mayonesa",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "medicina",
+  "sinonimos": [
+   "medicinas"
+  ],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "melon",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "memoria usb",
+  "sinonimos": [],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "menu del dia",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mica",
+  "sinonimos": [
+   "protector de pantalla"
+  ],
+  "clases_scian": [
+   "466410"
+  ],
+  "categoria_ui": "Celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "milanesa",
+  "sinonimos": [
+   "milanesas"
+  ],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "milanesa de pollo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mochila",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mole",
+  "sinonimos": [
+   "mole en pasta"
+  ],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "mole con pollo",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "naranja",
+  "sinonimos": [
+   "naranjas"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "nopal",
+  "sinonimos": [
+   "nopales"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "obleas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "oregano",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "orejas",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "paletas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pambazos",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pan de caja",
+  "sinonimos": [
+   "pan bimbo"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pan de muerto",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pan dulce",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "panales",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pancita",
+  "sinonimos": [
+   "menudo"
+  ],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pantalon",
+  "sinonimos": [
+   "pantalones"
+  ],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pantuflas",
+  "sinonimos": [],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "papa",
+  "sinonimos": [
+   "papas"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "papaya",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "papel china",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "papel crepe",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "papel higienico",
+  "sinonimos": [
+   "papel de bano"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "papitas",
+  "sinonimos": [
+   "papas fritas",
+   "sabritas"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "paracetamol",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pasta",
+  "sinonimos": [
+   "fideo",
+   "sopa de coditos",
+   "sopa de pasta"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pasta de dientes",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pastel",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pastillas para la tos",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pechuga",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pedicure",
+  "sinonimos": [],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pegamento",
+  "sinonimos": [
+   "resistol"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pegamento para tubo",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "peinado",
+  "sinonimos": [],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pepino",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pepitas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pera",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "perejil",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "permanente",
+  "sinonimos": [],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pierna",
+  "sinonimos": [],
+  "clases_scian": [
+   "461121"
+  ],
+  "categoria_ui": "Carnicería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pierna y muslo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pijama",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pilas",
+  "sinonimos": [
+   "baterias"
+  ],
+  "clases_scian": [
+   "461110",
+   "467111"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pimienta",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pina",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pinata",
+  "sinonimos": [
+   "pinatas"
+  ],
+  "clases_scian": [
+   "461160"
+  ],
+  "categoria_ui": "Dulcería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pintura",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pinzas",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "plastilina",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "platano",
+  "sinonimos": [
+   "platanos"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "platos desechables",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "playera",
+  "sinonimos": [
+   "playeras"
+  ],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pluma",
+  "sinonimos": [
+   "boligrafo",
+   "plumas"
+  ],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pollo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pollo entero",
+  "sinonimos": [],
+  "clases_scian": [
+   "461122"
+  ],
+  "categoria_ui": "Pollería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "polvorones",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pomada",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pozole",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "pure de tomate",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "quesadillas",
+  "sinonimos": [
+   "quesadilla"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "queso",
+  "sinonimos": [
+   "queso fresco"
+  ],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "queso manchego",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "queso oaxaca",
+  "sinonimos": [
+   "quesillo"
+  ],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "queso panela",
+  "sinonimos": [
+   "panela"
+  ],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "rabano",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "rastrillo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "rayos",
+  "sinonimos": [
+   "luces"
+  ],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "recarga",
+  "sinonimos": [
+   "recarga de celular",
+   "tiempo aire"
+  ],
+  "clases_scian": [
+   "461110",
+   "466410"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "refresco",
+  "sinonimos": [
+   "chesco"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "regla",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "reparacion de celular",
+  "sinonimos": [
+   "arreglo de celular"
+  ],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "reparacion de computadora",
+  "sinonimos": [],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "reparacion de tablet",
+  "sinonimos": [],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "reparacion de television",
+  "sinonimos": [],
+  "clases_scian": [
+   "811211"
+  ],
+  "categoria_ui": "Reparación de celulares",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "reparacion de zapatos",
+  "sinonimos": [
+   "arreglo de zapatos"
+  ],
+  "clases_scian": [
+   "811430"
+  ],
+  "categoria_ui": "Reparación de calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "requeson",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ropa de bebe",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ropa interior",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "ropa para nino",
+  "sinonimos": [
+   "ropa de nino"
+  ],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "rosca",
+  "sinonimos": [],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sacapuntas",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sal",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "salchicha",
+  "sinonimos": [
+   "salchichas"
+  ],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "salsa",
+  "sinonimos": [
+   "salsa valentina"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sandalias",
+  "sinonimos": [
+   "huaraches"
+  ],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sandia",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sardina",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "servilletas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "shampoo",
+  "sinonimos": [
+   "champu"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "short",
+  "sinonimos": [
+   "shorts"
+  ],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "silicon",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sopa de fideo",
+  "sinonimos": [],
+  "clases_scian": [
+   "722519"
+  ],
+  "categoria_ui": "Fonda",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sopa instantanea",
+  "sinonimos": [
+   "maruchan"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sopes",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "suavizante",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sudadera",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "suelas",
+  "sinonimos": [],
+  "clases_scian": [
+   "811430"
+  ],
+  "categoria_ui": "Reparación de calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "suero",
+  "sinonimos": [
+   "suero oral"
+  ],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "sueter",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tacos",
+  "sinonimos": [
+   "taco"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tacos al pastor",
+  "sinonimos": [
+   "pastor"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tacos de canasta",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tacos de carnitas",
+  "sinonimos": [
+   "carnitas"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tacos de guisado",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tacos de suadero",
+  "sinonimos": [
+   "suadero"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tamales",
+  "sinonimos": [
+   "tamal"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tamarindo",
+  "sinonimos": [],
+  "clases_scian": [
+   "461140"
+  ],
+  "categoria_ui": "Chiles y semillas",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tapas para zapato",
+  "sinonimos": [
+   "tapas"
+  ],
+  "clases_scian": [
+   "811430"
+  ],
+  "categoria_ui": "Reparación de calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "telera",
+  "sinonimos": [
+   "teleras"
+  ],
+  "clases_scian": [
+   "311812"
+  ],
+  "categoria_ui": "Panadería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tenis",
+  "sinonimos": [
+   "tenis para nina",
+   "tenis para nino"
+  ],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "termometro",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tijeras",
+  "sinonimos": [],
+  "clases_scian": [
+   "465311"
+  ],
+  "categoria_ui": "Papelería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tinte",
+  "sinonimos": [
+   "pintar el cabello"
+  ],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tlacoyos",
+  "sinonimos": [],
+  "clases_scian": [
+   "311830"
+  ],
+  "categoria_ui": "Tortillería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tlayudas",
+  "sinonimos": [],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "toallas femeninas",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tocino",
+  "sinonimos": [],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tomate verde",
+  "sinonimos": [
+   "tomatillo"
+  ],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tornillos",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tortas",
+  "sinonimos": [
+   "torta"
+  ],
+  "clases_scian": [
+   "722514"
+  ],
+  "categoria_ui": "Taquería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tortillas",
+  "sinonimos": [
+   "tortilla"
+  ],
+  "clases_scian": [
+   "311830"
+  ],
+  "categoria_ui": "Tortillería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tostadas",
+  "sinonimos": [],
+  "clases_scian": [
+   "311830"
+  ],
+  "categoria_ui": "Tortillería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "totopos",
+  "sinonimos": [],
+  "clases_scian": [
+   "311830"
+  ],
+  "categoria_ui": "Tortillería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "trapeador",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tubo pvc",
+  "sinonimos": [],
+  "clases_scian": [
+   "467111"
+  ],
+  "categoria_ui": "Ferretería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "tuna",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "unas",
+  "sinonimos": [
+   "manicure"
+  ],
+  "clases_scian": [
+   "812110"
+  ],
+  "categoria_ui": "Estética",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "uniforme escolar",
+  "sinonimos": [
+   "uniforme"
+  ],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "uva",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "vasos desechables",
+  "sinonimos": [],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "veladoras",
+  "sinonimos": [
+   "veladora"
+  ],
+  "clases_scian": [
+   "461110"
+  ],
+  "categoria_ui": "Abarrotes",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "vestido",
+  "sinonimos": [],
+  "clases_scian": [
+   "463211"
+  ],
+  "categoria_ui": "Ropa",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "vitaminas",
+  "sinonimos": [],
+  "clases_scian": [
+   "464111"
+  ],
+  "categoria_ui": "Farmacia",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "yogur",
+  "sinonimos": [
+   "yogurt"
+  ],
+  "clases_scian": [
+   "461150"
+  ],
+  "categoria_ui": "Cremería",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "zanahoria",
+  "sinonimos": [],
+  "clases_scian": [
+   "461130"
+  ],
+  "categoria_ui": "Frutas y verduras",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "zapatos",
+  "sinonimos": [
+   "zapato"
+  ],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "zapatos de vestir",
+  "sinonimos": [],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ },
+ {
+  "articulo": "zapatos escolares",
+  "sinonimos": [],
+  "clases_scian": [
+   "463310"
+  ],
+  "categoria_ui": "Calzado",
+  "fuente": "construido a mano por el equipo (sin LLM)"
+ }
+]

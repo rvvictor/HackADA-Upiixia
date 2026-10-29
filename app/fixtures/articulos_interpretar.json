@@ -1,0 +1,56 @@
+{
+ "items": [
+  {
+   "texto": "2 kilos de jitomate",
+   "articulo": "jitomate",
+   "cantidad": 2.0,
+   "unidad": "kilos",
+   "clases": [
+    "461130"
+   ],
+   "fuente": "diccionario"
+  },
+  {
+   "texto": "tortillas",
+   "articulo": "tortillas",
+   "cantidad": null,
+   "unidad": null,
+   "clases": [
+    "311830"
+   ],
+   "fuente": "diccionario"
+  },
+  {
+   "texto": "chiles secos",
+   "articulo": "chiles secos",
+   "cantidad": null,
+   "unidad": null,
+   "clases": [
+    "461140"
+   ],
+   "fuente": "diccionario"
+  },
+  {
+   "texto": "tenis para niño",
+   "articulo": "tenis para nino",
+   "cantidad": null,
+   "unidad": null,
+   "clases": [
+    "463310"
+   ],
+   "fuente": "sinonimo"
+  },
+  {
+   "texto": "pilas",
+   "articulo": "pilas",
+   "cantidad": null,
+   "unidad": null,
+   "clases": [
+    "461110",
+    "467111"
+   ],
+   "fuente": "diccionario"
+  }
+ ],
+ "sin_resultado": []
+}

@@ -1,0 +1,15 @@
+{
+ "altas_hoy": 1,
+ "rutas_por_hexagono": {},
+ "dia": 6,
+ "hora": "10:00",
+ "abiertos": 40,
+ "poblacion_cubierta_pct": 33.5,
+ "desiertos": 526,
+ "tipo_campos": {
+  "altas_hoy": "real",
+  "rutas_por_hexagono": "real",
+  "poblacion_cubierta_pct": "estimado",
+  "desiertos": "estimado"
+ }
+}

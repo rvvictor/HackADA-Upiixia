@@ -1,0 +1,249 @@
+{
+ "generado": "2026-10-25T13:16:32-06:00",
+ "alcaldias": [
+  "09003",
+  "09007"
+ ],
+ "serie_trimestral": [
+  {
+   "alcaldia_cvegeo": "09003",
+   "alcaldia": "Coyoacán",
+   "indicador": "Cuentas de captación por cada 10 mil adultos",
+   "puntos": [
+    {
+     "periodo": "2023-T1",
+     "valor": 299
+    },
+    {
+     "periodo": "2023-T2",
+     "valor": 304
+    },
+    {
+     "periodo": "2023-T3",
+     "valor": 323
+    },
+    {
+     "periodo": "2023-T4",
+     "valor": 342
+    },
+    {
+     "periodo": "2024-T1",
+     "valor": 350
+    },
+    {
+     "periodo": "2024-T2",
+     "valor": 355
+    },
+    {
+     "periodo": "2024-T3",
+     "valor": 373
+    },
+    {
+     "periodo": "2024-T4",
+     "valor": 396
+    },
+    {
+     "periodo": "2025-T1",
+     "valor": 412
+    },
+    {
+     "periodo": "2025-T2",
+     "valor": 437
+    },
+    {
+     "periodo": "2025-T3",
+     "valor": 454
+    },
+    {
+     "periodo": "2025-T4",
+     "valor": 478
+    }
+   ],
+   "tipo_dato": "simulado",
+   "fuente": "Simulación con forma de la base de inclusión financiera CNBV (no son datos reales)"
+  },
+  {
+   "alcaldia_cvegeo": "09007",
+   "alcaldia": "Iztapalapa",
+   "indicador": "Cuentas de captación por cada 10 mil adultos",
+   "puntos": [
+    {
+     "periodo": "2023-T1",
+     "valor": 362
+    },
+    {
+     "periodo": "2023-T2",
+     "valor": 371
+    },
+    {
+     "periodo": "2023-T3",
+     "valor": 383
+    },
+    {
+     "periodo": "2023-T4",
+     "valor": 397
+    },
+    {
+     "periodo": "2024-T1",
+     "valor": 387
+    },
+    {
+     "periodo": "2024-T2",
+     "valor": 385
+    },
+    {
+     "periodo": "2024-T3",
+     "valor": 398
+    },
+    {
+     "periodo": "2024-T4",
+     "valor": 422
+    },
+    {
+     "periodo": "2025-T1",
+     "valor": 435
+    },
+    {
+     "periodo": "2025-T2",
+     "valor": 453
+    },
+    {
+     "periodo": "2025-T3",
+     "valor": 464
+    },
+    {
+     "periodo": "2025-T4",
+     "valor": 495
+    }
+   ],
+   "tipo_dato": "simulado",
+   "fuente": "Simulación con forma de la base de inclusión financiera CNBV (no son datos reales)"
+  }
+ ],
+ "altas_negocios_por_anio": [
+  {
+   "alcaldia_cvegeo": "09003",
+   "alcaldia": "Coyoacán",
+   "indicador": "Altas de negocios por año",
+   "puntos": [
+    {
+     "periodo": "2019",
+     "valor": 1764
+    },
+    {
+     "periodo": "2020",
+     "valor": 1898
+    },
+    {
+     "periodo": "2021",
+     "valor": 1786
+    },
+    {
+     "periodo": "2022",
+     "valor": 1911
+    },
+    {
+     "periodo": "2023",
+     "valor": 1595
+    },
+    {
+     "periodo": "2024",
+     "valor": 1665
+    },
+    {
+     "periodo": "2025",
+     "valor": 2008
+    }
+   ],
+   "tipo_dato": "simulado",
+   "fuente": "Simulación con forma de DENUE INEGI, campo Fecha_Alta (no son datos reales)"
+  },
+  {
+   "alcaldia_cvegeo": "09007",
+   "alcaldia": "Iztapalapa",
+   "indicador": "Altas de negocios por año",
+   "puntos": [
+    {
+     "periodo": "2019",
+     "valor": 1030
+    },
+    {
+     "periodo": "2020",
+     "valor": 1121
+    },
+    {
+     "periodo": "2021",
+     "valor": 1104
+    },
+    {
+     "periodo": "2022",
+     "valor": 925
+    },
+    {
+     "periodo": "2023",
+     "valor": 1058
+    },
+    {
+     "periodo": "2024",
+     "valor": 858
+    },
+    {
+     "periodo": "2025",
+     "valor": 935
+    }
+   ],
+   "tipo_dato": "simulado",
+   "fuente": "Simulación con forma de DENUE INEGI, campo Fecha_Alta (no son datos reales)"
+  }
+ ],
+ "altas_plataforma": {
+  "fecha": "2026-10-25",
+  "hoy": 0,
+  "total": 0,
+  "tipo_dato": "real",
+  "fuente": "Plataforma Pulso Barrial · data/live/altas.jsonl",
+  "archivo_disponible": true
+ },
+ "rutas_por_hexagono": {
+  "hexagonos": [
+   {
+    "h3": "89499585d6fffff",
+    "rutas": 2
+   },
+   {
+    "h3": "894995859d3ffff",
+    "rutas": 1
+   },
+   {
+    "h3": "89499585d7bffff",
+    "rutas": 1
+   },
+   {
+    "h3": "89499585d63ffff",
+    "rutas": 1
+   }
+  ],
+  "total": 5,
+  "tipo_dato": "real",
+  "fuente": "Plataforma Pulso Barrial · data/live/eventos.jsonl (eventos aparicion_ruta)",
+  "archivo_disponible": true
+ },
+ "escala": {
+  "alcaldias_activas": [
+   "Coyoacán",
+   "Iztapalapa"
+  ],
+  "alcaldias_totales": 16,
+  "parametro": "ALCALDIAS",
+  "costo": "Casi cero: bot de Telegram gratuito, datos abiertos de la CDMX e INEGI, código abierto.",
+  "piezas": [
+   "Telegram como canal de alta: sin app que instalar.",
+   "Datos abiertos (DENUE, tianguis y mercados SEDECO) como base.",
+   "Código abierto: cualquier alcaldía puede correrlo.",
+   "Cambiar la variable ALCALDIAS agrega una alcaldía sin tocar código."
+  ],
+  "tipo_dato": "estimado",
+  "fuente": "Diseño de Pulso Barrial (estimación del equipo)"
+ },
+ "demo_data": true
+}

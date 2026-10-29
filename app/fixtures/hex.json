@@ -1,0 +1,2449 @@
+{
+ "type": "FeatureCollection",
+ "meta": {
+  "origen": "fixture",
+  "nota": "40 hexágonos alrededor de la sede; datos simulados"
+ },
+ "features": [
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.152937,
+       19.345292
+      ],
+      [
+       -99.151697,
+       19.346865
+      ],
+      [
+       -99.152497,
+       19.348651
+      ],
+      [
+       -99.154537,
+       19.348866
+      ],
+      [
+       -99.155777,
+       19.347294
+      ],
+      [
+       -99.154977,
+       19.345507
+      ],
+      [
+       -99.152937,
+       19.345292
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": null,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "89499585d63ffff",
+    "impulso": 0.1037,
+    "monto_est": null,
+    "negocios_barriales": 2,
+    "negocios_total": 2,
+    "oculto": true,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 656,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.152497,
+       19.348651
+      ],
+      [
+       -99.151257,
+       19.350223
+      ],
+      [
+       -99.152057,
+       19.35201
+      ],
+      [
+       -99.154097,
+       19.352225
+      ],
+      [
+       -99.155337,
+       19.350653
+      ],
+      [
+       -99.154537,
+       19.348866
+      ],
+      [
+       -99.152497,
+       19.348651
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1969.3,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d6fffff",
+    "impulso": 0.2865,
+    "monto_est": null,
+    "negocios_barriales": 13,
+    "negocios_total": 15,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1404,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.149658,
+       19.34665
+      ],
+      [
+       -99.148418,
+       19.348222
+      ],
+      [
+       -99.149218,
+       19.350009
+      ],
+      [
+       -99.151257,
+       19.350223
+      ],
+      [
+       -99.152497,
+       19.348651
+      ],
+      [
+       -99.151697,
+       19.346865
+      ],
+      [
+       -99.149658,
+       19.34665
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 5225.6,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d6bffff",
+    "impulso": 0.0763,
+    "monto_est": null,
+    "negocios_barriales": 41,
+    "negocios_total": 44,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1979,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.155777,
+       19.347294
+      ],
+      [
+       -99.154537,
+       19.348866
+      ],
+      [
+       -99.155337,
+       19.350653
+      ],
+      [
+       -99.157377,
+       19.350868
+      ],
+      [
+       -99.158617,
+       19.349296
+      ],
+      [
+       -99.157817,
+       19.347509
+      ],
+      [
+       -99.155777,
+       19.347294
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 4171.6,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d67ffff",
+    "impulso": 0.0405,
+    "monto_est": null,
+    "negocios_barriales": 15,
+    "negocios_total": 16,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 884,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.150098,
+       19.343291
+      ],
+      [
+       -99.148858,
+       19.344863
+      ],
+      [
+       -99.149658,
+       19.34665
+      ],
+      [
+       -99.151697,
+       19.346865
+      ],
+      [
+       -99.152937,
+       19.345292
+      ],
+      [
+       -99.152138,
+       19.343506
+      ],
+      [
+       -99.150098,
+       19.343291
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 6518.3,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d7bffff",
+    "impulso": 0.0248,
+    "monto_est": null,
+    "negocios_barriales": 28,
+    "negocios_total": 30,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1328,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.149218,
+       19.350009
+      ],
+      [
+       -99.147978,
+       19.351581
+      ],
+      [
+       -99.148777,
+       19.353367
+      ],
+      [
+       -99.150817,
+       19.353582
+      ],
+      [
+       -99.152057,
+       19.35201
+      ],
+      [
+       -99.151257,
+       19.350223
+      ],
+      [
+       -99.149218,
+       19.350009
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 4489.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "894995859d3ffff",
+    "impulso": 0.0997,
+    "monto_est": null,
+    "negocios_barriales": 28,
+    "negocios_total": 32,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1792,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.156217,
+       19.343935
+      ],
+      [
+       -99.154977,
+       19.345507
+      ],
+      [
+       -99.155777,
+       19.347294
+      ],
+      [
+       -99.157817,
+       19.347509
+      ],
+      [
+       -99.159057,
+       19.345937
+      ],
+      [
+       -99.158257,
+       19.34415
+      ],
+      [
+       -99.156217,
+       19.343935
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1876.8,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "89499585d77ffff",
+    "impulso": 0.0244,
+    "monto_est": null,
+    "negocios_barriales": 6,
+    "negocios_total": 8,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 483,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.155337,
+       19.350653
+      ],
+      [
+       -99.154097,
+       19.352225
+      ],
+      [
+       -99.154897,
+       19.354012
+      ],
+      [
+       -99.156937,
+       19.354227
+      ],
+      [
+       -99.158177,
+       19.352655
+      ],
+      [
+       -99.157377,
+       19.350868
+      ],
+      [
+       -99.155337,
+       19.350653
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": null,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "8949958599bffff",
+    "impulso": 0.0781,
+    "monto_est": null,
+    "negocios_barriales": 2,
+    "negocios_total": 2,
+    "oculto": true,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 591,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.153377,
+       19.341934
+      ],
+      [
+       -99.152138,
+       19.343506
+      ],
+      [
+       -99.152937,
+       19.345292
+      ],
+      [
+       -99.154977,
+       19.345507
+      ],
+      [
+       -99.156217,
+       19.343935
+      ],
+      [
+       -99.155417,
+       19.342148
+      ],
+      [
+       -99.153377,
+       19.341934
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 6430.8,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d73ffff",
+    "impulso": 0.0279,
+    "monto_est": null,
+    "negocios_barriales": 27,
+    "negocios_total": 30,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1327,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.152057,
+       19.35201
+      ],
+      [
+       -99.150817,
+       19.353582
+      ],
+      [
+       -99.151617,
+       19.355369
+      ],
+      [
+       -99.153657,
+       19.355584
+      ],
+      [
+       -99.154897,
+       19.354012
+      ],
+      [
+       -99.154097,
+       19.352225
+      ],
+      [
+       -99.152057,
+       19.35201
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 2285.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "894995859d7ffff",
+    "impulso": 0.0314,
+    "monto_est": null,
+    "negocios_barriales": 8,
+    "negocios_total": 9,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 558,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.146818,
+       19.344648
+      ],
+      [
+       -99.145578,
+       19.34622
+      ],
+      [
+       -99.146378,
+       19.348007
+      ],
+      [
+       -99.148418,
+       19.348222
+      ],
+      [
+       -99.149658,
+       19.34665
+      ],
+      [
+       -99.148858,
+       19.344863
+      ],
+      [
+       -99.146818,
+       19.344648
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1864.6,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "894995858b7ffff",
+    "impulso": 0.0341,
+    "monto_est": null,
+    "negocios_barriales": 10,
+    "negocios_total": 12,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 537,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.146378,
+       19.348007
+      ],
+      [
+       -99.145138,
+       19.349579
+      ],
+      [
+       -99.145938,
+       19.351366
+      ],
+      [
+       -99.147978,
+       19.351581
+      ],
+      [
+       -99.149218,
+       19.350009
+      ],
+      [
+       -99.148418,
+       19.348222
+      ],
+      [
+       -99.146378,
+       19.348007
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 2770.9,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "894995858a7ffff",
+    "impulso": 0.0829,
+    "monto_est": null,
+    "negocios_barriales": 10,
+    "negocios_total": 11,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 896,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.158617,
+       19.349296
+      ],
+      [
+       -99.157377,
+       19.350868
+      ],
+      [
+       -99.158177,
+       19.352655
+      ],
+      [
+       -99.160217,
+       19.35287
+      ],
+      [
+       -99.161456,
+       19.351298
+      ],
+      [
+       -99.160656,
+       19.349511
+      ],
+      [
+       -99.158617,
+       19.349296
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 4560.9,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585993ffff",
+    "impulso": 0.0886,
+    "monto_est": null,
+    "negocios_barriales": 21,
+    "negocios_total": 23,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1657,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.159057,
+       19.345937
+      ],
+      [
+       -99.157817,
+       19.347509
+      ],
+      [
+       -99.158617,
+       19.349296
+      ],
+      [
+       -99.160656,
+       19.349511
+      ],
+      [
+       -99.161896,
+       19.347939
+      ],
+      [
+       -99.161096,
+       19.346152
+      ],
+      [
+       -99.159057,
+       19.345937
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1067.2,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "89499585d2bffff",
+    "impulso": 0.0345,
+    "monto_est": null,
+    "negocios_barriales": 6,
+    "negocios_total": 6,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 482,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.150538,
+       19.339932
+      ],
+      [
+       -99.149298,
+       19.341504
+      ],
+      [
+       -99.150098,
+       19.343291
+      ],
+      [
+       -99.152138,
+       19.343506
+      ],
+      [
+       -99.153377,
+       19.341934
+      ],
+      [
+       -99.152578,
+       19.340147
+      ],
+      [
+       -99.150538,
+       19.339932
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 7273.5,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d47ffff",
+    "impulso": 0.0295,
+    "monto_est": null,
+    "negocios_barriales": 39,
+    "negocios_total": 48,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 2220,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.148777,
+       19.353367
+      ],
+      [
+       -99.147537,
+       19.354939
+      ],
+      [
+       -99.148337,
+       19.356726
+      ],
+      [
+       -99.150377,
+       19.356941
+      ],
+      [
+       -99.151617,
+       19.355369
+      ],
+      [
+       -99.150817,
+       19.353582
+      ],
+      [
+       -99.148777,
+       19.353367
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 825.5,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "894995859c3ffff",
+    "impulso": 0.0282,
+    "monto_est": null,
+    "negocios_barriales": 4,
+    "negocios_total": 5,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 458,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.147259,
+       19.341289
+      ],
+      [
+       -99.146019,
+       19.342861
+      ],
+      [
+       -99.146818,
+       19.344648
+      ],
+      [
+       -99.148858,
+       19.344863
+      ],
+      [
+       -99.150098,
+       19.343291
+      ],
+      [
+       -99.149298,
+       19.341504
+      ],
+      [
+       -99.147259,
+       19.341289
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 2328.3,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d4fffff",
+    "impulso": 0.1182,
+    "monto_est": null,
+    "negocios_barriales": 11,
+    "negocios_total": 13,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 947,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.156657,
+       19.340576
+      ],
+      [
+       -99.155417,
+       19.342148
+      ],
+      [
+       -99.156217,
+       19.343935
+      ],
+      [
+       -99.158257,
+       19.34415
+      ],
+      [
+       -99.159496,
+       19.342578
+      ],
+      [
+       -99.158697,
+       19.340791
+      ],
+      [
+       -99.156657,
+       19.340576
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1814.9,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d0fffff",
+    "impulso": 0.1334,
+    "monto_est": null,
+    "negocios_barriales": 11,
+    "negocios_total": 14,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 870,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.154897,
+       19.354012
+      ],
+      [
+       -99.153657,
+       19.355584
+      ],
+      [
+       -99.154457,
+       19.357371
+      ],
+      [
+       -99.156497,
+       19.357586
+      ],
+      [
+       -99.157737,
+       19.356014
+      ],
+      [
+       -99.156937,
+       19.354227
+      ],
+      [
+       -99.154897,
+       19.354012
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 2566.2,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "8949958598bffff",
+    "impulso": 0.0703,
+    "monto_est": null,
+    "negocios_barriales": 9,
+    "negocios_total": 11,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 798,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.145938,
+       19.351366
+      ],
+      [
+       -99.144698,
+       19.352938
+      ],
+      [
+       -99.145498,
+       19.354725
+      ],
+      [
+       -99.147537,
+       19.354939
+      ],
+      [
+       -99.148777,
+       19.353367
+      ],
+      [
+       -99.147978,
+       19.351581
+      ],
+      [
+       -99.145938,
+       19.351366
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 900.2,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "894995859dbffff",
+    "impulso": 0.085,
+    "monto_est": null,
+    "negocios_barriales": 6,
+    "negocios_total": 7,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 630,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.158177,
+       19.352655
+      ],
+      [
+       -99.156937,
+       19.354227
+      ],
+      [
+       -99.157737,
+       19.356014
+      ],
+      [
+       -99.159777,
+       19.356229
+      ],
+      [
+       -99.161017,
+       19.354657
+      ],
+      [
+       -99.160217,
+       19.35287
+      ],
+      [
+       -99.158177,
+       19.352655
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 2819.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585983ffff",
+    "impulso": 0.1267,
+    "monto_est": null,
+    "negocios_barriales": 17,
+    "negocios_total": 20,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1107,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.153817,
+       19.338575
+      ],
+      [
+       -99.152578,
+       19.340147
+      ],
+      [
+       -99.153377,
+       19.341934
+      ],
+      [
+       -99.155417,
+       19.342148
+      ],
+      [
+       -99.156657,
+       19.340576
+      ],
+      [
+       -99.155857,
+       19.33879
+      ],
+      [
+       -99.153817,
+       19.338575
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 8678.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d0bffff",
+    "impulso": 0.0128,
+    "monto_est": null,
+    "negocios_barriales": 39,
+    "negocios_total": 43,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1917,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.159496,
+       19.342578
+      ],
+      [
+       -99.158257,
+       19.34415
+      ],
+      [
+       -99.159057,
+       19.345937
+      ],
+      [
+       -99.161096,
+       19.346152
+      ],
+      [
+       -99.162336,
+       19.34458
+      ],
+      [
+       -99.161536,
+       19.342793
+      ],
+      [
+       -99.159496,
+       19.342578
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1798.7,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d3bffff",
+    "impulso": 0.1245,
+    "monto_est": null,
+    "negocios_barriales": 10,
+    "negocios_total": 12,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 843,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.151617,
+       19.355369
+      ],
+      [
+       -99.150377,
+       19.356941
+      ],
+      [
+       -99.151177,
+       19.358728
+      ],
+      [
+       -99.153217,
+       19.358943
+      ],
+      [
+       -99.154457,
+       19.357371
+      ],
+      [
+       -99.153657,
+       19.355584
+      ],
+      [
+       -99.151617,
+       19.355369
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 646.6,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "894995859c7ffff",
+    "impulso": 0.0018,
+    "monto_est": null,
+    "negocios_barriales": 3,
+    "negocios_total": 3,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 282,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.143539,
+       19.346005
+      ],
+      [
+       -99.142299,
+       19.347577
+      ],
+      [
+       -99.143099,
+       19.349364
+      ],
+      [
+       -99.145138,
+       19.349579
+      ],
+      [
+       -99.146378,
+       19.348007
+      ],
+      [
+       -99.145578,
+       19.34622
+      ],
+      [
+       -99.143539,
+       19.346005
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1019.1,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "894995858a3ffff",
+    "impulso": 0.0341,
+    "monto_est": null,
+    "negocios_barriales": 6,
+    "negocios_total": 7,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 481,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.143979,
+       19.342646
+      ],
+      [
+       -99.142739,
+       19.344218
+      ],
+      [
+       -99.143539,
+       19.346005
+      ],
+      [
+       -99.145578,
+       19.34622
+      ],
+      [
+       -99.146818,
+       19.344648
+      ],
+      [
+       -99.146019,
+       19.342861
+      ],
+      [
+       -99.143979,
+       19.342646
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 3089.1,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "894995858b3ffff",
+    "impulso": 0.0602,
+    "monto_est": null,
+    "negocios_barriales": 13,
+    "negocios_total": 14,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 829,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.143099,
+       19.349364
+      ],
+      [
+       -99.141859,
+       19.350936
+      ],
+      [
+       -99.142658,
+       19.352723
+      ],
+      [
+       -99.144698,
+       19.352938
+      ],
+      [
+       -99.145938,
+       19.351366
+      ],
+      [
+       -99.145138,
+       19.349579
+      ],
+      [
+       -99.143099,
+       19.349364
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1166.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "894995858afffff",
+    "impulso": 0.043,
+    "monto_est": null,
+    "negocios_barriales": 6,
+    "negocios_total": 6,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 517,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.161896,
+       19.347939
+      ],
+      [
+       -99.160656,
+       19.349511
+      ],
+      [
+       -99.161456,
+       19.351298
+      ],
+      [
+       -99.163496,
+       19.351512
+      ],
+      [
+       -99.164736,
+       19.34994
+      ],
+      [
+       -99.163936,
+       19.348153
+      ],
+      [
+       -99.161896,
+       19.347939
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 4481.3,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d2fffff",
+    "impulso": 0.0862,
+    "monto_est": null,
+    "negocios_barriales": 26,
+    "negocios_total": 29,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1537,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.147699,
+       19.33793
+      ],
+      [
+       -99.146459,
+       19.339502
+      ],
+      [
+       -99.147259,
+       19.341289
+      ],
+      [
+       -99.149298,
+       19.341504
+      ],
+      [
+       -99.150538,
+       19.339932
+      ],
+      [
+       -99.149738,
+       19.338145
+      ],
+      [
+       -99.147699,
+       19.33793
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1586.8,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d43ffff",
+    "impulso": 0.2731,
+    "monto_est": null,
+    "negocios_barriales": 12,
+    "negocios_total": 13,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1174,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.161456,
+       19.351298
+      ],
+      [
+       -99.160217,
+       19.35287
+      ],
+      [
+       -99.161017,
+       19.354657
+      ],
+      [
+       -99.163056,
+       19.354871
+      ],
+      [
+       -99.164296,
+       19.353299
+      ],
+      [
+       -99.163496,
+       19.351512
+      ],
+      [
+       -99.161456,
+       19.351298
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 3182.4,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585997ffff",
+    "impulso": 0.0648,
+    "monto_est": null,
+    "negocios_barriales": 11,
+    "negocios_total": 13,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 874,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.150978,
+       19.336573
+      ],
+      [
+       -99.149738,
+       19.338145
+      ],
+      [
+       -99.150538,
+       19.339932
+      ],
+      [
+       -99.152578,
+       19.340147
+      ],
+      [
+       -99.153817,
+       19.338575
+      ],
+      [
+       -99.153018,
+       19.336788
+      ],
+      [
+       -99.150978,
+       19.336573
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 2021.9,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d57ffff",
+    "impulso": 0.1151,
+    "monto_est": null,
+    "negocios_barriales": 10,
+    "negocios_total": 11,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 862,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.145498,
+       19.354725
+      ],
+      [
+       -99.144258,
+       19.356296
+      ],
+      [
+       -99.145057,
+       19.358083
+      ],
+      [
+       -99.147097,
+       19.358298
+      ],
+      [
+       -99.148337,
+       19.356726
+      ],
+      [
+       -99.147537,
+       19.354939
+      ],
+      [
+       -99.145498,
+       19.354725
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1403.3,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": null,
+    "h3": "894995859cbffff",
+    "impulso": 0.0093,
+    "monto_est": null,
+    "negocios_barriales": 6,
+    "negocios_total": 6,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 394,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.162336,
+       19.34458
+      ],
+      [
+       -99.161096,
+       19.346152
+      ],
+      [
+       -99.161896,
+       19.347939
+      ],
+      [
+       -99.163936,
+       19.348153
+      ],
+      [
+       -99.165176,
+       19.346581
+      ],
+      [
+       -99.164376,
+       19.344794
+      ],
+      [
+       -99.162336,
+       19.34458
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 4047.6,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d23ffff",
+    "impulso": 0.0908,
+    "monto_est": null,
+    "negocios_barriales": 16,
+    "negocios_total": 20,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1325,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.157737,
+       19.356014
+      ],
+      [
+       -99.156497,
+       19.357586
+      ],
+      [
+       -99.157297,
+       19.359373
+      ],
+      [
+       -99.159337,
+       19.359588
+      ],
+      [
+       -99.160577,
+       19.358016
+      ],
+      [
+       -99.159777,
+       19.356229
+      ],
+      [
+       -99.157737,
+       19.356014
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 3979.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "8949958598fffff",
+    "impulso": 0.1027,
+    "monto_est": null,
+    "negocios_barriales": 27,
+    "negocios_total": 30,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1411,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.157097,
+       19.337217
+      ],
+      [
+       -99.155857,
+       19.33879
+      ],
+      [
+       -99.156657,
+       19.340576
+      ],
+      [
+       -99.158697,
+       19.340791
+      ],
+      [
+       -99.159936,
+       19.339219
+      ],
+      [
+       -99.159136,
+       19.337432
+      ],
+      [
+       -99.157097,
+       19.337217
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1849.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d03ffff",
+    "impulso": 0.1575,
+    "monto_est": null,
+    "negocios_barriales": 13,
+    "negocios_total": 16,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 960,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.144419,
+       19.339287
+      ],
+      [
+       -99.14318,
+       19.340859
+      ],
+      [
+       -99.143979,
+       19.342646
+      ],
+      [
+       -99.146019,
+       19.342861
+      ],
+      [
+       -99.147259,
+       19.341289
+      ],
+      [
+       -99.146459,
+       19.339502
+      ],
+      [
+       -99.144419,
+       19.339287
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": 1823.0,
+    "alcaldia_cvegeo": "09003",
+    "cluster_id": 1,
+    "h3": "89499585d4bffff",
+    "impulso": 0.0599,
+    "monto_est": null,
+    "negocios_barriales": 8,
+    "negocios_total": 9,
+    "oculto": false,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 633,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.040344,
+       19.258509
+      ],
+      [
+       -99.039104,
+       19.260079
+      ],
+      [
+       -99.039902,
+       19.261865
+      ],
+      [
+       -99.041939,
+       19.262081
+      ],
+      [
+       -99.043178,
+       19.26051
+      ],
+      [
+       -99.042381,
+       19.258724
+      ],
+      [
+       -99.040344,
+       19.258509
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": null,
+    "alcaldia_cvegeo": "09007",
+    "cluster_id": null,
+    "h3": "89499580a3bffff",
+    "impulso": 0.1714,
+    "monto_est": null,
+    "negocios_barriales": 2,
+    "negocios_total": 2,
+    "oculto": true,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 794,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.048848,
+       19.264514
+      ],
+      [
+       -99.047608,
+       19.266084
+      ],
+      [
+       -99.048405,
+       19.267871
+      ],
+      [
+       -99.050442,
+       19.268086
+      ],
+      [
+       -99.051682,
+       19.266515
+      ],
+      [
+       -99.050885,
+       19.264729
+      ],
+      [
+       -99.048848,
+       19.264514
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": null,
+    "alcaldia_cvegeo": "09007",
+    "cluster_id": null,
+    "h3": "89499580b53ffff",
+    "impulso": 0.4332,
+    "monto_est": null,
+    "negocios_barriales": 1,
+    "negocios_total": 1,
+    "oculto": true,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1227,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.061955,
+       19.259092
+      ],
+      [
+       -99.060716,
+       19.260663
+      ],
+      [
+       -99.061513,
+       19.262449
+      ],
+      [
+       -99.063551,
+       19.262664
+      ],
+      [
+       -99.06479,
+       19.261094
+      ],
+      [
+       -99.063993,
+       19.259307
+      ],
+      [
+       -99.061955,
+       19.259092
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": null,
+    "alcaldia_cvegeo": "09007",
+    "cluster_id": null,
+    "h3": "89499580b83ffff",
+    "impulso": 0.0,
+    "monto_est": null,
+    "negocios_barriales": 0,
+    "negocios_total": 0,
+    "oculto": true,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 1117,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -99.052124,
+       19.263158
+      ],
+      [
+       -99.050885,
+       19.264729
+      ],
+      [
+       -99.051682,
+       19.266515
+      ],
+      [
+       -99.05372,
+       19.266731
+      ],
+      [
+       -99.054959,
+       19.26516
+      ],
+      [
+       -99.054162,
+       19.263374
+      ],
+      [
+       -99.052124,
+       19.263158
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "actividad_tpv_est": null,
+    "alcaldia_cvegeo": "09007",
+    "cluster_id": null,
+    "h3": "89499580bcfffff",
+    "impulso": 0.0,
+    "monto_est": null,
+    "negocios_barriales": 0,
+    "negocios_total": 0,
+    "oculto": true,
+    "periodo_cnbv": "2023-T2",
+    "poblacion": 865,
+    "tipo_campos": {
+     "actividad_tpv_est": "simulado",
+     "cluster_id": "estimado",
+     "impulso": "estimado",
+     "monto_est": "estimado",
+     "negocios_barriales": "simulado",
+     "negocios_total": "simulado",
+     "oculto": "estimado",
+     "poblacion": "simulado"
+    }
+   },
+   "type": "Feature"
+  }
+ ]
+}

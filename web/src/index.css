@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "mapbox-gl/dist/mapbox-gl.css";
+
+@theme {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Base legible en proyector (rúbrica C6). Los tokens de diseño viven en web/src/lib/ui/ (PB-003). */
+html {
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+  background: #fbfaf7;
+  color: #1c1917;
+}

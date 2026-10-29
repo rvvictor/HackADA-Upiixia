@@ -1,0 +1,106 @@
+/* Design tokens · colonIA (web/DESIGN.md). Every color in the app comes from here.
+   Same --pb-* names as before so every view picks up the new direction; map ramps are read at runtime
+   with leerToken() (web/src/lib/map/hex.ts). Contrast checked: text pairs ≥ 4.5:1, large text/controls ≥ 3:1. */
+:root {
+  /* Base: crisp paper white, deep ink. */
+  --pb-fondo: #f6f7f4;
+  --pb-superficie: #ffffff;
+  --pb-superficie-2: #eef0ec;
+  --pb-texto: #0e1116;
+  --pb-texto-2: #4a5160;
+  --pb-borde: #dde1db;
+  --pb-borde-fuerte: #7c8390;
+
+  /* Brand: rosa mexicano. --pb-marca is for the logo and big display type; --pb-acento passes AA with white text. */
+  --pb-marca: #e6007e;
+  --pb-acento: #c8006e;
+  --pb-acento-fuerte: #a80058;
+  --pb-acento-suave: #ffe3f1;
+  --pb-cempasuchil: #ffb703;
+  --pb-jade: #00a86b;
+  --pb-anil: #1f3b8c;
+  --pb-foco: #1f3b8c;
+  --pb-error: #b42318;
+
+  /* Data labels (Etiqueta): text over its background ≥ 5.7:1. */
+  --pb-real-texto: #006b45;
+  --pb-real-fondo: #ddf5ea;
+  --pb-estimado-texto: #1f3b8c;
+  --pb-estimado-fondo: #e3e9fa;
+  --pb-simulado-texto: #3d4651;
+  --pb-simulado-fondo: #eceef1;
+
+  /* Map ramps (5 steps, light → dark). Actividad: jade → añil. Impulso: cempasúchil → rosa. */
+  --pb-actividad-1: #e3f2ee;
+  --pb-actividad-2: #a7dccb;
+  --pb-actividad-3: #4fb89a;
+  --pb-actividad-4: #1d8a80;
+  --pb-actividad-5: #1f3b8c;
+  --pb-impulso-1: #fff4d6;
+  --pb-impulso-2: #ffd166;
+  --pb-impulso-3: #ffb703;
+  --pb-impulso-4: #f26a2e;
+  --pb-impulso-5: #c8006e;
+  --pb-oculto: #c9cdd3;
+
+  /* Dark hero (landing, map overlays). */
+  --pb-hero-fondo: #0b0f14;
+  --pb-hero-superficie: #141a22;
+  --pb-hero-texto: #f4f5f7;
+  --pb-hero-texto-2: #a9b1bd;
+  --pb-hero-brillo: radial-gradient(60% 60% at 30% 20%, rgb(230 0 126 / 0.35), transparent 70%),
+    radial-gradient(50% 50% at 80% 30%, rgb(255 183 3 / 0.22), transparent 70%);
+  --pb-vidrio: rgb(255 255 255 / 0.78);
+
+  /* Shape and depth. */
+  --pb-radio-control: 14px;
+  --pb-radio-tarjeta: 20px;
+  --pb-radio-grande: 28px;
+  --pb-alto-control: 48px;
+  --pb-sombra: 0 1px 2px rgb(14 17 22 / 0.05), 0 6px 18px -6px rgb(14 17 22 / 0.1);
+  --pb-sombra-alta: 0 2px 4px rgb(14 17 22 / 0.06), 0 18px 40px -12px rgb(14 17 22 / 0.22);
+  --pb-sombra-marca: 0 10px 30px -10px rgb(200 0 110 / 0.55);
+
+  --pb-font-display: "Bricolage Grotesque Variable", "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--pb-fondo);
+  color: var(--pb-texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--pb-acento-suave);
+  color: var(--pb-acento-fuerte);
+}
+
+:focus-visible {
+  outline: 3px solid var(--pb-foco);
+  outline-offset: 2px;
+}
+
+.pb-cifra {
+  font-variant-numeric: tabular-nums;
+}
+
+.pb-display {
+  font-family: var(--pb-font-display);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.pb-vidrio {
+  background: var(--pb-vidrio);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

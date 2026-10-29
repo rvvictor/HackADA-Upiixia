@@ -1,0 +1,189 @@
+{
+ "paradas": [
+  {
+   "orden": 1,
+   "negocio": {
+    "id": "neg-0015",
+    "nombre": "Abarrotes Lupita",
+    "tipo": "negocio",
+    "giro": "Abarrotes, ultramarinos y misceláneas",
+    "lat": 19.348954,
+    "lng": -99.152782,
+    "h3": "89499585d6fffff",
+    "formas_pago": [
+     "efectivo",
+     "tarjeta",
+     "transferencia"
+    ],
+    "acepta_mercomuna": false,
+    "tipo_dato": "simulado",
+    "horario_verificado": false,
+    "impulso": 0.29
+   },
+   "articulos": [
+    "pilas"
+   ],
+   "por_que": [
+    "Zona con poco movimiento de pago digital (impulso 0.29, estimado)",
+    "Tiene lo que buscas",
+    "A 1 min a pie"
+   ]
+  },
+  {
+   "orden": 2,
+   "negocio": {
+    "id": "alta-puesto-de-dona-lupe",
+    "nombre": "Puesto de Doña Lupe",
+    "tipo": "alta",
+    "giro": "461130",
+    "lat": 19.3492,
+    "lng": -99.1538,
+    "h3": "89499585d6fffff",
+    "formas_pago": [
+     "efectivo",
+     "transferencia"
+    ],
+    "acepta_mercomuna": null,
+    "tipo_dato": "simulado",
+    "horario_verificado": true,
+    "impulso": 0.29
+   },
+   "articulos": [
+    "2 kilos de jitomate"
+   ],
+   "por_que": [
+    "Zona con poco movimiento de pago digital (impulso 0.29, estimado)",
+    "Tiene lo que buscas",
+    "A 2 min a pie",
+    "Se sumó hoy a la red de barrio"
+   ]
+  },
+  {
+   "orden": 3,
+   "negocio": {
+    "id": "neg-0014",
+    "nombre": "Calzado El Pípila",
+    "tipo": "negocio",
+    "giro": "Calzado",
+    "lat": 19.350852,
+    "lng": -99.15099,
+    "h3": "894995859d3ffff",
+    "formas_pago": [
+     "efectivo",
+     "dimo",
+     "codi"
+    ],
+    "acepta_mercomuna": false,
+    "tipo_dato": "simulado",
+    "horario_verificado": false,
+    "impulso": 0.1
+   },
+   "articulos": [
+    "tenis para niño"
+   ],
+   "por_que": [
+    "Tiene lo que buscas",
+    "A 5 min a pie"
+   ]
+  },
+  {
+   "orden": 4,
+   "negocio": {
+    "id": "neg-0043",
+    "nombre": "Tortillería Doña Chela",
+    "tipo": "negocio",
+    "giro": "Tortillería y molino de nixtamal",
+    "lat": 19.346298,
+    "lng": -99.15179,
+    "h3": "89499585d7bffff",
+    "formas_pago": [
+     "efectivo",
+     "tarjeta"
+    ],
+    "acepta_mercomuna": false,
+    "tipo_dato": "simulado",
+    "horario_verificado": false,
+    "impulso": 0.02
+   },
+   "articulos": [
+    "tortillas"
+   ],
+   "por_que": [
+    "Tiene lo que buscas",
+    "A 5 min a pie"
+   ]
+  },
+  {
+   "orden": 5,
+   "negocio": {
+    "id": "neg-0125",
+    "nombre": "Especias Los Gemelos",
+    "tipo": "negocio",
+    "giro": "Semillas, granos, especias y chiles secos",
+    "lat": 19.34549,
+    "lng": -99.152806,
+    "h3": "89499585d63ffff",
+    "formas_pago": [
+     "efectivo",
+     "transferencia",
+     "dimo"
+    ],
+    "acepta_mercomuna": true,
+    "tipo_dato": "simulado",
+    "horario_verificado": false,
+    "impulso": 0.1
+   },
+   "articulos": [
+    "chiles secos"
+   ],
+   "por_que": [
+    "Tiene lo que buscas",
+    "A 6 min a pie",
+    "Acepta Mercomuna"
+   ]
+  }
+ ],
+ "geometria": {
+  "type": "LineString",
+  "coordinates": [
+   [
+    -99.153,
+    19.3486
+   ],
+   [
+    -99.152782,
+    19.348954
+   ],
+   [
+    -99.1538,
+    19.3492
+   ],
+   [
+    -99.15099,
+    19.350852
+   ],
+   [
+    -99.15179,
+    19.346298
+   ],
+   [
+    -99.152806,
+    19.34549
+   ],
+   [
+    -99.153,
+    19.3486
+   ]
+  ]
+ },
+ "distancia_m": 1953,
+ "minutos": 24,
+ "resumen": {
+  "barrial_pct": 100,
+  "cadenas": 0,
+  "paradas_impulso": 2
+ },
+ "sin_resultado": [],
+ "aviso": "Ruta aproximada en línea recta: sin conexión con Mapbox.",
+ "demo_data": true
+}
