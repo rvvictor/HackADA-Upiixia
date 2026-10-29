@@ -85,7 +85,7 @@ export async function agregarIconos(map: MapaMapbox, puntos: PuntoIcono[]): Prom
     type: "symbol",
     source: FUENTE_PUNTOS,
     filter: ["!", ["has", "point_count"]],
-    layout: { "icon-image": ["get", "icono"], "icon-size": 1, "icon-allow-overlap": true },
+    layout: { "icon-image": ["get", "icono"], "icon-size": ["interpolate", ["linear"], ["zoom"], 8, 0.7, 11, 1, 14, 1.5, 17, 2], "icon-allow-overlap": true },
   });
 }
 

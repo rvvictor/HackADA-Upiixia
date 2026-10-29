@@ -23,7 +23,7 @@ export function TarjetaAlcaldia({ alcaldias, seleccion, onSeleccion }: Props) {
   const serie = crec?.serie_trimestral.filter((s) => s.alcaldia_cvegeo === seleccion) ?? [];
   const altas = crec?.altas_negocios_por_anio.filter((s) => s.alcaldia_cvegeo === seleccion) ?? [];
   return (
-    <section aria-label="Alcaldía" className="pointer-events-auto w-72 max-w-full rounded-2xl border border-stone-400 bg-white p-2.5 shadow-md">
+    <section aria-label="Alcaldía" className="w-full rounded-2xl border border-stone-400 bg-white px-4 py-3">
       <label className="block text-base font-bold text-stone-900" htmlFor="sel-alcaldia">Alcaldía</label>
       <select
         id="sel-alcaldia"

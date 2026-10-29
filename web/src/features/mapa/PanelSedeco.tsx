@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { DIAS, ETIQUETA_TIPO, NOMBRE_ALCALDIA, type Alcaldia, type PropsHex, type TipoDato } from "./datos";
 
 // Etiqueta del tipo de dato (real / estimado / simulado): color y forma distintos, no solo color.
@@ -28,6 +29,8 @@ const cifra = (n: number | null | undefined, decimales = 0) =>
   n == null ? "Sin dato" : n.toLocaleString("es-MX", { maximumFractionDigits: decimales, minimumFractionDigits: decimales });
 
 type PanelProps = {
+  /** Selector y tarjeta de alcaldía (se muestra arriba del panel, no sobre el mapa). */
+  alcaldiaNodo?: ReactNode;
   dia: number;
   onDia: (d: number) => void;
   hora: number;
@@ -46,7 +49,8 @@ type PanelProps = {
 /** Panel derecho (30 %): altas, dato real, día y hora, cobertura. Sin scroll a 1280×720. */
 export function Panel(p: PanelProps) {
   return (
-    <div className="flex h-full flex-col gap-3 overflow-hidden p-4">
+    <div className="flex h-full flex-col gap-3 overflow-y-auto p-4">
+      {p.alcaldiaNodo}
       <section aria-live="polite" className="flex items-center justify-between rounded-2xl border border-stone-400 bg-white px-4 py-3">
         <div>
           <p className="text-base font-medium text-stone-800">Altas hoy</p>

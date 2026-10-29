@@ -197,15 +197,17 @@ export default function Mapa(_props: FeatureProps) {
             </span>
           )}
          </div>
-          {infoAlcaldias.length > 0 && (
-            <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaSel} onSeleccion={setAlcaldiaSel} />
-          )}
         </div>
 
       </div>
 
       <aside aria-label="Panel SEDECO" className="min-h-0 min-w-0 border-l border-stone-300 bg-stone-50 lg:h-full">
         <Panel
+          alcaldiaNodo={
+            infoAlcaldias.length > 0 ? (
+              <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaSel} onSeleccion={setAlcaldiaSel} />
+            ) : undefined
+          }
           dia={dia}
           onDia={setDia}
           hora={hora}
