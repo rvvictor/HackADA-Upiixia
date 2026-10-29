@@ -174,7 +174,7 @@ function Portal({ sesion, onSalir }: { sesion: Sesion; onSalir: () => void }) {
         </div>
       </header>
 
-      {demo && (
+      {enModoMock() && (
         <p role="status" className="mb-3 text-(--pb-texto-2)">
           Datos de demostración (demo_data: true): la API de repartidores aún no responde, por eso ves ejemplos.
         </p>
