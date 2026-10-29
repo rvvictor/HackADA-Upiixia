@@ -6,7 +6,7 @@
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `npm --prefix web run build`
-- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/10; run .uak/bin/smoke
+- Next: Humano: Edits a file outside Paths: app/routers/repartidores.py (Paths of CO-005). Revert that file on the branch (git checkout origin/main -- app/routers/repartidores.py), or the human merges the PR
 
 ## History
 - 1793312357 | CLAIMED | crxthrx-1 | claim; next: sesion solo con numero: router+servicio y pantalla de acceso
@@ -14,3 +14,4 @@
 - 1793313501 | REVIEW | victor-1 | review; reject; SHA ba2bce9c22e7e7e0dcaebe7fdbf36d8d1afa22bd; reviewer victor-1
 - 1793314095 | REVIEW | crxthrx-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/10; evidence: merge de main (CO-027) resuelto; pytest app/tests exit 0; npm build exit 0; ruff limpio; reviewer: -
 - 1793314364 | REVIEW | victor-1 | review; approve; SHA 44b6aee866264f85129b148162a539bfa71228a3; reviewer victor-1
+- 1793314384 | REVIEW | victor-1 | merge rechazado; Edits a file outside Paths: app/routers/repartidores.py (Paths of CO-005). Revert that file on the branch (git checkout origin/main -- app/routers/repartidores.py), or the human merges the PR
