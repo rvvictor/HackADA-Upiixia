@@ -75,3 +75,13 @@ def test_perfil_e_incentivos_bici_primero(live) -> None:
     assert cat[0]["id"] == "bici" and cat[0]["destacado"] is True
     assert all(i["tipo_dato"] == "simulado" for i in cat)
     assert client.get("/api/repartidores/R-00000").status_code == 404
+
+
+def test_repartidor_demo_fijo_entra_siempre(live) -> None:
+    rid, cod = repartidores.DEMO_ID, repartidores.DEMO_CODIGO
+    assert client.get(f"/api/repartidores/{rid}").status_code == 200  # existe aunque no haya altas
+    for _ in range(2):  # el código no se gasta
+        ses = client.post("/api/repartidores/sesion", json={"id": rid, "codigo": cod})
+        assert ses.status_code == 200 and ses.json()["repartidor_id"] == rid
+    assert client.post("/api/repartidores/sesion", json={"id": rid, "codigo": "000001"}).status_code == 401
+    assert "prioridad" not in client.get(f"/api/repartidores/{rid}").text
