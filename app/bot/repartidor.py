@@ -14,7 +14,7 @@ from app.services import altas
 from app.services import repartidor_dialogo as rd
 
 CLAVE = "rep"
-BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://localhost:8000").rstrip("/")
+BASE_URL = os.environ.get("PUBLIC_BASE_URL", "").rstrip("/") or rd.api_base() or "http://localhost:8000"
 
 
 def activo(context: ContextTypes.DEFAULT_TYPE) -> bool:

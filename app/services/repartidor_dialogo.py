@@ -45,6 +45,7 @@ DIAS_OPC = {"entre_semana": ("Entre semana", [0, 1, 2, 3, 4]), "fin_de_semana": 
             "todos": ("Todos los días", [0, 1, 2, 3, 4, 5, 6])}
 FRANJAS = {"manana": ("Mañana", "07:00", "12:00"), "tarde": ("Tarde", "12:00", "18:00"),
            "noche": ("Noche", "18:00", "22:00")}
+DIAS_SEMANA = ("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")
 PESO_PRIORIDAD = {"edad_18_30": 1, "estudiante": 1}  # TODO: mover a app/config.py cuando se pueda editar (IDEA-v2 §4.3)
 
 AVISO_PRIVACIDAD = (
@@ -370,7 +371,7 @@ class AdaptadorLocal:
 
 
 class AdaptadorApi:
-    """POST a la API real de CO-005 (REPARTIDORES_API_URL, p. ej. http://localhost:8000/api/repartidores)."""
+    """POST a la API real de CO-005 (REPARTIDORES_API_URL, o COLONIA_API_URL + /api/repartidores)."""
 
     def __init__(self, url: str):
         self.url = url
@@ -378,13 +379,30 @@ class AdaptadorApi:
     def registrar(self, datos: RepartidorIn) -> dict:
         import httpx
 
-        r = httpx.post(self.url, json=datos.model_dump(), timeout=15)
+        r = httpx.post(self.url, json=payload_api(datos), timeout=60)  # Render tarda en despertar
         r.raise_for_status()
         return r.json()
 
 
+def payload_api(datos: RepartidorIn) -> dict:
+    """RepartidorIn del bot → cuerpo de POST /api/repartidores. El bot no guarda la edad exacta: manda una edad
+    representativa de su rango (25 o 31) para que la API calcule el mismo rango y prioridad."""
+    return {
+        "nombre_mostrar": datos.nombre_mostrar, "edad": 25 if datos.rango_edad == "18-30" else 31,
+        "estudiante": datos.estudiante, "alcaldia_cvegeo": datos.alcaldia_cvegeo, "colonias": datos.colonias,
+        "transporte": datos.transporte,
+        "disponibilidad": {"dias": [DIAS_SEMANA[d] for d in datos.dias], "desde": datos.desde, "hasta": datos.hasta},
+        "tipo_id": datos.tipo_id, "chat_id": str(datos.chat_id), "demo_data": datos.demo_data,
+    }
+
+
+def api_base() -> str:
+    """URL de la plataforma desplegada (p. ej. https://colonia-hackada.onrender.com); vacía = guardar en local."""
+    return os.environ.get("COLONIA_API_URL", "").strip().rstrip("/")
+
+
 def adaptador_por_defecto():
-    url = os.environ.get("REPARTIDORES_API_URL", "")
+    url = os.environ.get("REPARTIDORES_API_URL", "") or (f"{api_base()}/api/repartidores" if api_base() else "")
     return AdaptadorApi(url) if url and not settings.demo_mode else AdaptadorLocal()
 
 

@@ -5,6 +5,7 @@ La foto de identificación y la prioridad nunca salen de aquí: `publico()` es l
 
 import hashlib
 import json
+import os
 import random
 import secrets
 import time
@@ -25,6 +26,19 @@ CODIGO_TTL_S = 10 * 60
 SESION_TTL_S = 30 * 60
 # Campos que nunca salen en una respuesta (§4.5).
 PRIVADOS = {"prioridad", "chat_id_hash", "foto_id_ruta", "edad", "rango_edad", "estudiante"}
+
+# Repartidor fijo para la demo (también en Render): entra siempre con este número y código, sin Telegram.
+# REPARTIDOR_DEMO_CODIGO vacío lo apaga.
+DEMO_ID = os.environ.get("REPARTIDOR_DEMO_ID", "R-00001")
+DEMO_CODIGO = os.environ.get("REPARTIDOR_DEMO_CODIGO", "123456")
+REPARTIDOR_DEMO = {
+    "id": DEMO_ID, "ts_alta": 9_999_999_999.0,  # último en la fila: nunca adelanta a uno real
+    "chat_id_hash": None, "nombre_mostrar": "Repartidor demo",
+    "rango_edad": "18-30", "estudiante": True, "alcaldia_cvegeo": "09003", "colonias": ["San Lucas"],
+    "transporte": "bici", "disponibilidad": {"dias": [], "desde": "09:00", "hasta": "18:00"},
+    "id_verificada": True, "tipo_id": None, "estado": "activo", "negocio_id": None, "prioridad": 0,
+    "rutas_completadas": 12, "demo_data": True,
+}
 
 _codigos: dict[str, tuple[str, float]] = {}
 _sesiones: dict[str, tuple[str, float]] = {}
@@ -74,6 +88,13 @@ def _ruta() -> Path:
 
 
 def _todos() -> list[dict]:
+    filas = _leidos()
+    if DEMO_CODIGO and not any(f.get("id") == DEMO_ID for f in filas):
+        filas.append(dict(REPARTIDOR_DEMO))
+    return filas
+
+
+def _leidos() -> list[dict]:
     ruta = _ruta()
     if not ruta.is_file():
         return []
@@ -177,6 +198,8 @@ def abrir_sesion(rid: str, codigo: str | None = None, ahora: float | None = None
             obtener(rid)
         except NoEncontrado:
             raise AccesoInvalido("número de repartidor no encontrado") from None
+    elif DEMO_CODIGO and rid == DEMO_ID and secrets.compare_digest(codigo, DEMO_CODIGO):
+        pass  # el código del repartidor demo no se gasta (CO-027)
     else:
         guardado = _codigos.get(rid)
         if not guardado or guardado[1] < ahora or not secrets.compare_digest(guardado[0], codigo):
