@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     openai_transcribe_model: str = "gpt-transcribe"
     mapbox_token: str = ""
     telegram_bot_token: str = ""
+    denue_token: str = ""
     alcaldias: str = "09003,09007"
     demo_mode: bool = False
 
