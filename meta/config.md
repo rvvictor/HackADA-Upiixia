@@ -1,5 +1,5 @@
 # Verifiable config
-Config-Source: 891bf9a59d68bcb4a591b0b333a29e862a000b24
+Config-Source: 22ac02305b3d76243b9244dc8654e0415093d1a6
 Backlog-Proposed-Epoch: 1793305337
 Backlog-Approved: yes
 Autonomy: yes
@@ -13,5 +13,5 @@ Merge-Wait-Seconds: 180
 Presence-Seconds: 1800
 Stall-Seconds: 5400
 Review-Offer-Seconds: 900
-Merge-Adopt-Seconds: 1200
+Merge-Adopt-Seconds: 0
 Config-Schema: 2
