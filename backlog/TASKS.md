@@ -72,3 +72,20 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Captura del mapa funcionando (o del error exacto) guardada en la evidencia de `uak done`; sin llave visible en ningún archivo
 - **Verify:** `bash -c 'test -s web/public/favicon.svg && ! grep -q "Pulso" web/public/favicon.svg' && npm --prefix web run build`
 - **Next step:** abrir la URL de Render con Playwright y leer la consola
+## CO-020 · Mis rutas: el repartidor ve y completa las ofertas que tomó (API real)
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 15 min
+- **Rubric / Spec:** C1 · `IDEA-v2.md` §4.4, §8 · hallazgo del ensayo `docs/demo/ensayo.md` (CO-015)
+- **Depends on:** None
+- **Uses contract:** None
+- **Paths:** app/services/ofertas.py, app/routers/ofertas.py, app/tests/test_ofertas.py, web/src/features/repartidor/index.tsx
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - `GET /api/ofertas?repartidor_id=` devuelve las ofertas abiertas de sus colonias **y además las suyas** en estado `tomada` y `completada` (nunca las de otros repartidores); hoy `ofertas_para` (`app/services/ofertas.py:108`) solo devuelve `abierta` y por eso "Mis rutas" queda vacío tras tomar una oferta
+  - Con la API real el flujo termina: tomar → aparece en Mis rutas → completar → sube el avance de incentivos; prueba nueva en `app/tests/test_ofertas.py` (no se edita ninguna prueba existente)
+  - El aviso "la API de repartidores aún no responde" (`web/src/features/repartidor/index.tsx:156-179`) no aparece cuando la API real responde bien
+  - Ninguna respuesta incluye prioridad, edad, foto de ID ni datos de otro repartidor
+- **Verify:** `uv run pytest -q app/tests/test_ofertas.py app/tests/test_demo_repartidor.py && npm --prefix web run build`
+- **Next step:** `app/services/ofertas.py:108` (`ofertas_para`)

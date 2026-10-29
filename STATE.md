@@ -1,7 +1,7 @@
 # STATE
 
 Phase: feature freeze; authorized fixes, rehearsal and submission only
-Updated: 1793310464
+Updated: 1793310467
 AVAILABLE: CO-016 
 CLAIMED: CO-017 
 BLOCKED: -
@@ -17,11 +17,11 @@ CO-019 | REVIEW | victor-1 | until 1793324807
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
-- 1793309153 | plan | victor/victor | tasks added: CO-018 | Why: backlog without PR (Plan-Channel: claims)
 - 1793309684 | plan | victor/victor | tasks added: CO-019 | Why: backlog without PR (Plan-Channel: claims)
 - 1793310091 | plan --amend | victor/victor | amended: CO-019 Paths: web/public/, web/src/features/mapa/ → web/public/favicon.svg, web/src/features/mapa/; | Why: scope or criteri
 - 1793310313 | CO-002 | Verify usa rg que no existe en bash -c; comprobado con grep | Why: rúbrica C4
 - 1793310375 | deadline freeze/event/1793310300 | FREEZE_DEMO_FIXES_ONLY | New claims only with Freeze-Allowed: yes; respect authorization.
+- 1793310467 | plan | victor/victor | tasks added: CO-020 | Why: backlog without PR (Plan-Channel: claims)
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.
