@@ -190,16 +190,21 @@ def pedir_codigo(rid: str, ahora: float | None = None) -> str:
     return codigo
 
 
-def abrir_sesion(rid: str, codigo: str, ahora: float | None = None) -> dict:
+def abrir_sesion(rid: str, codigo: str | None = None, ahora: float | None = None) -> dict:
+    """Sin `codigo` basta un número de repartidor que exista (decisión del equipo para la demo, CO-026)."""
     ahora = ahora or time.time()
-    if DEMO_CODIGO and rid == DEMO_ID and secrets.compare_digest(codigo, DEMO_CODIGO):
-        token = secrets.token_urlsafe(24)
-        _sesiones[token] = (rid, ahora + SESION_TTL_S)
-        return {"token": token, "repartidor_id": rid, "expira": ahora + SESION_TTL_S}
-    guardado = _codigos.get(rid)
-    if not guardado or guardado[1] < ahora or not secrets.compare_digest(guardado[0], codigo):
-        raise AccesoInvalido("código inválido o vencido")
-    del _codigos[rid]  # un solo uso
+    if codigo is None:
+        try:
+            obtener(rid)
+        except NoEncontrado:
+            raise AccesoInvalido("número de repartidor no encontrado") from None
+    elif DEMO_CODIGO and rid == DEMO_ID and secrets.compare_digest(codigo, DEMO_CODIGO):
+        pass  # el código del repartidor demo no se gasta (CO-027)
+    else:
+        guardado = _codigos.get(rid)
+        if not guardado or guardado[1] < ahora or not secrets.compare_digest(guardado[0], codigo):
+            raise AccesoInvalido("código inválido o vencido")
+        del _codigos[rid]  # un solo uso
     token = secrets.token_urlsafe(24)
     _sesiones[token] = (rid, ahora + SESION_TTL_S)
     return {"token": token, "repartidor_id": rid, "expira": ahora + SESION_TTL_S}

@@ -12,7 +12,7 @@ class CodigoIn(BaseModel):
 
 class SesionIn(BaseModel):
     id: str
-    codigo: str
+    codigo: str | None = None  # opcional: sin código entra con un número válido (CO-026)
 
 
 @router.post("", status_code=201)

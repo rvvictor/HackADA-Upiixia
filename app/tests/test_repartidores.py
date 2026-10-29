@@ -77,6 +77,13 @@ def test_perfil_e_incentivos_bici_primero(live) -> None:
     assert client.get("/api/repartidores/R-00000").status_code == 404
 
 
+def test_sesion_solo_con_numero_valido(live) -> None:
+    rid = client.post("/api/repartidores", json=alta()).json()["id"]
+    ses = client.post("/api/repartidores/sesion", json={"id": rid})
+    assert ses.status_code == 200 and ses.json()["repartidor_id"] == rid and ses.json()["token"]
+    assert client.post("/api/repartidores/sesion", json={"id": "R-99999"}).status_code == 401
+
+
 def test_repartidor_demo_fijo_entra_siempre(live) -> None:
     rid, cod = repartidores.DEMO_ID, repartidores.DEMO_CODIGO
     assert client.get(f"/api/repartidores/{rid}").status_code == 200  # existe aunque no haya altas
@@ -85,3 +92,8 @@ def test_repartidor_demo_fijo_entra_siempre(live) -> None:
         assert ses.status_code == 200 and ses.json()["repartidor_id"] == rid
     assert client.post("/api/repartidores/sesion", json={"id": rid, "codigo": "000001"}).status_code == 401
     assert "prioridad" not in client.get(f"/api/repartidores/{rid}").text
+
+
+def test_repartidor_demo_entra_solo_con_numero(live) -> None:
+    ses = client.post("/api/repartidores/sesion", json={"id": repartidores.DEMO_ID})
+    assert ses.status_code == 200 and ses.json()["repartidor_id"] == repartidores.DEMO_ID
