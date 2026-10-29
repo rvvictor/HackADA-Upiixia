@@ -1,0 +1,7 @@
+# Observed session
+Agent: victor-1
+Session: victor-1-1793311277
+Started: 1793311277
+Events: 1
+Checkpoints: 0
+Updated: 1793311277
