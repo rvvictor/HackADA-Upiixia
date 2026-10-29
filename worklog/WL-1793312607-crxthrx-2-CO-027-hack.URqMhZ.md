@@ -11,3 +11,4 @@
 ## History
 - 1793312607 | CLAIMED | crxthrx-2 | claim; next: agregar REPARTIDOR_DEMO y CODIGO_DEMO en app/services/repartidores.py
 - 1793312893 | REVIEW | crxthrx-2 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/11; evidence: pytest app/tests exit 0 (con --with tzdata); ruff limpio; test nuevo test_repartidor_demo_fijo_entra_siempre; reviewer: -
+- 1793313494 | REVIEW | victor-1 | review; approve; SHA f9a93cac9f82ee7789b1d8ff71e3236f23fe2dd9; reviewer victor-1
