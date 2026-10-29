@@ -171,3 +171,14 @@ def test_datos_reales_16_alcaldias() -> None:
     assert len(filas) == 16 and filas[0]["cvegeo"] == "09003"
     body = client.get("/api/puntos", params={"tipo": "tianguis,mercado"}).json()
     assert {p["tipo"] for p in body["puntos"]} <= {"tianguis", "mercado"} and body["total"] == 1696
+
+
+def test_negocio_local_datos_reales_coyoacan_e_iztapalapa() -> None:
+    mapa._indice_negocios.clear()
+    for cve in ("09003", "09007"):
+        body = client.get("/api/puntos", params={"tipo": "negocio_local", "alcaldia": cve}).json()
+        assert body["total"] > 0 and 0 < len(body["puntos"]) <= mapa.TOPE_NEGOCIOS
+        assert all(p["alcaldia_cvegeo"] == cve and p["tipo_dato"] == "real" and p["fuente"] for p in body["puntos"])
+    p = body["puntos"][0]
+    caja = f"{p['lng'] - 0.01},{p['lat'] - 0.01},{p['lng'] + 0.01},{p['lat'] + 0.01}"
+    assert client.get("/api/puntos", params={"tipo": "negocio_local", "bbox": caja}).json()["puntos"]

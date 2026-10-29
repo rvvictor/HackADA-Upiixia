@@ -7,6 +7,7 @@ Días: 0 = lunes … 6 = domingo (misma convención que `pipeline.geo`).
 
 import json
 import math
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -278,17 +279,42 @@ def _punto(p: dict, tipo: str) -> dict:
     }
 
 
+_indice_negocios: dict[Path, tuple[float, list[dict]]] = {}
+
+
+def _norm(nombre: str | None) -> str:
+    sin = unicodedata.normalize("NFKD", nombre or "")
+    return "".join(c for c in sin if not unicodedata.combining(c)).upper().strip()
+
+
+def _negocios_indexados(ruta: Path) -> list[dict]:
+    """Lista de negocios con `alcaldia_cvegeo` resuelto desde el nombre; se calcula una vez por mtime."""
+    mtime = ruta.stat().st_mtime
+    hit = _indice_negocios.get(ruta)
+    if hit and hit[0] == mtime:
+        return hit[1]
+    datos = _leer_json(ruta)
+    filas = datos if isinstance(datos, list) else (datos.get("negocios") or []) if isinstance(datos, dict) else []
+    por_nombre = {_norm(n): c for c, n in _nombres_alcaldias().items()}
+    listos = []
+    for p in filas:
+        if not isinstance(p, dict):
+            continue
+        cve = p.get("alcaldia_cvegeo") or por_nombre.get(_norm(p.get("alcaldia")))
+        listos.append({**p, "alcaldia_cvegeo": cve, "id": p.get("id") or p.get("id_denue")})
+    _indice_negocios[ruta] = (mtime, listos)
+    return listos
+
+
 def _negocios_locales(caja, alcaldia: str | None, tope: int) -> tuple[list[dict], int]:
     ruta = PROCESSED_DIR / NEGOCIOS_DENUE
     if not ruta.is_file():
         return [], 0
     try:
-        datos = _leer_json(ruta)
+        filas = _negocios_indexados(ruta)
     except (OSError, ValueError):
         return [], 0
-    filas = datos if isinstance(datos, list) else (datos.get("negocios") or []) if isinstance(datos, dict) else []
-    sel = [p for p in filas if isinstance(p, dict) and _en_bbox(p, caja)
-           and (not alcaldia or p.get("alcaldia_cvegeo") == alcaldia)]
+    sel = [p for p in filas if _en_bbox(p, caja) and (not alcaldia or p.get("alcaldia_cvegeo") == alcaldia)]
     return [_punto(p, "negocio_local") for p in sel[:tope]], len(sel)
 
 
@@ -312,6 +338,15 @@ def puntos(tipos: str | None, bbox: str | None, alcaldia: str | None = None, lim
         res += neg
         total += n
     return {"puntos": res, "total": total, "truncado": total > len(res), "origen": origen, "tipos": pedidos}
+
+
+def _nombres_alcaldias() -> dict[str, str]:
+    colonias, _ = _cargar("colonias")
+    nombres: dict[str, str] = {}
+    for c in _lista(colonias, "colonias"):
+        if c.get("alcaldia_cvegeo") and c.get("alcaldia"):
+            nombres.setdefault(c["alcaldia_cvegeo"], c["alcaldia"])
+    return nombres
 
 
 def alcaldias() -> list[dict]:
