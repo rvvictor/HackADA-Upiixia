@@ -1,16 +1,15 @@
 # STATE
 
 Phase: feature freeze; authorized fixes, rehearsal and submission only
-Updated: 1793310981
+Updated: 1793311054
 AVAILABLE: CO-016 
 CLAIMED: CO-021 
 BLOCKED: -
-REVIEW: CO-017 
-INTEGRATED: (18; last 12) ... CO-007 CO-008 CO-009 CO-010 CO-011 CO-012 CO-013 CO-014 CO-015 CO-018 CO-019 CO-020 
+REVIEW: -
+INTEGRATED: (19; last 12) ... CO-008 CO-009 CO-010 CO-011 CO-012 CO-013 CO-014 CO-015 CO-017 CO-018 CO-019 CO-020 
 CANCELLED: -
 
 Claims (first 24; status --task ID shows detail):
-CO-017 | REVIEW | victor-1 | until 1793325192
 CO-021 | CLAIMED | victor-2 | until 1793313598
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
