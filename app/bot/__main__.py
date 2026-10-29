@@ -23,6 +23,7 @@ from telegram.ext import (
     filters,
 )
 
+from app.bot import repartidor
 from app.config import settings
 from app.services import altas
 
@@ -33,7 +34,7 @@ log = logging.getLogger("colonia.bot")
 BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://localhost:8000").rstrip("/")
 
 MENU = ReplyKeyboardMarkup(
-    [["Dar de alta mi negocio"], ["Actualizar mi negocio"], ["Verificar tianguis"]],
+    [["Dar de alta mi negocio"], ["Actualizar mi negocio"], ["Quiero ser repartidor"], ["Verificar tianguis"]],
     resize_keyboard=True,
 )
 PEDIR_UBICACION = ReplyKeyboardMarkup(
@@ -59,7 +60,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     texto = update.message.text
-    if texto == "Verificar tianguis":
+    if texto == "Quiero ser repartidor":
+        await repartidor.iniciar(update, context)
+    elif texto == "Verificar tianguis":
         await update.message.reply_text("Mándame la ubicación del tianguis y una foto, y lo marcamos como verificado hoy.")
     elif texto == "Actualizar mi negocio":
         await update.message.reply_text("Cuéntame por voz qué cambió (precios, horario, productos) y lo actualizo.")
@@ -99,6 +102,8 @@ async def _mostrar_confirmacion(update: Update, context: ContextTypes.DEFAULT_TY
 
 
 async def voz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if repartidor.activo(context):
+        return await repartidor.voz(update, context)
     archivo = await (update.message.voice or update.message.audio).get_file()
     audio = bytes(await archivo.download_as_bytearray())
     texto, grabada = altas.transcribir(audio)
@@ -107,6 +112,8 @@ async def voz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def texto(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if repartidor.activo(context):
+        return await repartidor.texto(update, context)
     await _procesar_texto(update, context, update.message.text)
 
 
@@ -121,12 +128,16 @@ async def ubicacion(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def foto(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if repartidor.activo(context):
+        return await repartidor.foto(update, context)
     await update.message.reply_text(
         "¡Bonita foto! 📸 Por ahora solo la guardo si tú me dices. Cuéntame por voz qué vendes para armar tu ficha."
     )
 
 
 async def boton(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if repartidor.activo(context):
+        return await repartidor.boton(update, context)
     q = update.callback_query
     await q.answer()
     if q.data == "corregir":
@@ -160,7 +171,7 @@ def main() -> None:
         raise SystemExit("Falta TELEGRAM_BOT_TOKEN en .env. Para la demo sin Telegram: uv run python scripts/simular_alta.py")
     app = Application.builder().token(settings.telegram_bot_token).build()
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.Regex("^(Dar de alta mi negocio|Actualizar mi negocio|Verificar tianguis)$"), menu))
+    app.add_handler(MessageHandler(filters.Regex("^(Dar de alta mi negocio|Actualizar mi negocio|Quiero ser repartidor|Verificar tianguis)$"), menu))
     app.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, voz))
     app.add_handler(MessageHandler(filters.LOCATION, ubicacion))
     app.add_handler(MessageHandler(filters.PHOTO, foto))
