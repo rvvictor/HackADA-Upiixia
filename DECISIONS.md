@@ -22,3 +22,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1793312019 | CO-026 | follow-up of CO-008 by crxthrx-2: Entrar al portal solo con numero de repartidor valido, sin codigo | Why: same Paths, no scope change
 - 1793312173 | allow | cris | freeze exception: CO-026 | Why: Entrar al portal de repartidor solo con numero valido, sin codigo
 - 1793312556 | CO-027 | follow-up of CO-005 by crxthrx-2: Repartidor demo fijo R-00001 con codigo 123456 (tambien en Render) | Why: same Paths, no scope change
+- 1793314311 | deadline lease/CO-016/1793314168 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
