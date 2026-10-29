@@ -1,5 +1,4 @@
 {
-  "_nota": "Colonias de demo: nombre y coordenada de un punto de tianguis_abierto.json en esa colonia, no su centroide.",
   "GET /api/alcaldias": [
     {
       "alcaldia_cvegeo": "09003",
@@ -135,41 +134,42 @@
     "alcaldia_nombre": "Coyoacán",
     "colonias": [
       {
-        "id": "09003-santa-catarina",
-        "nombre": "Santa Catarina",
-        "lat": 19.333641,
-        "lng": -99.146795
+        "id": "003-001",
+        "nombre": "Adolfo Ruiz Cortinez",
+        "lat": 19.319309,
+        "lng": -99.151336
       },
       {
-        "id": "09003-ex-hacienda-coapa",
-        "nombre": "Ex Hacienda Coapa",
-        "lat": 19.320457,
-        "lng": -99.168424
+        "id": "003-002",
+        "nombre": "Ajusco",
+        "lat": 19.319899,
+        "lng": -99.159675
       },
       {
-        "id": "09003-pueblo-de-los-reyes",
-        "nombre": "Pueblo de Los Reyes",
-        "lat": 19.283447,
-        "lng": -99.158246
+        "id": "003-003",
+        "nombre": "Alianza Popular Revolucionaria",
+        "lat": 19.314847,
+        "lng": -99.119227
       },
       {
-        "id": "09003-campestre-churubusco",
-        "nombre": "Campestre Churubusco",
-        "lat": 19.314756,
-        "lng": -99.194899
+        "id": "003-004",
+        "nombre": "Atlantida",
+        "lat": 19.34053,
+        "lng": -99.146302
       },
       {
-        "id": "09003-carrasco",
-        "nombre": "Carrasco",
-        "lat": 19.315469,
-        "lng": -99.133538
+        "id": "003-005",
+        "nombre": "Avante",
+        "lat": 19.328395,
+        "lng": -99.134496
       },
       {
-        "id": "09003-covadonga",
-        "nombre": "Covadonga",
-        "lat": 19.306824,
-        "lng": -99.139362
+        "id": "003-006",
+        "nombre": "Barrio Del Niño Jesus",
+        "lat": 19.339567,
+        "lng": -99.159921
       }
     ]
-  }
+  },
+  "_fuente_colonias": "data/raw/diccionario_colonias.json (catálogo de colonias CDMX; sitio exacto por confirmar) (CO-003, data/processed/colonias.json)"
 }
