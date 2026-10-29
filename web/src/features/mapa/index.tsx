@@ -23,7 +23,6 @@ import {
 import type { RutasPorHexagono } from "./tiposCrecimiento";
 import { CAPAS } from "../../lib/map/hex";
 import { ChipsTipoMinimo } from "./ChipsAdaptador";
-import { TarjetaAlcaldia } from "./TarjetaAlcaldia";
 import { cargarAlcaldiasInfo, cargarPuntosProgresivo, type AlcaldiaInfo, type PuntoMapa, type TipoPunto } from "./puntos";
 import { Leyenda } from "./Leyenda";
 import { MapaHex } from "./MapaHex";
@@ -46,7 +45,6 @@ export default function Mapa(_props: FeatureProps) {
 
   const [tipos, setTipos] = useState<TipoPunto[]>(["tianguis", "mercado"]);
   const [infoAlcaldias, setInfoAlcaldias] = useState<AlcaldiaInfo[]>([]);
-  const [alcaldiaSel, setAlcaldiaSel] = useState("09003");
   const [puntos, setPuntos] = useState<PuntoMapa[]>([]);
 
   useEffect(() => {
@@ -203,11 +201,6 @@ export default function Mapa(_props: FeatureProps) {
 
       <aside aria-label="Panel SEDECO" className="min-h-0 min-w-0 border-l border-stone-300 bg-stone-50 lg:h-full">
         <Panel
-          alcaldiaNodo={
-            infoAlcaldias.length > 0 ? (
-              <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaSel} onSeleccion={setAlcaldiaSel} />
-            ) : undefined
-          }
           dia={dia}
           onDia={setDia}
           hora={hora}
