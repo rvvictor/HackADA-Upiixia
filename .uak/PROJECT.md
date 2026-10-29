@@ -9,9 +9,9 @@
 | Event / challenge | HackADA · challenge: Mercaditos locales (comercio de proximidad y redes comunitarias de distribución): herramienta de IA que conecta mercados públicos, tianguis y pequeños comercios con consumidores y repartidores locales (catálogos digitales, pedidos, rutas de entrega, distribución comunitaria, análisis de demanda local) · goal: fortalecer circuitos económicos de proximidad, subir ventas de pequeños comerciantes y que el valor económico circule dentro de las comunidades · product name: **colonIA** (ya no Pulso Barrial) |
 | Start | 2026-10-29 13:00 America/Mexico_City |
 | Official deadline | 2026-10-29 16:00 America/Mexico_City (moved from 15:00) · platforms: form link not announced yet (TBD) |
-| Freeze | 2026-10-29 15:30 (Freeze-Epoch 1793309400) · plan-B video 14:30 |
+| Freeze | 2026-10-29 15:45 (Freeze-Epoch 1793310300, moved by the humans from 15:30) · plan-B video 14:30 |
 | Clean rehearsal / plan B | 15:40 |
-| Internal submission | 15:45 |
+| Internal submission | 15:50 |
 | Humans | Cris, Yojan, Victor, Zoe · submission owner: Victor |
 | Agents | cris-1, cris-2, yojan-1, yojan-2, victor-1, victor-2, zoe-1, zoe-2 (all Claude Code) |
 | Machines | `<laptop, Jetson…>` · ports already taken: `<8000…>` |
@@ -43,12 +43,12 @@ A human sets `yes`. A missing field means `no`.
 ```text
 Mode: sprint
 Backlog-Proposed-Epoch: 0
-Backlog-Approved: no
+Backlog-Approved: yes
 Autonomy: yes
 Auto-Merge: yes
 Review-Mode: claims
 Plan-Channel: claims
-Freeze-Epoch: 1793309400
+Freeze-Epoch: 1793310300
 Lease-Seconds: 2700
 Review-Lease-Seconds: 14400
 Events-Per-Session: 100
