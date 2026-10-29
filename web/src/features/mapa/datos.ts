@@ -143,7 +143,7 @@ export async function cargarResumen(dia: number, hora: number): Promise<Resumen 
     );
     const dato = (clave: string): Dato<number> | undefined => {
       const v = r[clave];
-      if (typeof v === "number") return { valor: v, tipo_dato: r.tipo_campos?.[clave] ?? "estimado", fuente: "Pulso Barrial", periodo: "hoy" };
+      if (typeof v === "number") return { valor: v, tipo_dato: r.tipo_campos?.[clave] ?? "estimado", fuente: "colonIA", periodo: "hoy" };
       return (v as Dato<number> | undefined) ?? undefined;
     };
     return { altas_hoy: dato("altas_hoy"), poblacion_cubierta_pct: dato("poblacion_cubierta_pct") };

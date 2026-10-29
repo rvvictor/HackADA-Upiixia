@@ -24,7 +24,7 @@ function tipo(v: unknown, def: TipoDato = "simulado"): TipoDato {
   return v === "real" || v === "estimado" || v === "simulado" ? v : def;
 }
 
-const FUENTE_PLATAFORMA = "Pulso Barrial (eventos de la plataforma)";
+const FUENTE_PLATAFORMA = "colonIA (eventos de la plataforma)";
 const FUENTE_SIMULADA = "Historia simulada de la plataforma";
 
 function cifra(v: unknown, tipoGeneral: TipoDato): Cifra | null {

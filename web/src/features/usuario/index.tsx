@@ -27,7 +27,7 @@ function km(metros: number): string {
 
 function textoWhatsApp(ruta: Ruta): string {
   const lineas = ruta.paradas.map((p) => `${p.orden}. ${p.negocio.nombre}: ${p.articulos.join(", ")}`);
-  return `Mi ruta de compras de barrio (${km(ruta.distancia_m)} a pie, 0 cadenas):\n${lineas.join("\n")}\nHecha con Pulso Barrial`;
+  return `Mi ruta de compras de barrio (${km(ruta.distancia_m)} a pie, 0 cadenas):\n${lineas.join("\n")}\nHecha con colonIA`;
 }
 
 export default function Usuario(_props: FeatureProps) {

@@ -201,7 +201,7 @@
   "hoy": 0,
   "total": 0,
   "tipo_dato": "real",
-  "fuente": "Plataforma Pulso Barrial · data/live/altas.jsonl",
+  "fuente": "Plataforma colonIA · data/live/altas.jsonl",
   "archivo_disponible": true
  },
  "rutas_por_hexagono": {
@@ -225,7 +225,7 @@
   ],
   "total": 5,
   "tipo_dato": "real",
-  "fuente": "Plataforma Pulso Barrial · data/live/eventos.jsonl (eventos aparicion_ruta)",
+  "fuente": "Plataforma colonIA · data/live/eventos.jsonl (eventos aparicion_ruta)",
   "archivo_disponible": true
  },
  "escala": {
@@ -243,7 +243,7 @@
    "Cambiar la variable ALCALDIAS agrega una alcaldía sin tocar código."
   ],
   "tipo_dato": "estimado",
-  "fuente": "Diseño de Pulso Barrial (estimación del equipo)"
+  "fuente": "Diseño de colonIA (estimación del equipo)"
  },
  "demo_data": true
 }
