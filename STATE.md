@@ -1,16 +1,15 @@
 # STATE
 
 Phase: execution
-Updated: 1793315123
+Updated: 1793315549
 AVAILABLE: -
-CLAIMED: CO-016 
+CLAIMED: -
 BLOCKED: -
 REVIEW: -
 INTEGRATED: (25; last 12) ... CO-014 CO-015 CO-017 CO-018 CO-019 CO-020 CO-021 CO-022 CO-023 CO-025 CO-026 CO-027 
-CANCELLED: CO-024 
+CANCELLED: CO-016 CO-024 
 
 Claims (first 24; status --task ID shows detail):
-CO-016 | CLAIMED | victor-1 | until 1793317823
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
