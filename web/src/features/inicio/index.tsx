@@ -18,11 +18,12 @@ export const order = 0;
 
 const DONA_LUPE = "alta-puesto-de-dona-lupe";
 
+// Acentos AA sobre blanco (texto y botones), todos desde lib/ui/tokens.css.
 type Acento = { acc: string };
-const ROSA: Acento = { acc: "var(--ci-rosa-luz)" };
-const CEMPA: Acento = { acc: "var(--ci-cempasuchil)" };
-const JADE: Acento = { acc: "var(--ci-jade-luz)" };
-const ANIL: Acento = { acc: "#7f9be6" };
+const TERRACOTA: Acento = { acc: "var(--pb-acento)" };
+const CEMPA: Acento = { acc: "var(--pb-cempasuchil-texto)" };
+const JADE: Acento = { acc: "var(--pb-jade)" };
+const ANIL: Acento = { acc: "var(--pb-anil)" };
 
 function Enlace({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
   return (
@@ -35,15 +36,19 @@ function Enlace({ href, children, className = "" }: { href: string; children: Re
 function Hero() {
   return (
     <section className="ci-hero" aria-labelledby="titulo-colonia">
-      <div className="ci-hero-glow" aria-hidden="true" />
       <div className="ci-wrap ci-hero-grid">
         <div>
           <h1 id="titulo-colonia" className="ci-marca">
             colon<span className="ci-marca-ia">IA</span>
           </h1>
-          <p className="ci-tagline">La red viva de la economía de barrio</p>
+          <p className="ci-tagline">La red viva de los negocios de barrio</p>
+          <p className="ci-wow">
+            Una nota de voz da de alta un negocio y a su repartidor; el negocio aparece en el mapa de la ciudad y el
+            repartidor ve su primera ruta en el portal.
+          </p>
           <p className="ci-pitch">
-            Mira dónde se mueve el dinero del barrio, arma tu ruta sin cadenas y aparece en la red con una nota de voz.
+            Tianguis, mercados y negocios de barrio en un solo mapa, con rutas de compra sin cadenas y repartidores de
+            la misma colonia.
           </p>
           <div className="ci-ctas">
             <Enlace href="#/sedeco" className="ci-btn ci-btn-primario">
@@ -88,7 +93,7 @@ const CIFRAS = [
     decimales: 1,
     sufijo: "%",
     texto: "de los negocios vendió en línea (2023)",
-    acento: ROSA,
+    acento: TERRACOTA,
     fuente: (
       <>
         Fuente:{" "}
@@ -141,10 +146,15 @@ function Problema() {
 }
 
 /* Mini-ilustraciones SVG (sin imágenes): cada paso tiene la suya. */
+const ANIL_C = "var(--pb-anil)";
+const JADE_C = "var(--pb-jade)";
+const CEMPA_C = "var(--pb-cempasuchil)";
+const TERRA_C = "var(--pb-acento)";
+
 function IluVer() {
   const celdas = [
-    [40, 30, "#1f3b8c"], [70, 30, "#00a86b"], [100, 30, "#1f3b8c"], [55, 52, "#1f3b8c"],
-    [85, 52, "#ffb703"], [115, 52, "#1f3b8c"], [40, 74, "#1f3b8c"], [70, 74, "#e6007e"], [100, 74, "#00a86b"],
+    [40, 30, ANIL_C], [70, 30, JADE_C], [100, 30, ANIL_C], [55, 52, ANIL_C],
+    [85, 52, CEMPA_C], [115, 52, ANIL_C], [40, 74, ANIL_C], [70, 74, TERRA_C], [100, 74, JADE_C],
   ] as const;
   return (
     <svg viewBox="0 0 240 120" className="ci-ilu" aria-hidden="true">
@@ -153,11 +163,11 @@ function IluVer() {
           key={i}
           points={hexPts(x, y, 15)}
           fill={c}
-          fillOpacity={c === "#1f3b8c" ? 0.55 : 0.9}
+          fillOpacity={c === ANIL_C ? 0.35 : 0.85}
         />
       ))}
-      <circle cx="185" cy="60" r="22" fill="none" stroke="#ffb703" strokeWidth="2" strokeDasharray="4 5" />
-      <text x="185" y="64" textAnchor="middle" fill="#ffb703" fontSize="12" fontWeight="700">falta</text>
+      <circle cx="185" cy="60" r="22" fill="none" stroke="var(--pb-cempasuchil-texto)" strokeWidth="2" strokeDasharray="4 5" />
+      <text x="185" y="64" textAnchor="middle" fill="var(--pb-cempasuchil-texto)" fontSize="12" fontWeight="700">falta</text>
     </svg>
   );
 }
@@ -165,13 +175,13 @@ function IluVer() {
 function IluRuta() {
   return (
     <svg viewBox="0 0 240 120" className="ci-ilu" aria-hidden="true">
-      <path className="ci-ruta" d="M28 84 C 70 30, 110 100, 150 52 S 205 30, 214 40" fill="none" stroke="#ffb703" strokeWidth="3" strokeLinecap="round" />
+      <path className="ci-ruta" d="M28 84 C 70 30, 110 100, 150 52 S 205 30, 214 40" fill="none" stroke={CEMPA_C} strokeWidth="3" strokeLinecap="round" />
       {[[28, 84], [96, 74], [150, 52], [214, 40]].map(([x, y], i) => (
         <g key={i}>
-          <circle cx={x} cy={y} r="9" fill="#0b0f14" stroke="#00a86b" strokeWidth="3" />
+          <circle cx={x} cy={y} r="9" fill="var(--pb-superficie)" stroke={JADE_C} strokeWidth="3" />
         </g>
       ))}
-      <text x="28" y="110" fill="#b9c2d0" fontSize="11">0 cadenas</text>
+      <text x="28" y="110" fill="var(--pb-texto-2)" fontSize="11">0 cadenas</text>
     </svg>
   );
 }
@@ -189,7 +199,7 @@ function IluVoz() {
           width="10"
           height={h}
           rx="5"
-          fill="#e6007e"
+          fill={TERRA_C}
           style={{ animationDelay: `${i * 0.11}s` }}
         />
       ))}
@@ -206,8 +216,8 @@ function hexPts(cx: number, cy: number, r: number) {
 
 const PASOS = [
   {
-    titulo: "SEDECO ve dónde falta comercio",
-    texto: "El mapa muestra dónde se mueve el dinero y en qué zonas no hay negocios de barrio.",
+    titulo: "La ciudad ve dónde falta comercio",
+    texto: "El mapa junta tianguis, mercados y negocios de barrio de las 16 alcaldías y muestra dónde faltan.",
     ilu: <IluVer />,
     href: "#/sedeco",
     cta: "Ver el mapa",
@@ -223,11 +233,11 @@ const PASOS = [
   },
   {
     titulo: "Doña Lupe se suma con una nota de voz",
-    texto: "Manda un audio por Telegram y su puesto aparece en el mapa, en las rutas y en su página.",
+    texto: "Manda un audio por Telegram: su puesto aparece en el mapa y su repartidor recibe rutas del barrio.",
     ilu: <IluVoz />,
     href: `#/negocio/${DONA_LUPE}`,
     cta: "Ver su puesto",
-    acento: ROSA,
+    acento: TERRACOTA,
   },
 ];
 
@@ -263,8 +273,8 @@ function Como() {
 const PARA_QUIEN = [
   { titulo: "SEDECO y alcaldías", texto: "Ven dónde se mueve el dinero y dónde falta comercio, por día y hora.", icono: <MapTrifoldIcon size={26} />, acento: CEMPA },
   { titulo: "Vecinas", texto: "Resuelven su lista del mandado a pie, en negocios de su colonia.", icono: <HouseIcon size={26} />, acento: JADE },
-  { titulo: "Comerciantes de barrio", texto: "Aparecen en la red con una nota de voz, sin descargar nada.", icono: <StorefrontIcon size={26} />, acento: ROSA },
-  { titulo: "Colectivos INJUVE", texto: "Mantienen los datos del barrio y lo llevan a la calle.", icono: <UsersThreeIcon size={26} />, acento: ANIL },
+  { titulo: "Negocios de barrio", texto: "Tianguis, mercados y tienditas aparecen en la red con una nota de voz, sin descargar nada.", icono: <StorefrontIcon size={26} />, acento: TERRACOTA },
+  { titulo: "Repartidores del barrio", texto: "Gente de la colonia toma rutas cercanas y entrega a pie o en bici.", icono: <UsersThreeIcon size={26} />, acento: ANIL },
 ];
 
 function ParaQuien() {
@@ -348,21 +358,21 @@ function Escala() {
               Gobierno, comercio y academia sostienen la misma red. Cada quien aporta lo que sabe hacer.
             </p>
             <div className="ci-helice">
-              <div style={{ "--k": "#ffb703" } as CSSProperties}>
+              <div style={{ "--k": CEMPA_C } as CSSProperties}>
                 <i aria-hidden="true" />
                 <span>
                   <b>Gobierno</b>
                   <small>SEDECO publica el estándar abierto y usa el mapa para decidir.</small>
                 </span>
               </div>
-              <div style={{ "--k": "#00a86b" } as CSSProperties}>
+              <div style={{ "--k": JADE_C } as CSSProperties}>
                 <i aria-hidden="true" />
                 <span>
                   <b>Comercio</b>
                   <small>CANACOPE y los comerciantes de barrio suman sus puestos y su voz.</small>
                 </span>
               </div>
-              <div style={{ "--k": "#e6007e" } as CSSProperties}>
+              <div style={{ "--k": TERRA_C } as CSSProperties}>
                 <i aria-hidden="true" />
                 <span>
                   <b>Academia</b>
@@ -411,7 +421,7 @@ export default function Inicio() {
       <Cierre />
       <footer className="ci-pie">
         <div className="ci-wrap">
-          <p>Hecho en el Chilangatón 2026 · datos de la demo simulados donde se indica</p>
+          <p>colonIA · hecho en HackADA 2026 · datos de la demo simulados donde se indica</p>
         </div>
       </footer>
     </div>

@@ -51,10 +51,10 @@ function construirRejilla(): { celdas: Celda[]; radio: number } {
 }
 
 const COLOR_VAR: Record<Color, string> = {
-  rosa: "var(--ci-rosa)",
+  rosa: "var(--ci-acento)",
   cempasuchil: "var(--ci-cempasuchil)",
   jade: "var(--ci-jade)",
-  anil: "var(--ci-anil-luz)",
+  anil: "var(--ci-anil)",
 };
 
 const { celdas, radio } = construirRejilla();
@@ -71,14 +71,6 @@ export function RejillaHex({ className = "" }: { className?: string }) {
       <title id="titulo-hex">
         Rejilla de hexágonos H3 simulada alrededor de Coyoacán: las celdas se encienden en olas desde el centro.
       </title>
-      <defs>
-        <radialGradient id="halo-hex" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#FFB703" stopOpacity="0.35" />
-          <stop offset="60%" stopColor="#E6007E" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#E6007E" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <circle cx={LADO / 2} cy={LADO / 2} r={LADO / 2} fill="url(#halo-hex)" />
       {celdas.map((c) => (
         <path
           key={c.id}
@@ -93,7 +85,7 @@ export function RejillaHex({ className = "" }: { className?: string }) {
           }
         />
       ))}
-      <circle cx={LADO / 2} cy={LADO / 2} r="7" fill="#FFB703" className="hx-centro" />
+      <circle cx={LADO / 2} cy={LADO / 2} r="7" fill="var(--pb-acento)" className="hx-centro" />
     </svg>
   );
 }
