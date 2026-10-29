@@ -135,3 +135,19 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Bot: altas y repartidores contra la API desplegada (Render) y links públicos
 - **Verify:** `uv run pytest -q app/tests/test_bot_repartidor.py`
+## CO-024 · Íconos del mapa más grandes y legibles según el zoom
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 10 min
+- **Rubric / Spec:** C4 · verificación en producción de CO-021
+- **Depends on:** None
+- **Uses contract:** None
+- **Paths:** web/src/lib/map/iconos.ts
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Los íconos individuales (tianguis, mercado, negocio local) crecen con el zoom (`icon-size` con `interpolate` por zoom: pequeños en vista de ciudad, claramente distinguibles por forma al acercar a Coyoacán/Iztapalapa); el cluster mantiene su conteo legible
+  - Sin cambiar la API (`agregarIconos`, `filtrarTipos`) ni los SVG; sin neón
+  - Verificación visual en `https://colonia-hackada.onrender.com/#/mapa` o local con Playwright (movimiento reducido) tras acercar a Coyoacán: las tres formas se distinguen; captura en la evidencia
+- **Verify:** `npm --prefix web run build`
+- **Next step:** `web/src/lib/map/iconos.ts:88` (`icon-size`)

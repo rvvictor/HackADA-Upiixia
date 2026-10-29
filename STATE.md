@@ -1,7 +1,7 @@
 # STATE
 
 Phase: feature freeze; authorized fixes, rehearsal and submission only
-Updated: 1793311468
+Updated: 1793311568
 AVAILABLE: CO-023 
 CLAIMED: CO-016 
 BLOCKED: -
@@ -14,11 +14,11 @@ CO-016 | CLAIMED | yojan-1 | until 1793314168
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
-- 1793310375 | deadline freeze/event/1793310300 | FREEZE_DEMO_FIXES_ONLY | New claims only with Freeze-Allowed: yes; respect authorization.
 - 1793310467 | plan | victor/victor | tasks added: CO-020 | Why: backlog without PR (Plan-Channel: claims)
 - 1793310890 | plan | victor/victor | tasks added: CO-021 | Why: backlog without PR (Plan-Channel: claims)
 - 1793311269 | plan | victor/victor | tasks added: CO-022 | Why: backlog without PR (Plan-Channel: claims)
 - 1793311421 | CO-023 | follow-up of CO-009 by crxthrx-2: Bot: altas y repartidores contra la API desplegada (Render) y links públicos | Why: same Paths, no scope change
+- 1793311568 | plan | victor/victor | tasks added: CO-024 | Why: backlog without PR (Plan-Channel: claims)
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.
