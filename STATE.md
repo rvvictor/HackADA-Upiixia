@@ -1,11 +1,11 @@
 # STATE
 
 Phase: execution
-Updated: 1793308479
+Updated: 1793308490
 AVAILABLE: CO-010 CO-011 CO-015 CO-016 
-CLAIMED: CO-002 CO-005 CO-007 CO-014 
+CLAIMED: CO-002 CO-005 CO-007 
 BLOCKED: -
-REVIEW: CO-001 CO-012 
+REVIEW: CO-001 CO-012 CO-014 
 INTEGRATED: CO-003 CO-004 CO-006 CO-008 CO-009 CO-013 
 CANCELLED: -
 
@@ -15,7 +15,7 @@ CO-002 | CLAIMED | yojan-1 | until 1793310666
 CO-005 | CLAIMED | zoe-1 | until 1793309833
 CO-007 | CLAIMED | victor-1 | until 1793310622
 CO-012 | REVIEW | victor-2 | until 1793322817
-CO-014 | CLAIMED | victor-2 | until 1793311102
+CO-014 | REVIEW | victor-2 | until 1793322890
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
