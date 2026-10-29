@@ -180,3 +180,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Entrar al portal solo con numero de repartidor valido, sin codigo
 - **Verify:** `npm --prefix web run build`
+
+## CO-027 · Repartidor demo fijo R-00001 con codigo 123456 (tambien en Render) (follow-up of CO-005)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-005
+- **Follow-up of:** CO-005
+- **Paths:** app/routers/repartidores.py, app/routers/ofertas.py, app/routers/incentivos.py, app/services/repartidores.py, app/services/ofertas.py, app/tests/test_repartidores.py, app/tests/test_ofertas.py
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Repartidor demo fijo R-00001 con codigo 123456 (tambien en Render)
+- **Verify:** `uv run pytest -q app/tests/test_repartidores.py app/tests/test_ofertas.py`
