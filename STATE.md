@@ -1,7 +1,7 @@
 # STATE
 
 Phase: execution
-Updated: 1793310065
+Updated: 1793310091
 AVAILABLE: CO-016 CO-017 CO-019 
 CLAIMED: CO-015 
 BLOCKED: -
@@ -16,11 +16,11 @@ CO-015 | CLAIMED | victor-2 | until 1793312338
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
-- 1793308566 | CO-005 | modelos y pesos locales sin contrato CO-001 | Why: CO-001 sin schema publicado
 - 1793309045 | plan | victor/victor | tasks added: CO-017 | Why: backlog without PR (Plan-Channel: claims)
 - 1793309056 | plan --amend | victor/victor | amended: CO-016 | Why: scope or criteria fixed before review
 - 1793309153 | plan | victor/victor | tasks added: CO-018 | Why: backlog without PR (Plan-Channel: claims)
 - 1793309684 | plan | victor/victor | tasks added: CO-019 | Why: backlog without PR (Plan-Channel: claims)
+- 1793310091 | plan --amend | victor/victor | amended: CO-019 Paths: web/public/, web/src/features/mapa/ → web/public/favicon.svg, web/src/features/mapa/; | Why: scope or criteri
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.
