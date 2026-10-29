@@ -8,7 +8,7 @@ Todos los prompts de abajo están copiados del código. Si cambias el código, c
 
 - Los modelos se fijan solo en `app/config.py`: `OPENAI_MODEL` (por defecto `gpt-5.6-terra`), `OPENAI_FALLBACK_MODEL` (`gpt-5-mini`) y `OPENAI_TRANSCRIBE_MODEL` (`gpt-transcribe`, con `whisper-1` de respaldo en `transcribir`). Los IDs exactos siguen **por validar** con la cuenta del equipo.
 - **Salida estructurada**: la llamada usa `responses.parse(..., text_format=<modelo Pydantic>)`; la salida se vuelve a validar con Pydantic.
-- Si no valida, se reintenta una vez con el mismo modelo, luego con el modelo de respaldo, y al final se usa la **respuesta grabada** (`app/fixtures/`) o las reglas locales. Un fallo del modelo nunca tumba el alta.
+- Si no valida, se reintenta una vez con el mismo modelo, luego con el modelo de respaldo, y al final se usa la **respuesta grabada** (`app/bot/fixtures/`) o las reglas locales. Un fallo del modelo nunca tumba el alta.
 - Sin `OPENAI_API_KEY` o con `DEMO_MODE=1` no se llama a ningún modelo (`usar_respaldo()`).
 - El modelo elige de **listas cerradas** (claves SCIAN, enums de transporte, alcaldías). Si responde algo fuera de la lista, el código lo corrige (`clase_scian` inválida pasa a `999999`, "Otro").
 
@@ -28,7 +28,7 @@ Esquema de salida (`Ficha`, Pydantic): `nombre`, `giro`, `clase_scian`, `product
 
 Después del modelo, código determinista: valida `clase_scian` contra `GIROS`, rellena `giro` con el nombre de la lista, ordena y filtra `dias`. El comerciante confirma con el botón **Así queda** antes de publicar (`confirmado`).
 
-Ejemplo de entrada: la transcripción grabada de Doña Lupe (`app/fixtures/dona_lupe_transcripcion.txt`); ejemplo de salida grabada: `app/fixtures/dona_lupe_ficha.json`.
+Ejemplo de entrada: la transcripción grabada de Doña Lupe (`app/bot/fixtures/dona_lupe_transcripcion.txt`); ejemplo de salida grabada: `app/bot/fixtures/dona_lupe_ficha.json`.
 
 ## 2. Alta del repartidor (texto o voz, un campo por mensaje)
 
@@ -67,7 +67,7 @@ Salida con esquema JSON estricto: `{"clase": <una de las clases dadas o "ninguna
 - **Descripción de la página del negocio** (`app/services/negocio.py::descripcion`): es una plantilla fija con datos de la ficha. No usa modelo.
 - **Ruta de compras, prioridad de repartidores, puntajes, cifras del mapa**: código determinista.
 - **Foto del pizarrón o del puesto**: no implementada; no hay prompt.
-- **Identidad del repartidor**: la verificación de la foto de identificación es simulada en la demo (`verificar_id`); no la hace un modelo.
+- **Identidad del repartidor**: la verificación de la foto de identificación es simulada en la demo (`verificar_id`: en demo se da por buena y se borra la imagen; fuera de demo la revisa una persona); no la hace un modelo.
 
 ## Qué se pasa al modelo y qué no
 

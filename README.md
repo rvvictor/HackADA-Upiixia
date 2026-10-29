@@ -47,7 +47,7 @@ Van solo en `.env` (está en `.gitignore`; nunca se versionan). Sin ellas, `DEMO
 
 | Variable | Para qué | Respaldo sin llave |
 |---|---|---|
-| `OPENAI_API_KEY` | Transcripción de voz y extracción estructurada | Respuestas grabadas en `app/fixtures/` |
+| `OPENAI_API_KEY` | Transcripción de voz y extracción estructurada | Respuestas grabadas en `app/bot/fixtures/` |
 | `MAPBOX_TOKEN` | Rutas y orden de paradas (servidor) | Vecino más cercano en Python |
 | `VITE_MAPBOX_TOKEN` | Mapa base en el navegador (token público) | Mapa sin base |
 | `TELEGRAM_BOT_TOKEN` | Bot de altas | `scripts/simular_alta.py` |
