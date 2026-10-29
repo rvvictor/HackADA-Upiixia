@@ -1,11 +1,11 @@
-import mapboxgl, { type ExpressionSpecification, type FilterSpecification } from "mapbox-gl";
+import mapboxgl, { type FilterSpecification } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
+import { pintarCapa } from "../../lib/map/hex";
 import type { Alta, CapaHex, ColeccionHex, Tianguis } from "./datos";
 
 // Cámara inicial: 50° sobre Coyoacán con Iztapalapa a la vista (IDEA.md §4 paso 1).
 const CAMARA = { center: [-99.118, 19.352] as [number, number], zoom: 11.7, pitch: 50, bearing: -12 };
 const GRIS = "#c3c9d0";
-const RAMPA_IMPULSO = ["#ffeedd", "#fcc58b", "#f5914a", "#d9581b", "#9a3412"];
 const COLOR_ALCALDIA: Record<string, string> = { "09003": "#c2410c", "09007": "#0e5c58" };
 
 type Props = {
@@ -18,29 +18,20 @@ type Props = {
   onSeleccion: (h3: string | null) => void;
 };
 
-const ALTURA_PROP: Record<CapaHex, string> = {
-  actividad: "n_actividad",
-  oferta: "n_negocios",
-  poblacion: "n_poblacion",
-  impulso: "impulso",
-};
-
-const rampa = (): ExpressionSpecification =>
-  ["interpolate", ["linear"], ["coalesce", ["get", "impulso"], 0], 0, RAMPA_IMPULSO[0], 0.25, RAMPA_IMPULSO[1], 0.5, RAMPA_IMPULSO[2], 0.75, RAMPA_IMPULSO[3], 1, RAMPA_IMPULSO[4]];
-
 function pintarHex(map: mapboxgl.Map, capa: CapaHex, datoReal: boolean) {
-  const oculto: ExpressionSpecification = ["==", ["get", "oculto"], true];
-  const alturaPorCapa: ExpressionSpecification = ["*", ["coalesce", ["get", ALTURA_PROP[capa]], 0], 1200];
-  map.setPaintProperty("hex-3d", "fill-extrusion-height", datoReal ? 0 : ["case", oculto, 0, alturaPorCapa]);
+  pintarCapa(map, capa);
+  if (!datoReal) return;
+  // "Ver dato real": sin altura estimada, solo el color por alcaldía.
+  map.setPaintProperty("hex-3d", "fill-extrusion-height", 0);
   map.setPaintProperty("hex-3d", "fill-extrusion-color", [
     "case",
-    oculto,
+    ["==", ["get", "oculto"], true],
     GRIS,
-    datoReal ? ["match", ["get", "alcaldia_cvegeo"], "09003", COLOR_ALCALDIA["09003"], "09007", COLOR_ALCALDIA["09007"], GRIS] : rampa(),
+    ["match", ["get", "alcaldia_cvegeo"], "09003", COLOR_ALCALDIA["09003"], "09007", COLOR_ALCALDIA["09007"], GRIS],
   ]);
 }
 
-export function MapaSedeco({ hex, capa, datoReal, tianguis, altas, seleccionado, onSeleccion }: Props) {
+export function MapaHex({ hex, capa, datoReal, tianguis, altas, seleccionado, onSeleccion }: Props) {
   const contenedor = useRef<HTMLDivElement>(null);
   const mapaRef = useRef<mapboxgl.Map | null>(null);
   const marcasRef = useRef(new Map<string, mapboxgl.Marker>());
