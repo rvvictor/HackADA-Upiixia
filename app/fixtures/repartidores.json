@@ -1,0 +1,161 @@
+{
+  "POST /api/repartidores (request)": {
+    "chat_id": 100200300,
+    "acepta_privacidad": true,
+    "nombre_mostrar": "Mariana",
+    "edad": 21,
+    "estudiante": true,
+    "alcaldia_cvegeo": "09003",
+    "colonias": [
+      "Santa Catarina",
+      "Ex Hacienda Coapa"
+    ],
+    "transporte": "bici",
+    "disponibilidad": {
+      "dias": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "desde": "14:00",
+      "hasta": "20:00"
+    },
+    "tipo_id": "credencial_escolar",
+    "negocio_id": null,
+    "invitacion": null,
+    "demo_data": true
+  },
+  "POST /api/repartidores": {
+    "id": "R-00042",
+    "estado": "pendiente_verificacion",
+    "portal_url": "/#/repartidor",
+    "aviso_transporte": null
+  },
+  "POST /api/repartidores/invitacion (request)": {
+    "negocio_id": "neg-0001"
+  },
+  "POST /api/repartidores/invitacion": {
+    "token": "demo7f3a",
+    "link": "https://t.me/<bot>?start=inv_demo7f3a",
+    "negocio_id": "neg-0001",
+    "expira_ts": 1793393210.0
+  },
+  "POST /api/repartidores/codigo (request)": {
+    "id": "R-00042"
+  },
+  "POST /api/repartidores/codigo": {
+    "enviado": true,
+    "canal": "telegram",
+    "codigo_demo": "123456"
+  },
+  "POST /api/repartidores/sesion (request)": {
+    "id": "R-00042",
+    "codigo": "123456"
+  },
+  "POST /api/repartidores/sesion": {
+    "token": "demo-sesion-R-00042",
+    "repartidor_id": "R-00042",
+    "expira_ts": 1793310410.0
+  },
+  "GET /api/repartidores/{id}": {
+    "repartidor": {
+      "id": "R-00042",
+      "ts_alta": 1793300000.0,
+      "nombre_mostrar": "Mariana",
+      "alcaldia_cvegeo": "09003",
+      "colonias": [
+        "Santa Catarina",
+        "Ex Hacienda Coapa"
+      ],
+      "transporte": "bici",
+      "disponibilidad": {
+        "dias": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "desde": "14:00",
+        "hasta": "20:00"
+      },
+      "id_verificada": true,
+      "estado": "activo",
+      "negocio_id": null,
+      "rutas_completadas": 12,
+      "demo_data": true
+    },
+    "rutas": [
+      {
+        "id": "O-0003",
+        "ts": 1793303000.0,
+        "negocio_id": "neg-0001",
+        "negocio_nombre": "Carnicería Doña Toña",
+        "tipo_negocio": "negocio_local",
+        "paradas": [
+          {
+            "lat": 19.283447,
+            "lng": -99.158246,
+            "h3": "894995840c3ffff",
+            "colonia": "Pueblo de Los Reyes"
+          }
+        ],
+        "distancia_m": 1100,
+        "minutos_est": 8,
+        "pago_est": 40.0,
+        "tipo_dato_pago": "simulado",
+        "colonia": "Pueblo de Los Reyes",
+        "estado": "completada",
+        "repartidor_id": "R-00042",
+        "demo_data": true
+      }
+    ],
+    "avance_incentivos": [
+      {
+        "incentivo_id": "bici",
+        "rutas_requeridas": 150,
+        "rutas_completadas": 12,
+        "pct": 8.0,
+        "alcanzado": false
+      },
+      {
+        "incentivo_id": "casco",
+        "rutas_requeridas": 20,
+        "rutas_completadas": 12,
+        "pct": 60.0,
+        "alcanzado": false
+      },
+      {
+        "incentivo_id": "luces",
+        "rutas_requeridas": 35,
+        "rutas_completadas": 12,
+        "pct": 34.3,
+        "alcanzado": false
+      },
+      {
+        "incentivo_id": "candado",
+        "rutas_requeridas": 50,
+        "rutas_completadas": 12,
+        "pct": 24.0,
+        "alcanzado": false
+      },
+      {
+        "incentivo_id": "mochila",
+        "rutas_requeridas": 75,
+        "rutas_completadas": 12,
+        "pct": 16.0,
+        "alcanzado": false
+      },
+      {
+        "incentivo_id": "mantenimiento",
+        "rutas_requeridas": 100,
+        "rutas_completadas": 12,
+        "pct": 12.0,
+        "alcanzado": false
+      }
+    ],
+    "aviso_transporte": null
+  }
+}

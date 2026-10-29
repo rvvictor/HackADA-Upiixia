@@ -20,10 +20,25 @@ class Settings(BaseSettings):
     denue_token: str = ""
     alcaldias: str = "09003,09007"
     demo_mode: bool = False
+    # v2 §5: primero en mapa, panel, bot y selectores
+    alcaldias_prioridad: str = "09003,09007"
+    # v2 §2: negocio local = comercio al por menor (46) o servicios de consumo (72, 81), con estos estratos DENUE
+    negocio_local_estratos: str = "0 a 5 personas,6 a 10 personas"
+    negocio_local_scian: str = "46,72,81"
+    # v2 §4.3: prioridad = peso_edad (si edad en rango) + peso_estudiante (si estudia); solo ordena, no excluye
+    repartidor_edad_minima: int = 18
+    prioridad_edad_min: int = 18
+    prioridad_edad_max: int = 30
+    prioridad_peso_edad: int = 1
+    prioridad_peso_estudiante: int = 1
 
     @property
     def alcaldias_list(self) -> list[str]:
         return [a.strip() for a in self.alcaldias.split(",") if a.strip()]
+
+    @property
+    def alcaldias_prioridad_list(self) -> list[str]:
+        return [a.strip() for a in self.alcaldias_prioridad.split(",") if a.strip()]
 
 
 settings = Settings()
