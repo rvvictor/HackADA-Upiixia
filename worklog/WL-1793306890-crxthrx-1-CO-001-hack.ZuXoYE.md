@@ -11,3 +11,4 @@
 ## History
 - 1793306890 | CLAIMED | crxthrx-1 | claim; next: leer §7 de IDEA.md y crear app/schemas/repartidores.py
 - 1793308264 | REVIEW | crxthrx-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/2; evidence: uv run pytest -q app/tests/test_schemas_v2.py app/tests/test_schemas.py exit 0 (46, con --with tzdata en Windows); npm --prefix web run build exit 0; criterios cumplidos; smoke no corrió local; reviewer: -
+- 1793308479 | REVIEW | zoe-2 | review; approve; SHA c0e1eb2750995b0689eaba4ea396a329f55fcaf0; reviewer zoe-2
