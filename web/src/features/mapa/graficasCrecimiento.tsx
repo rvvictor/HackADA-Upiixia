@@ -1,5 +1,5 @@
-import { COLORES } from "./colores";
-import type { SerieAlcaldia } from "./tipos";
+import { COLORES } from "./coloresCrecimiento";
+import type { SerieAlcaldia } from "./tiposCrecimiento";
 
 const fmt = (n: number) => n.toLocaleString("es-MX");
 

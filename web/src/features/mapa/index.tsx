@@ -4,6 +4,8 @@ import {
   cargarAltas,
   cargarAlcaldias,
   cargarHex,
+  cargarRutas,
+  conCapasDinamicas,
   cargarResumen,
   cargarTianguis,
   calcularCobertura,
@@ -18,18 +20,18 @@ import {
   type Resumen,
   type Tianguis,
 } from "./datos";
-import { MapaSedeco } from "./MapaSedeco";
+import type { RutasPorHexagono } from "./tiposCrecimiento";
+import { CAPAS } from "../../lib/map/hex";
+import { ChipsTipoMinimo } from "./ChipsAdaptador";
+import { TarjetaAlcaldia } from "./TarjetaAlcaldia";
+import { cargarAlcaldiasInfo, cargarPuntosProgresivo, type AlcaldiaInfo, type PuntoMapa, type TipoPunto } from "./puntos";
+import { Leyenda } from "./Leyenda";
+import { MapaHex } from "./MapaHex";
 import { Panel, TarjetaHex } from "./PanelSedeco";
 
-const CAPAS: { id: CapaHex; texto: string }[] = [
-  { id: "actividad", texto: "Actividad" },
-  { id: "oferta", texto: "Oferta barrial" },
-  { id: "poblacion", texto: "Población" },
-  { id: "impulso", texto: "Impulso" },
-];
 const MAX_ALTAS = 100;
 
-export default function Sedeco(_props: FeatureProps) {
+export default function Mapa(_props: FeatureProps) {
   const [dia, setDia] = useState(diaHoy);
   const [hora, setHora] = useState(() => Math.min(23, Math.max(0, new Date().getHours())));
   const [capa, setCapa] = useState<CapaHex>("actividad");
@@ -39,7 +41,34 @@ export default function Sedeco(_props: FeatureProps) {
   const [hex, setHex] = useState<{ data: ColeccionHex; origen: Origen } | null>(null);
   const [tianguis, setTianguis] = useState<{ lista: Tianguis[]; origen: Origen }>({ lista: [], origen: "api" });
   const [alcaldias, setAlcaldias] = useState<{ lista: Alcaldia[]; origen: Origen }>({ lista: [], origen: "api" });
+  const [rutas, setRutas] = useState<RutasPorHexagono | null>(null);
   const [resumen, setResumen] = useState<Resumen | null>(null);
+
+  const [tipos, setTipos] = useState<TipoPunto[]>(["tianguis", "mercado"]);
+  const [infoAlcaldias, setInfoAlcaldias] = useState<AlcaldiaInfo[]>([]);
+  const [alcaldiaSel, setAlcaldiaSel] = useState("09003");
+  const [puntos, setPuntos] = useState<PuntoMapa[]>([]);
+
+  useEffect(() => {
+    let vivo = true;
+    cargarAlcaldiasInfo().then((r) => vivo && setInfoAlcaldias(r));
+    return () => {
+      vivo = false;
+    };
+  }, []);
+
+  // Primero 09003 y 09007; el resto de alcaldías llega en segundo plano.
+  useEffect(() => {
+    if (!infoAlcaldias.length) return;
+    let vivo = true;
+    setPuntos([]);
+    cargarPuntosProgresivo(tipos, infoAlcaldias.map((a) => a.cvegeo), (n) => setPuntos((prev) => [...prev, ...n]), () => vivo);
+    return () => {
+      vivo = false;
+    };
+  }, [tipos, infoAlcaldias]);
+
+  const alternarTipo = (t: TipoPunto) => setTipos((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
 
   const [altas, setAltas] = useState<Alta[]>([]);
   const [altaReciente, setAltaReciente] = useState(false);
@@ -48,6 +77,7 @@ export default function Sedeco(_props: FeatureProps) {
     let vivo = true;
     cargarHex().then((r) => vivo && setHex(r));
     cargarAlcaldias().then((r) => vivo && setAlcaldias(r));
+    cargarRutas().then((r) => vivo && setRutas(r));
     return () => {
       vivo = false;
     };
@@ -85,6 +115,11 @@ export default function Sedeco(_props: FeatureProps) {
     return () => window.clearInterval(id);
   }, []);
 
+  const hexCapas = useMemo(
+    () => (hex ? conCapasDinamicas(hex.data, altas, rutas) : { type: "FeatureCollection" as const, features: [] }),
+    [hex, altas, rutas],
+  );
+
   const abiertos = useMemo(() => tianguis.lista.filter((t) => estaAbierto(t, dia, hora)), [tianguis, dia, hora]);
 
   const cobertura = useMemo(() => {
@@ -113,11 +148,12 @@ export default function Sedeco(_props: FeatureProps) {
   return (
     <div className="flex h-full flex-col lg:grid lg:grid-cols-[70fr_30fr]">
       <div className="relative h-[60vh] min-w-0 lg:h-full">
-        <MapaSedeco
-          hex={hex?.data ?? { type: "FeatureCollection", features: [] }}
+        <MapaHex
+          hex={hexCapas}
           capa={capa}
           datoReal={datoReal}
           tianguis={abiertos}
+          puntos={puntos}
           altas={altas}
           seleccionado={seleccion}
           onSeleccion={setSeleccion}
@@ -140,12 +176,25 @@ export default function Sedeco(_props: FeatureProps) {
               </button>
             ))}
           </div>
+          <ChipsTipoMinimo activos={tipos} onAlternar={alternarTipo} />
           {hayEjemplo && (
             <span role="status" className="pointer-events-auto rounded-xl bg-amber-100 px-3 py-2 text-base font-bold text-amber-950 shadow-md">
               Datos de ejemplo
             </span>
           )}
         </div>
+
+        <div className="pointer-events-none absolute bottom-3 right-3 z-10 flex max-w-[calc(100%-1.5rem)]">
+          <div className="pointer-events-auto">
+            <Leyenda capa={capa} tipoDato={capa === "rutas" ? rutas?.tipo_dato : undefined} />
+          </div>
+        </div>
+
+        {infoAlcaldias.length > 0 && (
+          <div className="pointer-events-none absolute left-3 top-24 z-10">
+            <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaSel} onSeleccion={setAlcaldiaSel} />
+          </div>
+        )}
 
         {propsSeleccion && (
           <div className="absolute inset-x-3 bottom-3 flex justify-start">
@@ -175,6 +224,6 @@ export default function Sedeco(_props: FeatureProps) {
   );
 }
 
-export const route = "sedeco";
-export const label = "SEDECO";
+export const route = "mapa";
+export const label = "Mapa";
 export const order = 1;

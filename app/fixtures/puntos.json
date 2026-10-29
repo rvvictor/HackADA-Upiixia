@@ -1,0 +1,125 @@
+{
+  "total": 10,
+  "puntos": [
+    {
+      "id": "sim-09003-03",
+      "tipo": "tianguis",
+      "nombre": "Tianguis Pueblo de Los Reyes",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Pueblo de Los Reyes",
+      "lat": 19.283447,
+      "lng": -99.158246,
+      "h3": "894995840c3ffff",
+      "fuente": "Simulado (pipeline.geo, semilla fija); no es levantamiento de campo",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "sim-09003-05",
+      "tipo": "tianguis",
+      "nombre": "Tianguis Carrasco",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Carrasco",
+      "lat": 19.315469,
+      "lng": -99.133538,
+      "h3": "89499585cd3ffff",
+      "fuente": "Simulado (pipeline.geo, semilla fija); no es levantamiento de campo",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "sim-09003-06",
+      "tipo": "tianguis",
+      "nombre": "Tianguis Covadonga",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Covadonga",
+      "lat": 19.306824,
+      "lng": -99.139362,
+      "h3": "89499584277ffff",
+      "fuente": "Simulado (pipeline.geo, semilla fija); no es levantamiento de campo",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "sim-09003-01",
+      "tipo": "mercado",
+      "nombre": "Mercado Santa Catarina",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Santa Catarina",
+      "lat": 19.333641,
+      "lng": -99.146795,
+      "h3": "89499585c27ffff",
+      "fuente": "Simulado (pipeline.geo, semilla fija); no es levantamiento de campo",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "sim-09003-02",
+      "tipo": "mercado",
+      "nombre": "Mercado Ex Hacienda Coapa",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Ex Hacienda Coapa",
+      "lat": 19.320457,
+      "lng": -99.168424,
+      "h3": "89499584337ffff",
+      "fuente": "Simulado (pipeline.geo, semilla fija); no es levantamiento de campo",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "sim-09003-04",
+      "tipo": "mercado",
+      "nombre": "Mercado Campestre Churubusco",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Campestre Churubusco",
+      "lat": 19.314756,
+      "lng": -99.194899,
+      "h3": "89499584ccbffff",
+      "fuente": "Simulado (pipeline.geo, semilla fija); no es levantamiento de campo",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "neg-0001",
+      "tipo": "negocio_local",
+      "nombre": "Carnicería Doña Toña",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Santa Úrsula Coapa",
+      "lat": 19.32384,
+      "lng": -99.121513,
+      "h3": "89499585e97ffff",
+      "fuente": "data/processed/negocios.json (forma DENUE)",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "neg-0002",
+      "tipo": "negocio_local",
+      "nombre": "Reparación de Calzado El Paisa",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Ciudad Jardín",
+      "lat": 19.299949,
+      "lng": -99.162774,
+      "h3": "89499584077ffff",
+      "fuente": "data/processed/negocios.json (forma DENUE)",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "neg-0003",
+      "tipo": "negocio_local",
+      "nombre": "Tienda Los Arcos",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "San Lucas",
+      "lat": 19.344462,
+      "lng": -99.152242,
+      "h3": "89499585d7bffff",
+      "fuente": "data/processed/negocios.json (forma DENUE)",
+      "tipo_dato": "simulado"
+    },
+    {
+      "id": "neg-0004",
+      "tipo": "negocio_local",
+      "nombre": "Pollería El Pípila",
+      "alcaldia_cvegeo": "09003",
+      "colonia": "Ajusco",
+      "lat": 19.357224,
+      "lng": -99.162367,
+      "h3": "89499585987ffff",
+      "fuente": "data/processed/negocios.json (forma DENUE)",
+      "tipo_dato": "simulado"
+    }
+  ]
+}
