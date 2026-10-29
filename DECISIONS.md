@@ -6,3 +6,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1793308349 | CO-001 | fixtures multi-endpoint como objeto con clave por endpoint | Why: Paths limitan a un archivo por entidad
 - 1793308566 | CO-005 | modelos y pesos locales sin contrato CO-001 | Why: CO-001 sin schema publicado
 - 1793309045 | plan | victor/victor | tasks added: CO-017 | Why: backlog without PR (Plan-Channel: claims)
+- 1793309056 | plan --amend | victor/victor | amended: CO-016 | Why: scope or criteria fixed before review
