@@ -1,7 +1,8 @@
 import mapboxgl, { type FilterSpecification } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
 import { pintarCapa } from "../../lib/map/hex";
-import { TIPOS, type PuntoMapa } from "./puntos";
+import { agregarIconos, CAPA_CLUSTER, CAPA_ICONOS, FUENTE_PUNTOS } from "../../lib/map/iconos";
+import type { PuntoMapa } from "./puntos";
 import type { Alta, CapaHex, ColeccionHex, Tianguis } from "./datos";
 
 // Cámara inicial: 50° sobre Coyoacán con Iztapalapa a la vista (IDEA.md §4 paso 1).
@@ -75,34 +76,24 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
         source: "hex",
         paint: { "fill-extrusion-opacity": 0.88, "fill-extrusion-vertical-gradient": true },
       });
-      mapa.addSource("puntos", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
-      // TODO CO-007: sustituir por los íconos de lib/map/iconos.ts. Aquí: color + forma de borde por tipo.
-      mapa.addLayer({
-        id: "puntos",
-        type: "circle",
-        source: "puntos",
-        paint: {
-          "circle-radius": ["match", ["get", "tipo"], "mercado", 7, "negocio_local", 4, 5],
-          "circle-color": ["match", ["get", "tipo"], ...TIPOS.flatMap((t) => [t.id, t.color]), "#57534e"],
-          "circle-stroke-color": "#ffffff",
-          "circle-stroke-width": ["match", ["get", "tipo"], "mercado", 3, 1.5],
-        },
-      });
-      mapa.on("click", "puntos", (e) => {
-        const f = e.features?.[0];
-        if (!f) return;
-        const pr = f.properties ?? {};
+      mapa.on("click", CAPA_ICONOS, (e) => {
+        const pr = e.features?.[0]?.properties ?? {};
         new mapboxgl.Popup({ offset: 12 })
           .setLngLat(e.lngLat)
-          .setText(`${pr.nombre ?? pr.tipo} (${pr.tipo}). ${pr.tipo_dato} · Fuente: ${pr.fuente}`)
+          .setText(`${pr.nombre || pr.tipo} (${pr.tipo}). ${pr.tipo_dato} · Fuente: ${pr.fuente}`)
           .addTo(mapa);
+      });
+      mapa.on("click", CAPA_CLUSTER, (e) => {
+        const f = e.features?.[0];
+        if (!f) return;
+        mapa.easeTo({ center: (f.geometry as GeoJSON.Point).coordinates as [number, number], zoom: mapa.getZoom() + 2 });
       });
       mapa.addSource("tianguis", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
       mapa.addLayer({
         id: "tianguis",
         type: "circle",
         source: "tianguis",
-        paint: { "circle-radius": 8, "circle-color": "#1c1917", "circle-stroke-color": "#ffffff", "circle-stroke-width": 2 },
+        paint: { "circle-radius": 11, "circle-color": "#c2410c", "circle-opacity": 0.15, "circle-stroke-color": "#c2410c", "circle-stroke-width": 2 },
       });
       mapa.on("click", "hex-3d", (e) => {
         const h3 = e.features?.[0]?.properties?.h3;
@@ -160,13 +151,17 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
   useEffect(() => {
     const mapa = mapaRef.current;
     if (!mapa || !listo) return;
-    (mapa.getSource("puntos") as mapboxgl.GeoJSONSource).setData({
-      type: "FeatureCollection",
-      features: puntos.map((p) => ({
-        type: "Feature" as const,
-        geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
-        properties: { tipo: p.tipo, nombre: p.nombre, tipo_dato: p.tipo_dato, fuente: p.fuente },
-      })),
+    void agregarIconos(mapa, puntos.map((p) => ({ id: p.id, tipo: p.tipo, nombre: p.nombre, lat: p.lat, lng: p.lng }))).then(() => {
+      const fuente = mapa.getSource(FUENTE_PUNTOS) as mapboxgl.GeoJSONSource | undefined;
+      fuente?.setData({
+        type: "FeatureCollection",
+        features: puntos.map((p) => ({
+          type: "Feature" as const,
+          id: p.id,
+          geometry: { type: "Point" as const, coordinates: [p.lng, p.lat] },
+          properties: { id: p.id, tipo: p.tipo, nombre: p.nombre ?? "", icono: `icono-${p.tipo}`, tipo_dato: p.tipo_dato, fuente: p.fuente },
+        })),
+      });
     });
   }, [listo, puntos]);
 
