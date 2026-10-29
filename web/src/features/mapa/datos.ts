@@ -3,10 +3,12 @@
 import { cellToBoundary, gridDisk, latLngToCell } from "h3-js";
 import * as turf from "@turf/turf";
 import { api } from "../../lib/api";
+import type { Capa } from "../../lib/map/hex";
+import type { RutasPorHexagono } from "./tiposCrecimiento";
 
 export type TipoDato = "real" | "estimado" | "simulado";
 export type Origen = "api" | "ejemplo";
-export type CapaHex = "actividad" | "oferta" | "poblacion" | "impulso";
+export type CapaHex = Capa;
 export type Campo = "poblacion" | "negocios_barriales" | "negocios_total" | "actividad_tpv_est" | "impulso";
 
 export type PropsHex = {
@@ -25,6 +27,8 @@ export type PropsHex = {
   n_actividad?: number;
   n_negocios?: number;
   n_poblacion?: number;
+  n_altas?: number;
+  n_rutas?: number;
 };
 
 export type HexFeature = {
@@ -195,6 +199,42 @@ function normalizarHex(c: ColeccionHex): ColeccionHex {
         n_actividad: (f.properties.actividad_tpv_est ?? 0) / mA,
         n_negocios: (f.properties.negocios_barriales ?? 0) / mN,
         n_poblacion: (f.properties.poblacion ?? 0) / mP,
+      },
+    })),
+  };
+}
+
+/** Rutas por hexágono (GET /api/sedeco/crecimiento). Sin respuesta: null, la capa queda vacía. */
+export async function cargarRutas(): Promise<RutasPorHexagono | null> {
+  try {
+    const r = await api<{ rutas_por_hexagono?: RutasPorHexagono }>("/sedeco/crecimiento");
+    return r.rutas_por_hexagono ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/** Agrega a cada hexágono las capas de Crecimiento (altas de la plataforma) y Rutas, normalizadas 0–1. */
+export function conCapasDinamicas(c: ColeccionHex, altas: Alta[], rutas: RutasPorHexagono | null): ColeccionHex {
+  const cuenta = new Map<string, number>();
+  for (const a of altas) {
+    const lat = a.lat ?? a.ficha?.lat;
+    const lng = a.lng ?? a.ficha?.lng;
+    if (lat == null || lng == null) continue;
+    const h3 = latLngToCell(lat, lng, 9);
+    cuenta.set(h3, (cuenta.get(h3) ?? 0) + 1);
+  }
+  const rutasPorH3 = new Map((rutas?.hexagonos ?? []).map((h) => [h.h3, h.rutas]));
+  const mAltas = Math.max(1, ...cuenta.values());
+  const mRutas = Math.max(1, ...rutasPorH3.values());
+  return {
+    ...c,
+    features: c.features.map((f) => ({
+      ...f,
+      properties: {
+        ...f.properties,
+        n_altas: (cuenta.get(f.properties.h3) ?? 0) / mAltas,
+        n_rutas: (rutasPorH3.get(f.properties.h3) ?? 0) / mRutas,
       },
     })),
   };

@@ -2,7 +2,7 @@ import { useEffect, useState, type ComponentType } from "react";
 
 // Each view is web/src/features/<name>/index.tsx exporting `default`, `route`, `label` and `order`.
 // Adding a view = creating its folder; App.tsx never becomes a conflict point.
-// Hash routes, no login: #/sedeco, #/usuario, #/negocio/:id. The component receives the segments after its route.
+// Hash routes, no login: #/mapa (#/sedeco redirige), #/usuario, #/negocio/:id. The component receives the segments after its route.
 export type FeatureProps = { params: string[] };
 
 type FeatureModule = {
@@ -37,15 +37,20 @@ export default function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  // Rutas retiradas: #/sedeco pasó a #/mapa y #/crecimiento ya no es vista (sus datos son capas del mapa).
+  useEffect(() => {
+    if (segments[0] === "sedeco" || segments[0] === "crecimiento") window.location.replace("#/mapa");
+  }, [segments]);
+
   const current =
     features.find((f) => f.route === segments[0]) ??
-    features.find((f) => f.route === "sedeco") ??
+    features.find((f) => f.route === "mapa") ??
     features[0];
 
   return (
     <div className="flex h-[100dvh] flex-col font-sans">
       <header className="flex shrink-0 items-center gap-6 border-b border-stone-300 bg-white px-5 py-3">
-        <a href="#/sedeco" className="text-xl font-semibold tracking-tight text-stone-900">
+        <a href="#/mapa" className="text-xl font-semibold tracking-tight text-stone-900">
           Pulso Barrial
         </a>
         <nav aria-label="Elegir vista" className="flex gap-2">
