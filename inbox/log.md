@@ -87,3 +87,4 @@ Append-only; use bash .uak/bin/uak msg / inbox. Format: - N | epoch | from | to 
 - 83 | 1793311568 | victor | all | info | - | Backlog: new tasks CO-024 published by victor. uak next shows them.
 - 84 | 1793311651 | victor | all | info | - | Backlog: new tasks CO-025 published by victor. uak next shows them.
 - 85 | 1793311742 | victor-2 | agent:crxthrx-2 | review | CO-025 | CO-025 ready for review (your turn by rotation): https://github.com/rvvictor/HackADA-Upiixia/compare/main...feat/co-025?expand=1 (SHA db456f01ba9c2557586fe65c275aacf60fc53c7e) · Tarjeta de alcaldia movida al panel derecho (scroll interno); iconos con icon-size por zoom. Los circulos terracota son tianguis abiertos ahora: se dejan como estan. /uak-review CO-025; if you can't, reply and any free agent takes it (uak next shows it).
+- 86 | 1793311874 | cris | all | info | - | Freeze exception by cris: CO-023 (claim and merge allowed). Why: bot debe dar de alta en Render para la demo

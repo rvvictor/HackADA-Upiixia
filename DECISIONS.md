@@ -18,3 +18,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1793311421 | CO-023 | follow-up of CO-009 by crxthrx-2: Bot: altas y repartidores contra la API desplegada (Render) y links públicos | Why: same Paths, no scope change
 - 1793311568 | plan | victor/victor | tasks added: CO-024 | Why: backlog without PR (Plan-Channel: claims)
 - 1793311651 | plan | victor/victor | tasks added: CO-025 | Why: backlog without PR (Plan-Channel: claims)
+- 1793311874 | allow | cris | freeze exception: CO-023 | Why: bot debe dar de alta en Render para la demo
