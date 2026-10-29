@@ -12,4 +12,3 @@ An owner is not a prerequisite for everyone: consumers work on published contrac
 | web/src/lib/ui/ | CO-002 |
 | web/src/App.tsx | CO-006 |
 | web/src/lib/map/hex.ts | CO-006 |
-| data/fuentes/ | CO-003 |

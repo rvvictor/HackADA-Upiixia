@@ -60,7 +60,7 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 - **Rubric / Spec:** C3 · `IDEA-v2.md` §5, `data/fuentes/raw.md`
 - **Depends on:** None
 - **Uses contract:** CO-001
-- **Paths:** pipeline/reales/, pipeline/tests/test_reales.py, pipeline/tests/muestras/, data/processed/tianguis_abierto.json, data/processed/mercados.json, data/processed/colonias.json, data/processed/marginacion_colonia.json, data/processed/contaminacion_colonia.json, data/fuentes/
+- **Paths:** pipeline/reales/, pipeline/tests/test_reales.py, pipeline/tests/muestras/, data/processed/tianguis_abierto.json, data/processed/mercados.json, data/processed/colonias.json, data/processed/marginacion_colonia.json, data/processed/contaminacion_colonia.json, data/fuentes/raw.md, data/fuentes/tianguis.md, data/fuentes/mercados.md, data/fuentes/colonias.md, data/fuentes/marginacion.md, data/fuentes/contaminacion.md
 - **Freeze-Allowed:** no
 - **Acceptance:**
   - Lee `data/raw/` (tianguis 1,367, mercados 329, colonias, marginación CONAPO 2020, contaminación) y escribe JSON en `data/processed/` con `tipo_dato: "real"`, `fuente` y `fecha_consulta: 2026-10-25` por fila
@@ -111,7 +111,7 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 
 - **Type:** feature
 - **Priority:** P0
-- **Estimate:** 45 min
+- **Estimate:** 35 min
 - **Rubric / Spec:** C4, C1 · `IDEA-v2.md` §1.1, §1.2, §9
 - **Depends on:** None
 - **Uses contract:** CO-001
@@ -120,7 +120,6 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 - **Acceptance:**
   - La vista pasa a `#/mapa` (la ruta `#/sedeco` redirige); se elimina `#/crecimiento`
   - `pintarCapa(map, capa)`: altura y color leen la misma propiedad en todas las capas (prueba unitaria); selector de capa con leyenda de una rampa, `tipo_dato` y fuente
-  - La serie CNBV y las altas por año salen en una tarjeta de alcaldía; selector de alcaldía con Coyoacán e Iztapalapa primero
   - `npm --prefix web run build` sin errores con el mapa vacío si no hay llave de Mapbox
 - **Verify:** `npm --prefix web run build && npm --prefix web test --if-present`
 - **Next step:** `web/src/lib/map/hex.ts:76` y `web/src/features/sedeco/MapaSedeco.tsx:39`
@@ -187,7 +186,7 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 - **Depends on:** CO-005
 - **Uses contract:** CO-001
 - **Paths:** scripts/simular_repartidor.py, scripts/demo.sh, data/demo/, app/tests/test_demo_repartidor.py
-- **Freeze-Allowed:** no
+- **Freeze-Allowed:** yes
 - **Acceptance:**
   - `scripts/simular_repartidor.py` da de alta un repartidor y publica ofertas con `demo_data: true`; la UI muestra la etiqueta
   - `DEMO_MODE=1 bash scripts/demo.sh` corre el flujo completo sin red ni llaves
@@ -214,15 +213,16 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 
 - **Type:** integration
 - **Priority:** P0
-- **Estimate:** 35 min
+- **Estimate:** 30 min
 - **Rubric / Spec:** C1, C3, C4 · `IDEA-v2.md` §5, §8, §9
 - **Depends on:** CO-006, CO-003
 - **Uses contract:** CO-007, CO-004
 - **Paths:** web/src/features/mapa/, app/routers/mapa.py, app/services/mapa.py, app/tests/test_mapa.py
-- **Freeze-Allowed:** no
+- **Freeze-Allowed:** yes
 - **Acceptance:**
   - `GET /api/puntos?tipo=&bbox=` y `GET /api/alcaldias` sirven los datos reales de `data/processed/`; el frontend pide primero 09003 y 09007
   - Íconos, chips y cluster de CO-007 conectados al mapa; cada cifra con `tipo_dato` y fuente visibles
+  - Tarjeta de alcaldía con la serie CNBV y las altas por año; selector de alcaldía con Coyoacán e Iztapalapa primero
   - Si el JSON de hexágonos pasa de ~5 MB, usar resolución 7 en zoom lejano
 - **Verify:** `uv run pytest -q app/tests/test_mapa.py && npm --prefix web run build`
 - **Next step:** `app/services/mapa.py` leyendo `data/processed/tianguis_abierto.json`
@@ -264,10 +264,10 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 
 - **Type:** demo
 - **Priority:** P0
-- **Estimate:** 30 min
+- **Estimate:** 20 min
 - **Rubric / Spec:** C1, C4 · `.uak/modes/sprint.md` §Submission checklist
-- **Depends on:** CO-012, CO-010
-- **Uses contract:** CO-008, CO-009
+- **Depends on:** CO-010
+- **Uses contract:** CO-008, CO-009, CO-012
 - **Paths:** docs/plan-b/, docs/demo/
 - **Freeze-Allowed:** yes
 - **Acceptance:**
