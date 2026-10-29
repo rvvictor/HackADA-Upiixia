@@ -55,6 +55,7 @@ Events-Per-Session: 100
 Checkpoint-Percent: 60
 Merge-Lease-Seconds: 1800
 Merge-Wait-Seconds: 180
+Merge-Adopt-Seconds: 0
 Max-Parallel-Subagents: 4
 Opus-Subagents-Per-Session: 2
 Pace: auto
