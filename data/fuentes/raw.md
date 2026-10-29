@@ -14,3 +14,7 @@ Qué archivo viene de qué sitio: por confirmar con quien los descargó (Victor)
 
 Todo lo que salga de estos archivos lleva `tipo_dato: "real"` con el nombre del archivo y la fecha de consulta (2026-10-25). Lo calculado sobre ellos va como `estimado`.
 Sigue simulado: población por hexágono, negocios por hexágono (hasta conectar DENUE) y dinero CNBV.
+
+## Procesamiento (CO-003)
+
+`uv run python -m pipeline.reales` lee `data/raw/` y escribe `data/processed/{tianguis_abierto,mercados,colonias,marginacion_colonia,contaminacion_colonia}.json`. Una ficha por fuente: `tianguis.md`, `mercados.md`, `colonias.md`, `marginacion.md`, `contaminacion.md`. Corrige acentos, unifica las 16 alcaldías (09002..09017) y deja `null` donde no hay cruce.
