@@ -22,6 +22,9 @@ import {
 } from "./datos";
 import type { RutasPorHexagono } from "./tiposCrecimiento";
 import { CAPAS } from "../../lib/map/hex";
+import { ChipsTipoMinimo } from "./ChipsAdaptador";
+import { TarjetaAlcaldia } from "./TarjetaAlcaldia";
+import { cargarAlcaldiasInfo, cargarPuntosProgresivo, type AlcaldiaInfo, type PuntoMapa, type TipoPunto } from "./puntos";
 import { Leyenda } from "./Leyenda";
 import { MapaHex } from "./MapaHex";
 import { Panel, TarjetaHex } from "./PanelSedeco";
@@ -40,6 +43,32 @@ export default function Mapa(_props: FeatureProps) {
   const [alcaldias, setAlcaldias] = useState<{ lista: Alcaldia[]; origen: Origen }>({ lista: [], origen: "api" });
   const [rutas, setRutas] = useState<RutasPorHexagono | null>(null);
   const [resumen, setResumen] = useState<Resumen | null>(null);
+
+  const [tipos, setTipos] = useState<TipoPunto[]>(["tianguis", "mercado"]);
+  const [infoAlcaldias, setInfoAlcaldias] = useState<AlcaldiaInfo[]>([]);
+  const [alcaldiaSel, setAlcaldiaSel] = useState("09003");
+  const [puntos, setPuntos] = useState<PuntoMapa[]>([]);
+
+  useEffect(() => {
+    let vivo = true;
+    cargarAlcaldiasInfo().then((r) => vivo && setInfoAlcaldias(r));
+    return () => {
+      vivo = false;
+    };
+  }, []);
+
+  // Primero 09003 y 09007; el resto de alcaldías llega en segundo plano.
+  useEffect(() => {
+    if (!infoAlcaldias.length) return;
+    let vivo = true;
+    setPuntos([]);
+    cargarPuntosProgresivo(tipos, infoAlcaldias.map((a) => a.cvegeo), (n) => setPuntos((prev) => [...prev, ...n]), () => vivo);
+    return () => {
+      vivo = false;
+    };
+  }, [tipos, infoAlcaldias]);
+
+  const alternarTipo = (t: TipoPunto) => setTipos((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
 
   const [altas, setAltas] = useState<Alta[]>([]);
   const [altaReciente, setAltaReciente] = useState(false);
@@ -124,6 +153,7 @@ export default function Mapa(_props: FeatureProps) {
           capa={capa}
           datoReal={datoReal}
           tianguis={abiertos}
+          puntos={puntos}
           altas={altas}
           seleccionado={seleccion}
           onSeleccion={setSeleccion}
@@ -146,6 +176,7 @@ export default function Mapa(_props: FeatureProps) {
               </button>
             ))}
           </div>
+          <ChipsTipoMinimo activos={tipos} onAlternar={alternarTipo} />
           {hayEjemplo && (
             <span role="status" className="pointer-events-auto rounded-xl bg-amber-100 px-3 py-2 text-base font-bold text-amber-950 shadow-md">
               Datos de ejemplo
@@ -158,6 +189,12 @@ export default function Mapa(_props: FeatureProps) {
             <Leyenda capa={capa} tipoDato={capa === "rutas" ? rutas?.tipo_dato : undefined} />
           </div>
         </div>
+
+        {infoAlcaldias.length > 0 && (
+          <div className="pointer-events-none absolute left-3 top-24 z-10">
+            <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaSel} onSeleccion={setAlcaldiaSel} />
+          </div>
+        )}
 
         {propsSeleccion && (
           <div className="absolute inset-x-3 bottom-3 flex justify-start">

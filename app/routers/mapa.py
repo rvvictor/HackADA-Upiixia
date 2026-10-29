@@ -29,3 +29,18 @@ def tianguis(dia: int | None = DIA, hora: str | None = HORA) -> dict:
 @router.get("/sedeco/resumen")
 def resumen(dia: int | None = DIA, hora: str | None = HORA) -> dict:
     return mapa.resumen(dia, hora)
+
+
+@router.get("/puntos")
+def puntos(
+    tipo: str | None = Query(None, description="tianguis,mercado,negocio_local (coma)"),
+    bbox: str | None = Query(None, description="minlng,minlat,maxlng,maxlat"),
+    alcaldia: str | None = Query(None, pattern=r"^09\d{3}$"),
+    limite: int = Query(mapa.TOPE_PUNTOS, ge=1, le=mapa.TOPE_PUNTOS),
+) -> dict:
+    return mapa.puntos(tipo, bbox, alcaldia, limite)
+
+
+@router.get("/alcaldias")
+def alcaldias() -> list[dict]:
+    return mapa.alcaldias()
