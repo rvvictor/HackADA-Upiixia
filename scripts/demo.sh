@@ -27,5 +27,14 @@ else
   echo "Bot de Telegram apagado (sin token o DEMO_MODE=1). Plan B: scripts/simular_alta.py"
 fi
 
+# DEMO_MODE=1 (o SEMBRAR_REPARTIDOR=1): siembra un repartidor y ofertas demo, sin red ni llaves.
+if [ "${DEMO_MODE:-0}" = 1 ] || [ "${SEMBRAR_REPARTIDOR:-0}" = 1 ]; then
+  for _ in $(seq 1 30); do
+    curl -fs "http://127.0.0.1:$PORT/api/health" >/dev/null 2>&1 && break
+    sleep 1
+  done
+  uv run python scripts/simular_repartidor.py --url "http://127.0.0.1:$PORT" || echo "Aviso: no se pudo sembrar el repartidor demo (¿DEMO_MODE=1?)."
+fi
+
 echo "colonIA: http://127.0.0.1:$PORT  (SEDECO #/sedeco · Vecina #/usuario · Negocio #/negocio)"
 wait
