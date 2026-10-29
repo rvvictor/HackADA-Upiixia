@@ -60,7 +60,7 @@ Ola 1 sin dependencias duras (CO-001..09, CO-013); consumidores usan `Uses contr
 - **Rubric / Spec:** C3 · `IDEA-v2.md` §5, `data/fuentes/raw.md`
 - **Depends on:** None
 - **Uses contract:** CO-001
-- **Paths:** pipeline/reales/, pipeline/tests/test_reales.py, pipeline/tests/muestras/, data/processed/tianguis_abierto.json, data/processed/mercados.json, data/processed/colonias.json, data/processed/marginacion_colonia.json, data/processed/contaminacion_colonia.json, data/fuentes/raw.md, data/fuentes/tianguis.md, data/fuentes/mercados.md, data/fuentes/colonias.md, data/fuentes/marginacion.md, data/fuentes/contaminacion.md
+- **Paths:** pipeline/reales/, pipeline/tests/test_reales.py, pipeline/tests/muestras/reales/, data/processed/tianguis_abierto.json, data/processed/mercados.json, data/processed/colonias.json, data/processed/marginacion_colonia.json, data/processed/contaminacion_colonia.json, data/fuentes/raw.md, data/fuentes/tianguis.md, data/fuentes/mercados.md, data/fuentes/colonias.md, data/fuentes/marginacion.md, data/fuentes/contaminacion.md
 - **Freeze-Allowed:** no
 - **Acceptance:**
   - Lee `data/raw/` (tianguis 1,367, mercados 329, colonias, marginación CONAPO 2020, contaminación) y escribe JSON en `data/processed/` con `tipo_dato: "real"`, `fuente` y `fecha_consulta: 2026-10-25` por fila
