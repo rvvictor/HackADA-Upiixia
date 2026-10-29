@@ -105,6 +105,10 @@ def ofertas_para(rid: str, desde: float | None = None, ahora: float | None = Non
     _sembrar_demo(ahora)
     visibles = []
     for o in _todas():
+        if o.get("estado") in ("tomada", "completada"):
+            if o.get("repartidor_id") == rid:
+                visibles.append(o)
+            continue
         if o.get("estado") != "abierta" or (desde is not None and (o.get("ts") or 0) < desde):
             continue
         t = visible_desde(o, rid)

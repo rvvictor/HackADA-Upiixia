@@ -73,7 +73,7 @@ def test_tomar_y_completar(live) -> None:
     res = client.post(f"/api/ofertas/{oid}/completar", headers=ha)
     assert res.status_code == 200 and res.json()["estado"] == "completada"
     assert repartidores.obtener(a)["rutas_completadas"] == 1
-    assert ofertas.ofertas_para(a) == []
+    assert [o["estado"] for o in ofertas.ofertas_para(a)] == ["completada"]  # CO-020: Mis rutas
     assert client.post("/api/ofertas/O-NADA/tomar", headers=ha).status_code == 404
 
 
@@ -82,3 +82,18 @@ def test_demo_siembra_ofertas(live, monkeypatch) -> None:
     rid = _rep(21, True, ts=T0)
     vistas = ofertas.ofertas_para(rid)
     assert vistas and all(o["demo_data"] for o in vistas)
+
+
+def test_mis_rutas_tomada_y_completada_solo_del_dueno(live) -> None:
+    a = _rep(21, True, ts=T0)
+    b = _rep(22, True, ts=T0 + 1)
+    oid = ofertas.crear({"colonia": "San Lucas"}, ahora=T0)["id"]
+    ha, hb = _token(a), _token(b)
+    assert client.post(f"/api/ofertas/{oid}/tomar", headers=ha).status_code == 200
+    lista = client.get(f"/api/ofertas?repartidor_id={a}", headers=ha).json()
+    assert [(o["id"], o["estado"]) for o in lista] == [(oid, "tomada")]
+    assert client.post(f"/api/ofertas/{oid}/completar", headers=ha).status_code == 200
+    lista = client.get(f"/api/ofertas?repartidor_id={a}", headers=ha).json()
+    assert [(o["id"], o["estado"]) for o in lista] == [(oid, "completada")]
+    assert all(k not in lista[0] for k in ("prioridad", "edad", "foto_id"))
+    assert client.get(f"/api/ofertas?repartidor_id={b}", headers=hb).json() == []
