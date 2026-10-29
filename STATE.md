@@ -1,7 +1,7 @@
 # STATE
 
 Phase: execution
-Updated: 1793308447
+Updated: 1793308456
 AVAILABLE: CO-010 CO-011 CO-015 
 CLAIMED: CO-002 CO-005 CO-007 CO-014 
 BLOCKED: -
@@ -19,6 +19,7 @@ CO-014 | CLAIMED | victor-2 | until 1793311102
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
+- 1793308456 | plan | victor/victor | tasks added: CO-016 | Why: backlog without PR (Plan-Channel: claims)
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.
