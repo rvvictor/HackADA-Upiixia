@@ -6,6 +6,7 @@ Flujo de alta: nota de voz o texto → ficha → ubicación → "Así queda" / "
 import logging
 import os
 
+import httpx
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -26,12 +27,13 @@ from telegram.ext import (
 from app.bot import repartidor
 from app.config import settings
 from app.services import altas
+from app.services import repartidor_dialogo as rd
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("colonia.bot")
 
 # Dirección pública de la web para los links (no es secreto).
-BASE_URL = os.environ.get("PUBLIC_BASE_URL", "http://localhost:8000").rstrip("/")
+BASE_URL = os.environ.get("PUBLIC_BASE_URL", "").rstrip("/") or rd.api_base() or "http://localhost:8000"
 
 MENU = ReplyKeyboardMarkup(
     [["Dar de alta mi negocio"], ["Actualizar mi negocio"], ["Quiero ser repartidor"], ["Verificar tianguis"]],
@@ -45,6 +47,16 @@ PEDIR_UBICACION = ReplyKeyboardMarkup(
 CONFIRMAR = InlineKeyboardMarkup(
     [[InlineKeyboardButton("✅ Así queda", callback_data="ok"), InlineKeyboardButton("✏️ Corregir", callback_data="corregir")]]
 )
+
+
+def registrar_alta(entrada: altas.AltaIn) -> altas.Alta:
+    """Con COLONIA_API_URL el alta va a la plataforma desplegada (POST /api/altas); si no, se guarda en local."""
+    base = rd.api_base()
+    if not base:
+        return altas.crear_alta(entrada)
+    r = httpx.post(f"{base}/api/altas", json=entrada.model_dump(mode="json"), timeout=60)  # Render tarda en despertar
+    r.raise_for_status()
+    return altas.Alta.model_validate(r.json())
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -147,7 +159,7 @@ async def boton(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if "ficha" not in context.user_data or "lat" not in context.user_data:
         await q.message.reply_text("Me falta tu ficha o tu ubicación. Empieza con /start.")
         return
-    alta = altas.crear_alta(altas.AltaIn(
+    alta = registrar_alta(altas.AltaIn(
         ficha=altas.Ficha.model_validate(context.user_data["ficha"]),
         lat=context.user_data["lat"],
         lng=context.user_data["lng"],

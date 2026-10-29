@@ -179,3 +179,59 @@ def test_bot_importa_y_menu_ofrece_repartidor():
 
     textos = [b.text for fila in bot.MENU.keyboard for b in fila]
     assert "Quiero ser repartidor" in textos
+
+
+# ---------- CO-023: el bot da de alta en la plataforma desplegada ----------
+
+def _repartidor_in():
+    return rd.RepartidorIn(chat_id=777, nombre_mostrar="Ana", rango_edad="18-30", estudiante=True,
+                           alcaldia_cvegeo="09003", colonias=["Santa Catarina"], transporte="bici",
+                           dias=[5, 6], desde="12:00", hasta="18:00", tipo_id="ine", demo_data=True)
+
+
+def test_payload_valida_contra_la_api_de_repartidores():
+    from app.services import repartidores
+
+    entrada = repartidores.RepartidorIn.model_validate(rd.payload_api(_repartidor_in()))
+    assert repartidores.calcular_prioridad(entrada.edad, entrada.estudiante) == 2
+    assert entrada.disponibilidad.dias == ["sábado", "domingo"] and entrada.chat_id == "777"
+    mayor = rd.payload_api(_repartidor_in().model_copy(update={"rango_edad": "31+", "estudiante": False}))
+    assert repartidores.calcular_prioridad(mayor["edad"], False) == 0
+
+
+def test_colonia_api_url_manda_repartidor_a_render(monkeypatch):
+    monkeypatch.setattr(rd.settings, "demo_mode", False)
+    monkeypatch.delenv("REPARTIDORES_API_URL", raising=False)
+    monkeypatch.setenv("COLONIA_API_URL", "https://colonia.test/")
+    ad = rd.adaptador_por_defecto()
+    assert isinstance(ad, rd.AdaptadorApi) and ad.url == "https://colonia.test/api/repartidores"
+    monkeypatch.delenv("COLONIA_API_URL")
+    assert isinstance(rd.adaptador_por_defecto(), rd.AdaptadorLocal)
+
+
+def test_alta_de_negocio_va_a_la_api_desplegada(live, monkeypatch):
+    import httpx
+
+    from app.bot import __main__ as bot
+
+    enviado = {}
+
+    class Resp:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {**enviado["json"], "id": "A-1", "slug": "dona-lupe", "ts": 1.0, "h3": "89498e2c2d3ffff", "pagina": "/n/dona-lupe"}
+
+    def post(url, json, timeout):
+        enviado.update(url=url, json=json)
+        return Resp()
+
+    monkeypatch.setenv("COLONIA_API_URL", "https://colonia.test")
+    monkeypatch.setattr(httpx, "post", post)
+    entrada = altas.AltaIn(ficha=altas.ficha_grabada(), lat=19.35, lng=-99.15, confirmado=True, demo_data=True)
+    alta = bot.registrar_alta(entrada)
+    assert enviado["url"] == "https://colonia.test/api/altas" and enviado["json"]["confirmado"] is True
+    assert alta.slug == "dona-lupe" and not (live / "altas.jsonl").exists()  # nada se guardó en local
+    monkeypatch.delenv("COLONIA_API_URL")
+    assert bot.registrar_alta(entrada).id and (live / "altas.jsonl").exists()
