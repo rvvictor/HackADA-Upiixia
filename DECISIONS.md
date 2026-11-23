@@ -36,3 +36,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1795438112 | CO-046 | follow-up of CO-029 by crismmolina-2: Inicio con la Maqueta viva elegida: maqueta 3D de Coyoacán, selector de día y pines, en paleta rosa | Why: same Paths, no scope change
 - 1795439960 | CO-047 | follow-up of CO-029 by crismmolina-2: Maqueta de Inicio: quitar pines de tianguis que caen fuera de los hexágonos | Why: same Paths, no scope change
 - 1795439964 | CO-048 | follow-up of CO-031 by crismmolina-2: Mapa principal con color: capas de actividad, oferta y población en la rampa rosa | Why: same Paths, no scope change
+- 1795440360 | CO-049 | follow-up of CO-029 by crismmolina-2: Landing: bloques de la maqueta suben al cargar y hacen una ola al cambiar de día | Why: same Paths, no scope change
