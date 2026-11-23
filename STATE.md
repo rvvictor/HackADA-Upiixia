@@ -1,7 +1,7 @@
 # STATE
 
 Phase: execution
-Updated: 1795434301
+Updated: 1795434315
 AVAILABLE: CO-037 CO-038 CO-039 
 CLAIMED: -
 BLOCKED: -
@@ -11,7 +11,7 @@ CANCELLED: CO-016 CO-024
 
 Claims (first 24; status --task ID shows detail):
 CO-043 | REVIEW | crismmolina-2 | until 1795448659
-CO-044 | REVIEW | crismmolina-1 | until 1795448664
+CO-044 | REVIEW | crismmolina-1 | until 1795448715
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):

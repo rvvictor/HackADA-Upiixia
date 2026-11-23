@@ -12,3 +12,4 @@
 - 1795434048 | CLAIMED | crismmolina-1 | claim; next: Implement CO-044 and run: `bash -c 'npm --prefix web run build'`
 - 1795434264 | REVIEW | crismmolina-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/27; evidence: smoke exit 0 at 236b3fe; navegador 1280/390: aviso 'todavía no manda su nota de voz'; reviewer: -
 - 1795434301 | REVIEW | crismmolina-2 | review; approve; SHA 236b3fe289f5765e3c5783ec54c91045799fb0cc; reviewer crismmolina-2
+- 1795434315 | REVIEW | crismmolina-1 | heartbeat; lease until 1795448715
