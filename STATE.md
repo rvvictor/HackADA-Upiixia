@@ -1,18 +1,17 @@
 # STATE
 
 Phase: execution
-Updated: 1795418919
+Updated: 1795418986
 AVAILABLE: CO-033 CO-037 CO-038 CO-039 
 CLAIMED: CO-029 CO-031 
 BLOCKED: -
-REVIEW: CO-032 
-INTEGRATED: (32; last 12) ... CO-022 CO-023 CO-025 CO-026 CO-027 CO-028 CO-030 CO-034 CO-035 CO-036 CO-040 CO-041 
+REVIEW: -
+INTEGRATED: (33; last 12) ... CO-023 CO-025 CO-026 CO-027 CO-028 CO-030 CO-032 CO-034 CO-035 CO-036 CO-040 CO-041 
 CANCELLED: CO-016 CO-024 
 
 Claims (first 24; status --task ID shows detail):
 CO-029 | CLAIMED | yojanmoralesuwu-1 | until 1795419906
 CO-031 | CLAIMED | crismmolina-2 | until 1795421586
-CO-032 | REVIEW | crismmolina-1 | until 1795433309
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
