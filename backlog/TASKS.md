@@ -440,3 +440,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Mapa en móvil: más mapa visible (capas plegables) y leyenda sin nombre interno
 - **Verify:** `bash -c 'npm --prefix web run build && ls .uak-shots/CO-037/*.png'`
+
+## CO-046 · Inicio con la Maqueta viva elegida: maqueta 3D de Coyoacán, selector de día y pines, en paleta rosa (follow-up of CO-029)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-029
+- **Follow-up of:** CO-029
+- **Paths:** web/src/features/inicio/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Inicio con la Maqueta viva elegida: maqueta 3D de Coyoacán, selector de día y pines, en paleta rosa
+- **Verify:** `bash -c 'npm --prefix web run build'`

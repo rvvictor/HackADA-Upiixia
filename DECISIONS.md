@@ -33,3 +33,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1795434033 | CO-044 | follow-up of CO-034 by crismmolina-2: Negocio: sin alta todavía no es 'sin conexión'; aviso correcto para el ejemplo de Doña Lupe | Why: same Paths, no scope change
 - 1795436164 | plan --amend | cris/cris | amended: CO-037 Paths: web/src/, .uak-shots/CO-037/ → web/src/features/, .uak-shots/CO-037/; Verify changed; | Why: scope or criteria fixed before review
 - 1795437944 | CO-045 | follow-up of CO-037 by crismmolina-2: Mapa en móvil: más mapa visible (capas plegables) y leyenda sin nombre interno | Why: same Paths, no scope change
+- 1795438112 | CO-046 | follow-up of CO-029 by crismmolina-2: Inicio con la Maqueta viva elegida: maqueta 3D de Coyoacán, selector de día y pines, en paleta rosa | Why: same Paths, no scope change
