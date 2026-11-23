@@ -1,12 +1,13 @@
 # worklog/WL-1795436179-crismmolina-2-CO-037-hack.1DAVmO.md · CO-037
 
 ## Live summary
-- Done: Claim created; implementation pending
+- Done: smoke exit 0 at 7b1e43e; 10 capturas; switch 54 px verificado con elementFromPoint
 - Decision: Own branch and worktree
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `bash -c 'npm --prefix web run build && ls .uak-shots/CO-037/*.png'`
-- Next: `DEMO_MODE=1 bash scripts/demo.sh` y recorrer cada ruta
+- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/28; run .uak/bin/smoke
 
 ## History
 - 1795436179 | CLAIMED | crismmolina-2 | claim; next: `DEMO_MODE=1 bash scripts/demo.sh` y recorrer cada ruta
+- 1795436352 | REVIEW | crismmolina-2 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/28; evidence: smoke exit 0 at 7b1e43e; 10 capturas; switch 54 px verificado con elementFromPoint; reviewer: -
