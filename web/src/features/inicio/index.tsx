@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
@@ -9,8 +9,7 @@ import {
   HouseIcon,
 } from "@phosphor-icons/react";
 import { Cifra } from "../../lib/ui";
-import { api } from "../../lib/api";
-import { RejillaHex } from "./Hexagonos";
+import { HeroMaqueta } from "./Maqueta";
 import "./inicio.css";
 
 export const route = "inicio";
@@ -31,60 +30,6 @@ function Enlace({ href, children, className = "" }: { href: string; children: Re
     <a href={href} className={className}>
       {children}
     </a>
-  );
-}
-
-type PuntosTotal = { total: number };
-
-/** Lo que ya está en el mapa (tianguis, mercados y negocios): el mismo dato que dibuja la vista Mapa. */
-function useTotalMapa(): number | null {
-  const [total, setTotal] = useState<number | null>(null);
-  useEffect(() => {
-    let vivo = true;
-    api<PuntosTotal>("/puntos?tipo=tianguis,mercado,negocio_local&limite=1")
-      .then((r) => vivo && setTotal(r.total))
-      .catch(() => undefined);
-    return () => {
-      vivo = false;
-    };
-  }, []);
-  return total;
-}
-
-function Hero() {
-  const total = useTotalMapa();
-  return (
-    <section className="ci-hero" aria-labelledby="titulo-colonia">
-      <div className="ci-wrap ci-hero-grid">
-        <div>
-          <h1 id="titulo-colonia" className="ci-marca">
-            colon<span className="ci-marca-ia">IA</span>
-          </h1>
-          <p className="ci-tagline">La red viva de los negocios de barrio</p>
-          <p className="ci-wow">
-            Una nota de voz da de alta un negocio; aparece en el mapa y su repartidor de la colonia ve su primera ruta.
-          </p>
-          {total !== null && (
-            <p className="ci-hero-cifra">
-              <Cifra valor={total} etiqueta="tianguis, mercados y negocios ya en el mapa" tipo="real" tamano="lg" />
-            </p>
-          )}
-          <div className="ci-ctas">
-            <Enlace href="#/mapa" className="ci-btn ci-btn-primario">
-              Ver el mapa
-              <ArrowRightIcon size={20} weight="bold" aria-hidden="true" />
-            </Enlace>
-            <Enlace href="#/usuario" className="ci-btn ci-btn-sec">
-              Armar mi ruta
-            </Enlace>
-          </div>
-        </div>
-
-        <figure className="ci-hero-visual" style={{ margin: 0 }}>
-          <RejillaHex />
-        </figure>
-      </div>
-    </section>
   );
 }
 
@@ -427,7 +372,7 @@ function Cierre() {
 export default function Inicio() {
   return (
     <div className="ci">
-      <Hero />
+      <HeroMaqueta />
       <Problema />
       <Como />
       <ParaQuien />
