@@ -1,0 +1,231 @@
+/* Hero "Maqueta viva" in the rosa palette (CO-046). White blocks, rosa where commerce is missing, ink pins for the
+   tianguis open that day. Colors come from lib/ui/tokens.css; the side faces are the same ramp, one step darker. */
+.mq {
+  --mq-c1: #ffffff;
+  --mq-c2: var(--pb-impulso-2);
+  --mq-c3: var(--pb-impulso-3);
+  --mq-c4: var(--pb-impulso-4);
+  --mq-c5: var(--pb-impulso-5);
+  position: relative;
+  min-height: calc(100dvh - var(--pb-alto-nav));
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--pb-fondo) 0%, var(--pb-fondo) 45%, var(--pb-suelo) 100%);
+  color: var(--pb-texto);
+}
+
+.mq-texto {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px 0;
+}
+.mq-titulo {
+  font-family: var(--pb-font-display);
+  font-weight: 800;
+  font-size: 3.5rem;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  margin: 0;
+  max-width: 11ch;
+}
+.mq-dia {
+  color: var(--pb-acento);
+}
+.mq-sub {
+  margin: 16px 0 22px;
+  color: var(--pb-texto-2);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  max-width: 31ch;
+}
+.mq .mq-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: var(--pb-texto);
+  color: var(--pb-superficie);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mq-btn:hover {
+  transform: translateY(-2px);
+}
+.mq-btn:active {
+  transform: translateY(1px);
+}
+
+/* The model fills the right three quarters and bleeds off the edge, like a table seen from above. */
+.mq-modelo {
+  position: absolute;
+  z-index: 1;
+  left: 26%;
+  right: -4%;
+  top: 24px;
+  bottom: 70px;
+  display: flex;
+  align-items: center;
+}
+.mq-modelo svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.mq-modelo path {
+  stroke: rgb(20 23 28 / 0.14);
+  stroke-width: 0.5;
+  stroke-linejoin: round;
+}
+.mq-modelo .c1 { fill: var(--mq-c1); }
+.mq-modelo .c2 { fill: var(--mq-c2); }
+.mq-modelo .c3 { fill: var(--mq-c3); }
+.mq-modelo .c4 { fill: var(--mq-c4); }
+.mq-modelo .c5 { fill: var(--mq-c5); }
+.mq-modelo .sl.s1, .mq-modelo .sl.s2 { fill: #e3e6ea; }
+.mq-modelo .sr.s1, .mq-modelo .sr.s2 { fill: #cdd2d9; }
+.mq-modelo .sl.s3 { fill: #ecc3d7; }
+.mq-modelo .sr.s3 { fill: #dda6c1; }
+.mq-modelo .sl.s4 { fill: #c4376f; }
+.mq-modelo .sr.s4 { fill: #ab2c60; }
+.mq-modelo .sl.s5 { fill: #8f0049; }
+.mq-modelo .sr.s5 { fill: #74003b; }
+.mq-modelo .z0 { fill: #e6e9ed; }
+
+/* Tianguis pins: ink head on a thin mast, shown only for the chosen day. */
+.mq-modelo .tg line { stroke: var(--pb-pin); stroke-width: 1.4; }
+.mq-modelo .tg circle { fill: var(--pb-pin); stroke: #fff; stroke-width: 1.5; }
+.mq-modelo .tg {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mq-modelo[data-dia="0"] .tg.d0,
+.mq-modelo[data-dia="1"] .tg.d1,
+.mq-modelo[data-dia="2"] .tg.d2,
+.mq-modelo[data-dia="3"] .tg.d3,
+.mq-modelo[data-dia="4"] .tg.d4,
+.mq-modelo[data-dia="5"] .tg.d5,
+.mq-modelo[data-dia="6"] .tg.d6 {
+  opacity: 1;
+  transform: none;
+}
+
+.mq-conteo {
+  position: absolute;
+  z-index: 3;
+  left: 32px;
+  bottom: 100px;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.mq-conteo strong {
+  font-family: var(--pb-font-display);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--pb-acento);
+}
+.mq-conteo span {
+  color: var(--pb-texto-2);
+}
+
+.mq-dias {
+  position: absolute;
+  z-index: 3;
+  left: 32px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--pb-superficie);
+  border: 1px solid var(--pb-borde);
+  border-radius: 999px;
+  padding: 6px 6px 6px 18px;
+  box-shadow: var(--pb-sombra-alta);
+}
+.mq-dias > span {
+  font-size: 0.85rem;
+  color: var(--pb-texto-2);
+}
+.mq-dias > div {
+  display: flex;
+  gap: 2px;
+}
+.mq-dias button {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  color: var(--pb-texto);
+  cursor: pointer;
+}
+.mq-dias button:hover {
+  background: var(--pb-superficie-2);
+}
+.mq-dias button[aria-pressed="true"] {
+  background: var(--pb-acento);
+  color: var(--pb-sobre-acento);
+}
+
+.mq-leyenda {
+  position: absolute;
+  z-index: 3;
+  right: 32px;
+  bottom: 28px;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--pb-texto-2);
+  background: rgb(255 255 255 / 0.92);
+  border: 1px solid var(--pb-borde);
+  border-radius: 16px;
+  padding: 12px 14px;
+}
+.mq-leyenda div {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.mq-leyenda dt,
+.mq-leyenda dd {
+  margin: 0;
+  display: flex;
+}
+.mq-leyenda i {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.mq-l-alto { background: #cdd2d9; }
+.mq-l-color { background: var(--mq-c5); }
+.mq-l-pin { background: var(--pb-pin); border-radius: 999px !important; }
+
+@media (max-width: 767px) {
+  .mq-texto { padding: 16px 16px 0; }
+  .mq-titulo { font-size: 2.5rem; }
+  .mq-sub { font-size: 1rem; margin: 12px 0 16px; }
+  .mq-modelo { position: relative; left: auto; right: auto; top: auto; bottom: auto; margin: 8px -24px 0; height: 300px; }
+  .mq-conteo { position: static; padding: 0 16px; margin-top: 4px; }
+  .mq-conteo strong { font-size: 2.2rem; }
+  .mq-dias { position: static; margin: 10px 16px 0; padding: 4px; justify-content: center; }
+  .mq-dias > span { display: none; }
+  .mq-dias button { width: 44px; height: 48px; }
+  .mq-leyenda { position: static; margin: 12px 16px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mq-modelo .tg, .mq-btn { transition: none; }
+}
