@@ -1,4 +1,5 @@
 # ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)
+# ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)
 1795413162	doctor	-	1	-	6878	-	claude-code
 1795413336	clock	-	2	-	50	-	claude-code
 1795413351	status	-	0	-	6507	-	claude-code
@@ -6,3 +7,4 @@
 1795413660	plan	-	0	-	24961	yojan	claude-code
 1795413667	graph	-	0	-	3708	-	claude-code
 1795413676	next	-	0	-	8400	-	claude-code
+1795413856	dash	-	0	-	4412	-	claude-code
