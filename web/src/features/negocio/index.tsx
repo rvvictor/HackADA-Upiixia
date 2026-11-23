@@ -54,9 +54,12 @@ const TEXTO_2 = "text-(--pb-texto-2)";
 const CAMPO =
   "min-h-(--pb-alto-control) w-full rounded-(--pb-radio-control) border-2 border-(--pb-borde-fuerte) bg-(--pb-superficie) px-3 text-lg";
 
+// Why we show Doña Lupe's sample: her signup does not exist yet (404) or the server did not answer.
+type Aviso = "sin-alta" | "sin-servidor";
+
 type Estado =
   | { fase: "cargando" }
-  | { fase: "listo"; negocio: NegocioVista }
+  | { fase: "listo"; negocio: NegocioVista; aviso?: Aviso }
   | { fase: "error"; mensaje: string };
 
 export default function VistaNegocio({ params }: FeatureProps) {
@@ -72,7 +75,10 @@ export default function VistaNegocio({ params }: FeatureProps) {
       .catch((error: unknown) => {
         if (!vivo) return;
         // Sample data only for Doña Lupe; never show her data under another business's name.
-        if (id === DONA_LUPE_ID) setEstado({ fase: "listo", negocio: normalizar(mockDonaLupe, true) });
+        if (id === DONA_LUPE_ID) {
+          const aviso: Aviso = error instanceof Error && error.message.startsWith("404") ? "sin-alta" : "sin-servidor";
+          setEstado({ fase: "listo", negocio: normalizar(mockDonaLupe, true), aviso });
+        }
         else setEstado({ fase: "error", mensaje: error instanceof Error ? error.message : "sin respuesta" });
       });
     return () => {
@@ -108,6 +114,7 @@ export default function VistaNegocio({ params }: FeatureProps) {
           key={negocio.id || id}
           negocio={negocio}
           id={id}
+          aviso={estado.fase === "listo" ? estado.aviso : undefined}
           onCambio={(n) => setEstado({ fase: "listo", negocio: n })}
         />
       )}
@@ -151,13 +158,15 @@ function Selector({ id }: { id: string }) {
   );
 }
 
-function Panel({ negocio, id, onCambio }: { negocio: NegocioVista; id: string; onCambio: (n: NegocioVista) => void }) {
+function Panel({ negocio, id, aviso, onCambio }: { negocio: NegocioVista; id: string; aviso?: Aviso; onCambio: (n: NegocioVista) => void }) {
   const [editando, setEditando] = useState(false);
   return (
     <div className="flex flex-col gap-6">
       {negocio.demo_data && (
         <p role="note" className={`rounded-(--pb-radio-control) bg-(--pb-superficie-2) px-4 py-3 text-lg ${TEXTO_2}`}>
-          Sin conexión con el servidor: te mostramos el ejemplo de Doña Lupe.
+          {aviso === "sin-alta"
+            ? "Doña Lupe todavía no manda su nota de voz: así se verá su ficha cuando se dé de alta."
+            : "Sin conexión con el servidor: te mostramos el ejemplo de Doña Lupe."}
         </p>
       )}
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
