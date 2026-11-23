@@ -1,8 +1,8 @@
 # STATE
 
 Phase: execution
-Updated: 1795446945
-AVAILABLE: -
+Updated: 1795446966
+AVAILABLE: CO-051 
 CLAIMED: -
 BLOCKED: -
 REVIEW: -
@@ -13,11 +13,11 @@ Claims (first 24; status --task ID shows detail):
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
-- 1795439964 | CO-048 | follow-up of CO-031 by crismmolina-2: Mapa principal con color: capas de actividad, oferta y población en la rampa rosa | Why: same Paths, no scope change
 - 1795440360 | CO-049 | follow-up of CO-029 by crismmolina-2: Landing: bloques de la maqueta suben al cargar y hacen una ola al cambiar de día | Why: same Paths, no scope change
 - 1795440816 | CO-050 | follow-up of CO-048 by crismmolina-2: Mapa principal: rosa más intenso en zonas de poca actividad | Why: same Paths, no scope change
 - 1795440854 | CO-049 | followups por tarea dueña de los Paths | Why: kit: más trabajo sobre tareas integradas
 - 1795446945 | CO-051 | follow-up of CO-035 by crismmolina-2: Portal del repartidor: el mapa abre encuadrado en sus ofertas, no en toda la ciudad | Why: same Paths, no scope change
+- 1795446966 | CO-052 | follow-up of CO-019 by crismmolina-2: Favicon con la marca actual de colonIA (tres hexágonos rosa y tinta) | Why: same Paths, no scope change
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.

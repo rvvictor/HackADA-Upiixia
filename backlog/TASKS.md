@@ -512,3 +512,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Portal del repartidor: el mapa abre encuadrado en sus ofertas, no en toda la ciudad
 - **Verify:** `bash -c 'npm --prefix web run build'`
+
+## CO-052 · Favicon con la marca actual de colonIA (tres hexágonos rosa y tinta) (follow-up of CO-019)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-019
+- **Follow-up of:** CO-019
+- **Paths:** web/public/favicon.svg, web/src/features/mapa/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Favicon con la marca actual de colonIA (tres hexágonos rosa y tinta)
+- **Verify:** `bash -c 'test -s web/public/favicon.svg && ! grep -q "Pulso" web/public/favicon.svg' && npm --prefix web run build`
