@@ -12,3 +12,4 @@
 - 1795417706 | CLAIMED | crismmolina-1 | claim; next: abrir `Incentivos.tsx`
 - 1795417964 | REVIEW | crismmolina-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/17; evidence: build exit 0; smoke exit 0; Playwright login R-00001 → Incentivos 1280/390 ok; reviewer: -
 - 1795418001 | REVIEW | crismmolina-2 | review; approve; SHA 25262224c3a08e8bbb16a07adc54a7e371374c83; reviewer crismmolina-2
+- 1795418018 | REVIEW | crismmolina-1 | heartbeat; lease until 1795432418
