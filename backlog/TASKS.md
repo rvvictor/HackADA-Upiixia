@@ -428,3 +428,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Negocio: sin alta todavía no es 'sin conexión'; aviso correcto para el ejemplo de Doña Lupe
 - **Verify:** `bash -c 'npm --prefix web run build'`
+
+## CO-045 · Mapa en móvil: más mapa visible (capas plegables) y leyenda sin nombre interno (follow-up of CO-037)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-037
+- **Follow-up of:** CO-037
+- **Paths:** web/src/features/, .uak-shots/CO-037/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Mapa en móvil: más mapa visible (capas plegables) y leyenda sin nombre interno
+- **Verify:** `bash -c 'npm --prefix web run build && ls .uak-shots/CO-037/*.png'`
