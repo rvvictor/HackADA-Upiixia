@@ -1,32 +1,16 @@
-import type { ReactNode } from "react";
-import { DIAS, ETIQUETA_TIPO, NOMBRE_ALCALDIA, type Alcaldia, type PropsHex, type TipoDato } from "./datos";
+import { useState, type ReactNode } from "react";
+import { DIAS, NOMBRE_ALCALDIA, type Alcaldia, type PropsHex, type TipoDato } from "./datos";
 
-// Etiqueta del tipo de dato (real / estimado / simulado): color y forma distintos, no solo color.
-const ESTILO: Record<TipoDato, string> = {
-  real: "bg-emerald-100 text-emerald-900 border-emerald-700",
-  estimado: "bg-blue-100 text-blue-950 border-blue-800",
-  simulado: "bg-stone-200 text-stone-900 border-dashed border-stone-700",
-};
-const PUNTO: Record<TipoDato, string> = {
-  real: "bg-emerald-800",
-  estimado: "border-2 border-blue-800",
-  simulado: "border-2 border-dashed border-stone-700",
-};
+// Panel SEDECO · Maqueta viva (web/DESIGN.md §6, recipe map + panel). Hero: the day and hour in words and the big
+// figure of open tianguis. Only tokens; rosa is the single accent. No real/estimado/simulado chips on screen
+// (uak decision CO-028): each figure keeps its source line, and tipo_dato stays in the data.
 
-export function Etiqueta({ tipo, fuente }: { tipo: TipoDato; fuente?: string }) {
-  return (
-    <span
-      title={fuente ? `${ETIQUETA_TIPO[tipo]} · ${fuente}` : ETIQUETA_TIPO[tipo]}
-      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-base font-semibold ${ESTILO[tipo]}`}
-    >
-      <span aria-hidden="true" className={`size-2.5 rounded-full ${PUNTO[tipo]}`} />
-      {ETIQUETA_TIPO[tipo]}
-    </span>
-  );
-}
+const DIA_LARGO = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
 
 const cifra = (n: number | null | undefined, decimales = 0) =>
   n == null ? "Sin dato" : n.toLocaleString("es-MX", { maximumFractionDigits: decimales, minimumFractionDigits: decimales });
+
+const CAJA = "rounded-(--pb-radio-tarjeta) bg-(--pb-superficie) p-4 shadow-(--pb-sombra)";
 
 type PanelProps = {
   /** Selector y tarjeta de alcaldía (se muestra arriba del panel, no sobre el mapa). */
@@ -35,6 +19,7 @@ type PanelProps = {
   onDia: (d: number) => void;
   hora: number;
   onHora: (h: number) => void;
+  /** Muestra la comparación CNBV por alcaldía en lugar de la leyenda de impulso. */
   datoReal: boolean;
   onDatoReal: (v: boolean) => void;
   alcaldias: Alcaldia[];
@@ -46,87 +31,67 @@ type PanelProps = {
   origenHex: "api" | "ejemplo";
 };
 
-/** Panel derecho (30 %): altas, dato real, día y hora, cobertura. Sin scroll a 1280×720. */
+/** Panel derecho en escritorio. En teléfono es una hoja inferior fija sobre la barra de vistas: cerrada muestra el
+ *  día, la hora y la cifra; el asa la abre para usar los controles. */
 export function Panel(p: PanelProps) {
+  const rampa = [1, 2, 3, 4, 5].map((n) => `var(--pb-impulso-${n})`).join(", ");
+  const [abierta, setAbierta] = useState(false);
   return (
-    <div className="flex h-full flex-col gap-3 overflow-y-auto p-4">
-      {p.alcaldiaNodo}
-      <section aria-live="polite" className="flex items-center justify-between rounded-2xl border border-stone-400 bg-white px-4 py-3">
-        <div>
-          <p className="text-base font-medium text-stone-800">Altas hoy</p>
-          <p className="text-4xl font-bold tabular-nums text-stone-900">{p.altasHoy}</p>
-        </div>
-        <span className="relative flex size-4" aria-hidden="true">
-          {p.altaReciente && <span className="absolute inset-0 animate-ping rounded-full bg-[#c2410c] opacity-70 motion-reduce:animate-none" />}
-          <span className="relative size-4 rounded-full bg-[#c2410c]" />
-        </span>
+    <div
+      className={`fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-20 flex flex-col gap-4 rounded-t-(--pb-radio-grande) bg-(--pb-fondo) p-4 pt-2 shadow-[0_-12px_30px_-14px_rgb(20_23_28/0.4)] motion-safe:transition-[max-height] motion-safe:duration-300 lg:static lg:h-full lg:max-h-none lg:overflow-y-auto lg:rounded-none lg:pt-4 lg:shadow-none ${
+        abierta ? "max-h-[72dvh] overflow-y-auto" : "max-h-[11.5rem] overflow-hidden"
+      }`}
+    >
+      <button
+        type="button"
+        aria-expanded={abierta}
+        onClick={() => setAbierta((v) => !v)}
+        className="-mx-4 -mt-2 flex min-h-(--pb-alto-control) shrink-0 flex-col items-center justify-center gap-1 lg:hidden"
+      >
+        <span aria-hidden="true" className="h-1.5 w-12 rounded-full bg-(--pb-borde-fuerte)" />
+        <span className="text-sm font-medium text-(--pb-texto-2)">{abierta ? "Ver el mapa" : "Elegir día y hora"}</span>
+      </button>
+
+      <section aria-labelledby="titulo-panel" aria-live="polite" className="flex flex-col gap-1">
+        <h2 id="titulo-panel" className="pb-display text-[1.75rem] font-extrabold leading-tight">
+          El <span className="text-(--pb-acento)">{DIA_LARGO[p.dia]}</span> a las {String(p.hora).padStart(2, "0")}:00
+        </h2>
+        <p className="flex items-baseline gap-3">
+          <span className="pb-display pb-cifra text-[3.6rem] font-extrabold leading-none">{p.abiertos.toLocaleString("es-MX")}</span>
+          <span className="text-lg text-(--pb-texto-2)">{p.abiertos === 1 ? "tianguis abierto" : "tianguis abiertos"}</span>
+        </p>
+        {p.cobertura ? (
+          <p className="text-lg">
+            <span className="pb-cifra font-semibold">{cifra(p.cobertura.pct, 1)} %</span> de la gente vive a 800 m de uno
+            <span className="block text-base text-(--pb-texto-2)">Fuente: {p.cobertura.fuente}</span>
+          </p>
+        ) : (
+          <div role="status" aria-label="Calculando cobertura" className="h-12 rounded-(--pb-radio-control) bg-(--pb-superficie-2) motion-safe:animate-pulse" />
+        )}
       </section>
 
-      <div className="flex items-center justify-between gap-3 rounded-2xl border border-stone-400 bg-white px-4 py-3">
-        <span className="text-lg font-semibold text-stone-900">Ver dato real</span>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={p.datoReal}
-          onClick={() => p.onDatoReal(!p.datoReal)}
-          className={`relative h-8 w-14 rounded-full transition-colors ${p.datoReal ? "bg-stone-900" : "bg-stone-400"}`}
-        >
-          <span className={`absolute top-1 size-6 rounded-full bg-white transition-all ${p.datoReal ? "left-7" : "left-1"}`} />
-          <span className="sr-only">{p.datoReal ? "Activado" : "Desactivado"}</span>
-        </button>
-      </div>
-
-      {p.datoReal ? (
-        <section aria-label="Dato CNBV por alcaldía" className="flex flex-col gap-2">
-          <p className="text-base leading-snug text-stone-800">
-            Transacciones con tarjeta por adulto, trimestre {p.alcaldias[0]?.trimestre ?? "2023-T2"}.
-          </p>
-          {p.alcaldias.map((a) => (
-            <div key={a.cvegeo} className="rounded-2xl border border-stone-400 bg-white px-4 py-3">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-lg font-semibold text-stone-900">{a.municipio}</span>
-                <Etiqueta tipo={a.tipo_dato} fuente={`CNBV ${a.trimestre}`} />
-              </div>
-              <p className="mt-1 text-3xl font-bold tabular-nums text-stone-900">{cifra(a.tpv_por_adulto, 2)}</p>
-              <p className="text-base text-stone-800">transacciones por adulto</p>
-            </div>
-          ))}
-          {p.origenAlcaldias === "ejemplo" && <p className="text-base font-medium text-stone-800">Datos de ejemplo.</p>}
-        </section>
-      ) : (
-        <section aria-label="Leyenda" className="rounded-2xl border border-stone-400 bg-white px-4 py-3 text-base text-stone-900">
-          <p className="font-semibold">Color = índice de impulso</p>
-          <div className="mt-2 h-3 rounded-full bg-gradient-to-r from-[#ffeedd] via-[#f5914a] to-[#9a3412]" />
-          <div className="mt-1 flex justify-between text-sm text-stone-800">
-            <span>bajo</span>
-            <span>alto</span>
-          </div>
-          <p className="mt-2 flex items-center gap-2">
-            <span className="inline-block size-4 rounded bg-[#c3c9d0]" aria-hidden="true" />
-            Gris: menos de 3 negocios
-          </p>
-        </section>
-      )}
-
-      <section aria-label="Día y hora" className="flex flex-col gap-2 rounded-2xl border border-stone-400 bg-white px-4 py-3">
-        <p className="text-lg font-semibold text-stone-900">¿Qué día y a qué hora?</p>
+      <section aria-label="Día y hora" className={`${CAJA} flex flex-col gap-3`}>
         <div role="group" aria-label="Día de la semana" className="grid grid-cols-7 gap-1">
           {DIAS.map((nombre, i) => (
             <button
               key={nombre}
               type="button"
               aria-pressed={p.dia === i}
+              aria-label={DIA_LARGO[i]}
               onClick={() => p.onDia(i)}
-              className={`h-11 rounded-lg text-base font-semibold capitalize ${
-                p.dia === i ? "bg-stone-900 text-white" : "bg-stone-100 text-stone-900 hover:bg-stone-200"
+              className={`min-h-(--pb-alto-control) rounded-full text-base font-semibold capitalize motion-safe:transition-colors ${
+                p.dia === i ? "bg-(--pb-acento) text-(--pb-sobre-acento)" : "text-(--pb-texto) hover:bg-(--pb-superficie-2)"
               }`}
             >
               {nombre}
             </button>
           ))}
         </div>
-        <label className="flex flex-col gap-1 text-base font-medium text-stone-900">
-          <span className="tabular-nums">Hora: {String(p.hora).padStart(2, "0")}:00</span>
+        <label className="flex flex-col gap-1 text-base font-medium">
+          <span className="flex justify-between">
+            <span>Hora</span>
+            <span className="pb-cifra">{String(p.hora).padStart(2, "0")}:00</span>
+          </span>
           <input
             type="range"
             min={0}
@@ -134,27 +99,73 @@ export function Panel(p: PanelProps) {
             step={1}
             value={p.hora}
             onChange={(e) => p.onHora(Number(e.target.value))}
-            className="h-6 w-full accent-stone-900"
+            className="h-(--pb-alto-control) w-full accent-(--pb-acento)"
           />
         </label>
-        <p className="text-base text-stone-900">
-          Tianguis abiertos: <span className="font-bold tabular-nums">{p.abiertos}</span>
-        </p>
-        {p.cobertura ? (
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-base text-stone-900">
-              Población con tianguis a 800 m:{" "}
-              <span className="text-2xl font-bold tabular-nums">{cifra(p.cobertura.pct, 1)} %</span>
-            </span>
-            <Etiqueta tipo={p.cobertura.tipo} fuente={p.cobertura.fuente} />
-          </div>
-        ) : (
-          <p className="text-base text-stone-800">Cargando cobertura…</p>
-        )}
       </section>
 
-      <p className="mt-auto text-sm leading-snug text-stone-700">
-        {p.origenHex === "ejemplo" ? "Hexágonos: datos de ejemplo. " : ""}
+      <section aria-live="polite" className={`${CAJA} flex items-center justify-between`}>
+        <div>
+          <p className="text-base text-(--pb-texto-2)">Negocios dados de alta hoy</p>
+          <p className="pb-display pb-cifra text-[2.4rem] font-extrabold leading-none">{p.altasHoy}</p>
+        </div>
+        <span className="relative flex size-4" aria-hidden="true">
+          {p.altaReciente && <span className="absolute inset-0 rounded-full bg-(--pb-acento) opacity-70 motion-safe:animate-ping" />}
+          <span className="relative size-4 rounded-full bg-(--pb-acento)" />
+        </span>
+      </section>
+
+      {p.alcaldiaNodo}
+
+      <div className={`${CAJA} flex items-center justify-between gap-3`}>
+        <span id="etq-cnbv" className="text-lg font-semibold">
+          Pagos con tarjeta por alcaldía
+        </span>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={p.datoReal}
+          aria-labelledby="etq-cnbv"
+          onClick={() => p.onDatoReal(!p.datoReal)}
+          className={`relative h-8 w-14 shrink-0 rounded-full motion-safe:transition-colors ${p.datoReal ? "bg-(--pb-acento)" : "bg-(--pb-borde-fuerte)"}`}
+        >
+          <span
+            className={`absolute top-1 size-6 rounded-full bg-(--pb-superficie) motion-safe:transition-all ${p.datoReal ? "left-7" : "left-1"}`}
+          />
+        </button>
+      </div>
+
+      {p.datoReal ? (
+        <section aria-label="Pagos con tarjeta por alcaldía" className="flex flex-col gap-2">
+          <p className="text-base text-(--pb-texto-2)">
+            Transacciones con tarjeta por adulto, trimestre {p.alcaldias[0]?.trimestre ?? "2023-T2"}. Fuente: CNBV.
+          </p>
+          {p.alcaldias.map((a) => (
+            <div key={a.cvegeo} className={CAJA}>
+              <p className="text-lg font-semibold">{a.municipio}</p>
+              <p className="pb-display pb-cifra text-[2rem] font-extrabold leading-tight">{cifra(a.tpv_por_adulto, 2)}</p>
+              <p className="text-base text-(--pb-texto-2)">transacciones por adulto</p>
+            </div>
+          ))}
+          {p.origenAlcaldias === "ejemplo" && <p className="text-base text-(--pb-texto-2)">Sin conexión: cifras de ejemplo.</p>}
+        </section>
+      ) : (
+        <section aria-label="Qué significa el color" className={`${CAJA} text-base`}>
+          <p className="font-semibold">Color: dónde falta comercio de barrio</p>
+          <div aria-hidden="true" className="mt-2 h-3 rounded-full" style={{ background: `linear-gradient(to right, ${rampa})` }} />
+          <div className="mt-1 flex justify-between text-(--pb-texto-2)">
+            <span>poco</span>
+            <span>mucho</span>
+          </div>
+          <p className="mt-2 flex items-center gap-2">
+            <span className="inline-block size-4 rounded bg-(--pb-oculto)" aria-hidden="true" />
+            Gris: menos de 3 negocios (sin cifras por privacidad)
+          </p>
+        </section>
+      )}
+
+      <p className="mt-auto text-base text-(--pb-texto-2)">
+        {p.origenHex === "ejemplo" ? "Sin conexión: hexágonos de ejemplo. " : ""}
         Toca un hexágono para ver sus cifras y su fuente.
       </p>
     </div>
@@ -163,64 +174,51 @@ export function Panel(p: PanelProps) {
 
 /** Tarjeta del hexágono tocado (sobre el mapa). Oculto: sin cifras por privacidad. */
 export function TarjetaHex({ p, onCerrar }: { p: PropsHex; onCerrar: () => void }) {
-  const tc = p.tipo_campos;
-  const fuentePoblacion = "hexágonos del pipeline (data/processed/hex.geojson)";
   const alcaldia = NOMBRE_ALCALDIA[p.alcaldia_cvegeo] ?? "CDMX";
   return (
-    <section
-      aria-label="Detalle del hexágono"
-      className="w-full max-w-md rounded-2xl border border-stone-400 bg-white p-4 shadow-lg"
-    >
-      <header className="mb-2 flex items-start justify-between gap-3">
-        <h2 className="text-xl font-bold text-stone-900">Hexágono en {alcaldia}</h2>
+    <section aria-label="Detalle del hexágono" className="w-full max-w-md rounded-(--pb-radio-tarjeta) bg-(--pb-superficie) p-5 shadow-(--pb-sombra-alta)">
+      <header className="mb-3 flex items-start justify-between gap-3">
+        <h2 className="text-xl font-semibold">Hexágono en {alcaldia}</h2>
         <button
           type="button"
           onClick={onCerrar}
-          className="shrink-0 rounded-lg bg-stone-100 px-3 py-1 text-base font-semibold text-stone-900 hover:bg-stone-200"
+          className="min-h-(--pb-alto-control) shrink-0 rounded-full px-4 text-base font-semibold hover:bg-(--pb-superficie-2)"
         >
           Cerrar
         </button>
       </header>
 
       {p.oculto ? (
-        <p className="text-lg leading-relaxed text-stone-900">Menos de 3 negocios: sin cifras por privacidad</p>
+        <p className="text-lg leading-relaxed">Menos de 3 negocios: sin cifras por privacidad.</p>
       ) : (
-        <dl className="grid gap-2 text-base text-stone-900">
-          <Fila etiqueta="Población" valor={cifra(p.poblacion)} tipo={tc.poblacion ?? "simulado"} fuente={fuentePoblacion} />
+        <dl className="grid gap-3">
+          <Fila etiqueta="Población" valor={cifra(p.poblacion)} fuente="Hexágonos del pipeline (data/processed/hex.geojson)" />
           <Fila
             etiqueta="Negocios de barrio"
             valor={`${cifra(p.negocios_barriales)} de ${cifra(p.negocios_total)}`}
-            tipo={tc.negocios_barriales ?? "simulado"}
             fuente="DENUE y Tianguis Abierto (pipeline)"
           />
+          <Fila etiqueta="Actividad con tarjeta" valor={cifra(p.actividad_tpv_est, 2)} fuente="CNBV por alcaldía, repartido por negocios" />
           <Fila
-            etiqueta="Actividad con tarjeta (estimada)"
-            valor={cifra(p.actividad_tpv_est, 2)}
-            tipo={tc.actividad_tpv_est ?? "estimado"}
-            fuente="CNBV por alcaldía, repartido por negocios"
-          />
-          <Fila
-            etiqueta="Impulso"
+            etiqueta="Falta de comercio"
             valor={p.impulso == null ? "Sin dato" : `${Math.round(p.impulso * 100)} de 100`}
-            tipo={tc.impulso ?? "estimado"}
-            fuente="Índice propio del pipeline"
+            fuente="Índice de impulso del pipeline"
           />
-          <Fila etiqueta="Periodo" valor={p.periodo_cnbv ?? "Sin periodo"} tipo="real" fuente="CNBV" />
+          <Fila etiqueta="Periodo" valor={p.periodo_cnbv ?? "Sin periodo"} fuente="CNBV" />
         </dl>
       )}
     </section>
   );
 }
 
-function Fila({ etiqueta, valor, tipo, fuente }: { etiqueta: string; valor: string; tipo: TipoDato; fuente: string }) {
+function Fila({ etiqueta, valor, fuente }: { etiqueta: string; valor: string; fuente: string }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-stone-200 pb-2 last:border-0">
-      <dt className="font-medium">{etiqueta}</dt>
-      <dd className="flex items-center gap-2">
-        <span className="text-lg font-bold tabular-nums">{valor}</span>
-        <Etiqueta tipo={tipo} fuente={fuente} />
-      </dd>
-      <p className="w-full text-sm text-stone-700">Fuente: {fuente}</p>
+    <div className="border-b border-(--pb-borde) pb-3 last:border-0 last:pb-0">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+        <dt className="font-medium">{etiqueta}</dt>
+        <dd className="pb-cifra text-lg font-semibold">{valor}</dd>
+      </div>
+      <p className="text-base text-(--pb-texto-2)">Fuente: {fuente}</p>
     </div>
   );
 }
