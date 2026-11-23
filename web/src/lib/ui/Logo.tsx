@@ -7,7 +7,7 @@ type LogoProps = {
   marca?: boolean;
 };
 
-/** colonIA: the "IA" always in the brand terracotta (--pb-marca). */
+/** colonIA: the "IA" always in rosa mexicano (--pb-marca). */
 export function Logo({ className = "text-xl", oscuro = false, marca = true }: LogoProps) {
   return (
     <span className={`pb-display inline-flex items-center gap-[0.3em] font-extrabold ${className}`} aria-label="colonIA">
@@ -25,9 +25,9 @@ export function MarcaHex({ className = "h-[1.05em] w-[1.05em]" }: { className?: 
   const hex = "M12 2.5 20.2 7.25v9.5L12 21.5l-8.2-4.75v-9.5z";
   return (
     <svg viewBox="0 0 48 44" className={className} aria-hidden="true">
-      <path d={hex} transform="translate(0 0) scale(1)" fill="var(--pb-marca)" />
-      <path d={hex} transform="translate(17 0) scale(1)" fill="var(--pb-cempasuchil)" />
-      <path d={hex} transform="translate(8.5 14.5) scale(1)" fill="var(--pb-jade)" />
+      <path d={hex} transform="translate(0 0) scale(1)" fill="var(--pb-acento)" />
+      <path d={hex} transform="translate(17 0) scale(1)" fill="var(--pb-impulso-3)" />
+      <path d={hex} transform="translate(8.5 14.5) scale(1)" fill="var(--pb-texto)" />
     </svg>
   );
 }

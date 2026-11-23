@@ -1,8 +1,10 @@
 import { useEffect, useState, type ComponentType } from "react";
+import { AppShell } from "./lib/ui";
 
 // Each view is web/src/features/<name>/index.tsx exporting `default`, `route`, `label` and `order`.
 // Adding a view = creating its folder; App.tsx never becomes a conflict point.
-// Hash routes, no login: #/mapa (#/sedeco redirige), #/usuario, #/negocio/:id. The component receives the segments after its route.
+// Hash routes, no login: #/inicio (also #/), #/mapa (#/sedeco redirige), #/usuario, #/negocio/:id, #/repartidor.
+// The component receives the segments after its route. Every view renders inside AppShell (web/DESIGN.md §5).
 export type FeatureProps = { params: string[] };
 
 type FeatureModule = {
@@ -24,6 +26,8 @@ const features = Object.entries(
   }))
   .sort((a, b) => a.order - b.order);
 
+const items = features.map((f) => ({ route: f.route, label: f.label }));
+
 function readHash(): string[] {
   return window.location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
 }
@@ -42,43 +46,20 @@ export default function App() {
     if (segments[0] === "sedeco" || segments[0] === "crecimiento") window.location.replace("#/mapa");
   }, [segments]);
 
+  // No hash (or an unknown one) opens the landing: the first thing a visitor sees is Inicio.
   const current =
     features.find((f) => f.route === segments[0]) ??
-    features.find((f) => f.route === "mapa") ??
+    (segments[0] === "sedeco" || segments[0] === "crecimiento" ? features.find((f) => f.route === "mapa") : undefined) ??
+    features.find((f) => f.route === "inicio") ??
     features[0];
 
   return (
-    <div className="flex h-[100dvh] flex-col font-sans">
-      <header className="flex shrink-0 items-center gap-6 border-b border-stone-300 bg-white px-5 py-3">
-        <a href="#/mapa" className="text-xl font-semibold tracking-tight text-stone-900">
-          colonIA
-        </a>
-        <nav aria-label="Elegir vista" className="flex gap-2">
-          {features.map((f) => {
-            const active = f === current;
-            return (
-              <a
-                key={f.path}
-                href={`#/${f.route}`}
-                aria-current={active ? "page" : undefined}
-                className={`rounded-lg px-4 py-2 text-base font-medium ${
-                  active ? "bg-stone-900 text-white" : "text-stone-700 hover:bg-stone-100"
-                }`}
-              >
-                {f.label}
-              </a>
-            );
-          })}
-        </nav>
-        <span className="ml-auto text-sm text-stone-500">La red viva de la economía de barrio</span>
-      </header>
-      <main className="min-h-0 flex-1">
-        {current ? (
-          <current.Component params={current.route === segments[0] ? segments.slice(1) : []} />
-        ) : (
-          <p className="p-8 text-lg text-stone-600">Cargando vistas…</p>
-        )}
-      </main>
-    </div>
+    <AppShell items={items} actual={current?.route}>
+      {current ? (
+        <current.Component params={current.route === segments[0] ? segments.slice(1) : []} />
+      ) : (
+        <p className="p-8 text-lg text-(--pb-texto-2)">Cargando vistas…</p>
+      )}
+    </AppShell>
   );
 }
