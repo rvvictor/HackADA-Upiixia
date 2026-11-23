@@ -234,6 +234,8 @@ def resumen(dia: int | None = None, hora: str | None = None) -> dict:
         "tipo_campos": {
             "altas_hoy": "real",
             "rutas_por_hexagono": "real",
+            # Tianguis abiertos ese día y hora: conteo directo del catálogo de datos abiertos CDMX.
+            "abiertos": "real",
             "poblacion_cubierta_pct": "estimado",
             "desiertos": "estimado",
         },
