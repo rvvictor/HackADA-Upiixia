@@ -240,3 +240,17 @@ Append-only; the last section of an ID replaces its section in the backlog. Why:
 - **Verify:** `bash -c 'npm --prefix web run build'`
 - **Next step:** abrir `Incentivos.tsx`
 
+## CO-037 · Correr el recorrido de la demo en navegador real y arreglar lo roto a 1280 y 390
+
+- **Type:** bug
+- **Priority:** P0
+- **Estimate:** 45 min
+- **Rubric / Spec:** C1, C4
+- **Depends on:** CO-029, CO-030, CO-031, CO-033, CO-034, CO-035, CO-036
+- **Paths:** web/src/features/, .uak-shots/CO-037/
+- **Freeze-Allowed:** yes
+- **Test-First:** no (recorrido visual con Playwright y capturas)
+- **Acceptance:** Las 5 rutas (`#/`, `#/sedeco`, `#/usuario`, `#/negocio`, `#/repartidor`) capturadas a 1280×720 y 390×844 con movimiento reducido, sin scroll horizontal ni texto cortado, Contraste AA, foco visible y controles de 48 px o más revisados; lo roto corregido en esta tarea
+- **Verify:** `bash -c 'npm --prefix web run build && ls .uak-shots/CO-037/*.png'`
+- **Next step:** `DEMO_MODE=1 bash scripts/demo.sh` y recorrer cada ruta
+
