@@ -3,6 +3,7 @@
 # ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)
 # ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)
 # ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)
+# ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)
 1795413162	doctor	-	1	-	6878	-	claude-code
 1795413336	clock	-	2	-	50	-	claude-code
 1795413351	status	-	0	-	6507	-	claude-code
@@ -18,3 +19,25 @@
 1795417192	next	-	0	-	4226	-	claude-code
 1795417197	status	CO-028	1	-	1912	-	claude-code
 1795422513	status	-	0	-	8824	-	claude-code
+1795423628	status	CO-028	0	-	24072	-	claude-code
+1795423636	status	CO-029	0	-	7071	-	claude-code
+1795423643	status	CO-030	0	-	6970	-	claude-code
+1795423646	status	CO-031	1	-	2103	-	claude-code
+1795423648	status	CO-032	1	-	2147	-	claude-code
+1795423651	status	CO-033	1	-	2072	-	claude-code
+1795423653	status	CO-034	1	-	2143	-	claude-code
+1795423657	status	CO-035	1	-	2876	-	claude-code
+1795423664	status	CO-036	0	-	6775	-	claude-code
+1795423667	status	CO-037	1	-	2343	-	claude-code
+1795423670	status	CO-038	1	-	2814	-	claude-code
+1795423673	status	CO-039	1	-	2253	-	claude-code
+1795423675	status	CO-040	1	-	2155	-	claude-code
+1795423678	status	CO-041	1	-	2073	-	claude-code
+1795423830	status	CO-029	0	-	7245	-	claude-code
+1795423831	agents	-	2	unknown-command	761	-	claude-code
+1795423836	status	CO-029	0	-	2029	-	claude-code
+1795423862	review	CO-029	3	conflict	5680	yojanmoralesuwu-2	claude-code
+1795423869	status	CO-029	0	-	6963	-	claude-code
+1795423870	inbox	-	2	no-identity	1015	-	claude-code
+1795423878	review	CO-029	3	conflict	5667	yojanmoralesuwu-2	claude-code
+1795423886	status	-	0	-	7255	yojanmoralesuwu-2	claude-code
