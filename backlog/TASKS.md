@@ -392,3 +392,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:** `defineConfig` usa `envDir: '..'`; con `VITE_MAPBOX_TOKEN` en el `.env` raíz el mapa dibuja, sin la llave el aviso sigue claro
 - **Verify:** `bash -c 'grep -q "envDir" web/vite.config.ts && npm --prefix web run build'`
 - **Next step:** agregar `envDir: '..'` en `web/vite.config.ts`
+
+## CO-042 · Resumen SEDECO: etiquetar 'abiertos' en tipo_campos (tianguis abiertos, real) (follow-up of CO-012)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-012
+- **Follow-up of:** CO-012
+- **Paths:** web/src/features/mapa/, app/routers/mapa.py, app/services/mapa.py, app/tests/test_mapa.py
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Resumen SEDECO: etiquetar 'abiertos' en tipo_campos (tianguis abiertos, real)
+- **Verify:** `uv run pytest -q app/tests/test_mapa.py && npm --prefix web run build`
