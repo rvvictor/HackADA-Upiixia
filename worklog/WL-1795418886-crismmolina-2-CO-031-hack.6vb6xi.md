@@ -1,12 +1,13 @@
 # worklog/WL-1795418886-crismmolina-2-CO-031-hack.6vb6xi.md · CO-031
 
 ## Live summary
-- Done: Claim created; implementation pending
+- Done: build+test exit 0; smoke exit 0; Playwright 1280/390 ok sin errores
 - Decision: Own branch and worktree
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `bash -c 'npm --prefix web run build && npm --prefix web test'`
-- Next: revisar `MapaHex.tsx` y los colores contra el DESIGN.md nuevo
+- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/21; run .uak/bin/smoke
 
 ## History
 - 1795418886 | CLAIMED | crismmolina-2 | claim; next: revisar `MapaHex.tsx` y los colores contra el DESIGN.md nuevo
+- 1795419165 | REVIEW | crismmolina-2 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/21; evidence: build+test exit 0; smoke exit 0; Playwright 1280/390 ok sin errores; reviewer: -
