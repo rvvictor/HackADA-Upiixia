@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook session-start cursor\" uak-hook",
+        "timeout": 30
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook wrap\" uak-hook",
+        "matcher": "Shell",
+        "timeout": 5
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/guard shell\" uak-hook",
+        "timeout": 5
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/guard prompt\" uak-hook",
+        "timeout": 5
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/guard agent\" uak-hook",
+        "timeout": 5
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/guard agent-stop\" uak-hook",
+        "timeout": 5
+      }
+    ],
+    "stop": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/bb flush --quiet\" uak-hook",
+        "timeout": 30
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook tick cursor\" uak-hook",
+        "matcher": "*",
+        "timeout": 10
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook session-end\" uak-hook",
+        "timeout": 20
+      }
+    ]
+  }
+}

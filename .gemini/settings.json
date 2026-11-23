@@ -1,0 +1,80 @@
+{
+  "context": {
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "uak-start",
+            "type": "command",
+            "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook session-start gemini\" uak-hook",
+            "timeout": 45000
+          }
+        ]
+      }
+    ],
+    "BeforeTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "name": "uak-guard",
+            "type": "command",
+            "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/guard bash\" uak-hook",
+            "timeout": 5000
+          },
+          {
+            "name": "uak-output-cap",
+            "type": "command",
+            "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook wrap gemini\" uak-hook",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "uak-tick",
+            "type": "command",
+            "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook tick gemini\" uak-hook",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "name": "uak-away",
+            "type": "command",
+            "command": "git -c \"alias.uak-hook=!unset GIT_DIR GIT_WORK_TREE GIT_PREFIX GIT_CONFIG_PARAMETERS; exec bash .uak/bin/hook session-end\" uak-hook",
+            "timeout": 20000
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "uak": {
+      "command": "git",
+      "args": [
+        "-c",
+        "alias.uak-mcp=!for p in python3 python py; do \"$p\" -c 'import sys; sys.exit(sys.version_info < (3, 8))' 2>/dev/null && exec \"$p\" .uak/bin/uak-mcp; done; echo 'uak-mcp needs Python 3.8+ (the uak CLI works without it)' >&2; exit 1",
+        "uak-mcp"
+      ],
+      "timeout": 1200000,
+      "trust": false
+    }
+  }
+}
