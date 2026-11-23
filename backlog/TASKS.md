@@ -488,3 +488,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Landing: bloques de la maqueta suben al cargar y hacen una ola al cambiar de día
 - **Verify:** `bash -c 'npm --prefix web run build'`
+
+## CO-050 · Mapa principal: rosa más intenso en zonas de poca actividad (follow-up of CO-048)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-048
+- **Follow-up of:** CO-048
+- **Paths:** web/src/features/mapa/index.tsx, web/src/features/mapa/MapaHex.tsx, web/src/features/mapa/puntos.ts, web/src/features/mapa/datos.ts, web/src/lib/map/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Mapa principal: rosa más intenso en zonas de poca actividad
+- **Verify:** `bash -c 'npm --prefix web run build && npm --prefix web test'`
