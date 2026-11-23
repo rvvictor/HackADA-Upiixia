@@ -1,14 +1,16 @@
 import mapboxgl, { type FilterSpecification } from "mapbox-gl";
 import { useEffect, useRef, useState } from "react";
-import { pintarCapa } from "../../lib/map/hex";
+import { leerToken, pintarCapa } from "../../lib/map/hex";
 import { agregarIconos, CAPA_CLUSTER, CAPA_ICONOS, FUENTE_PUNTOS } from "../../lib/map/iconos";
 import type { PuntoMapa } from "./puntos";
 import type { Alta, CapaHex, ColeccionHex, Tianguis } from "./datos";
 
 // Cámara inicial: 50° sobre Coyoacán con Iztapalapa a la vista (IDEA.md §4 paso 1).
 const CAMARA = { center: [-99.118, 19.352] as [number, number], zoom: 11.7, pitch: 50, bearing: -12 };
-const GRIS = "#c3c9d0";
-const COLOR_ALCALDIA: Record<string, string> = { "09003": "#c2410c", "09007": "#0e5c58" };
+// Mapbox no lee variables CSS: los colores salen de los tokens al pintar (web/DESIGN.md, Maqueta viva).
+const tk = (nombre: string, respaldo: string) => leerToken(nombre) || respaldo;
+const GRIS = () => tk("--pb-oculto", "#e6e9ed");
+const COLOR_ALCALDIA = (): Record<string, string> => ({ "09003": tk("--pb-acento", "#c8006a"), "09007": tk("--pb-texto", "#14171c") });
 
 type Props = {
   hex: ColeccionHex;
@@ -24,13 +26,15 @@ type Props = {
 function pintarHex(map: mapboxgl.Map, capa: CapaHex, datoReal: boolean) {
   pintarCapa(map, capa);
   if (!datoReal) return;
-  // "Ver dato real": sin altura estimada, solo el color por alcaldía.
+  // "Pagos con tarjeta por alcaldía": sin altura calculada, solo el color por alcaldía.
+  const gris = GRIS();
+  const porAlcaldia = COLOR_ALCALDIA();
   map.setPaintProperty("hex-3d", "fill-extrusion-height", 0);
   map.setPaintProperty("hex-3d", "fill-extrusion-color", [
     "case",
     ["==", ["get", "oculto"], true],
-    GRIS,
-    ["match", ["get", "alcaldia_cvegeo"], "09003", COLOR_ALCALDIA["09003"], "09007", COLOR_ALCALDIA["09007"], GRIS],
+    gris,
+    ["match", ["get", "alcaldia_cvegeo"], "09003", porAlcaldia["09003"], "09007", porAlcaldia["09007"], gris],
   ]);
 }
 
@@ -93,7 +97,7 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
         id: "tianguis",
         type: "circle",
         source: "tianguis",
-        paint: { "circle-radius": 11, "circle-color": "#c2410c", "circle-opacity": 0.15, "circle-stroke-color": "#c2410c", "circle-stroke-width": 2 },
+        paint: { "circle-radius": 11, "circle-color": tk("--pb-texto", "#14171c"), "circle-opacity": 0.12, "circle-stroke-color": tk("--pb-texto", "#14171c"), "circle-stroke-width": 2 },
       });
       mapa.on("click", "hex-3d", (e) => {
         const h3 = e.features?.[0]?.properties?.h3;
@@ -178,8 +182,8 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
       el.className = "relative size-5";
       el.title = a.ficha?.nombre ?? "Nueva alta";
       el.innerHTML =
-        '<span class="absolute inset-0 rounded-full bg-[#c2410c] opacity-60 animate-ping motion-reduce:animate-none"></span>' +
-        '<span class="absolute inset-1 rounded-full border-2 border-white bg-[#c2410c]"></span>';
+        '<span class="absolute inset-0 rounded-full bg-(--pb-acento) opacity-60 animate-ping motion-reduce:animate-none"></span>' +
+        '<span class="absolute inset-1 rounded-full border-2 border-(--pb-superficie) bg-(--pb-acento)"></span>';
       marcas.set(a.id, new mapboxgl.Marker({ element: el }).setLngLat([lng, lat]).addTo(mapa));
     }
   }, [listo, altas]);
@@ -190,7 +194,7 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
     if (!listo || !mapa) return;
     const filtro: FilterSpecification = ["==", ["get", "h3"], seleccionado ?? ""];
     if (!mapa.getLayer("hex-sel")) {
-      mapa.addLayer({ id: "hex-sel", type: "line", source: "hex", paint: { "line-color": "#15191e", "line-width": 3 }, filter: filtro });
+      mapa.addLayer({ id: "hex-sel", type: "line", source: "hex", paint: { "line-color": tk("--pb-acento-fuerte", "#a00055"), "line-width": 3 }, filter: filtro });
     } else {
       mapa.setFilter("hex-sel", filtro);
     }
@@ -204,18 +208,18 @@ export function MapaHex({ hex, capa, datoReal, tianguis, puntos = [], altas, sel
         : null;
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-stone-200">
+    <div className="relative h-full w-full overflow-hidden bg-(--pb-suelo)">
       <div ref={contenedor} className="h-full w-full" role="region" aria-label="Mapa de Coyoacán e Iztapalapa" />
       {estado === "cargando" && token && (
-        <div className="absolute inset-0 flex items-center justify-center text-lg text-stone-700" role="status">
+        <div className="absolute inset-0 flex items-center justify-center text-lg text-(--pb-texto-2)" role="status">
           Cargando mapa…
         </div>
       )}
       {aviso && (
-        <div role="status" className="absolute inset-0 flex items-center justify-center p-6 lg:pl-[22rem]">
-          <div className="max-w-md rounded-2xl border border-stone-400 bg-white p-6 shadow-md">
-            <p className="text-xl font-semibold text-stone-900">{aviso.titulo}</p>
-            <p className="mt-2 text-lg leading-relaxed text-stone-800">{aviso.texto}</p>
+        <div role="status" className="absolute inset-0 flex items-start justify-center p-6 pt-40 md:items-center md:pt-6">
+          <div className="max-w-md rounded-(--pb-radio-tarjeta) bg-(--pb-superficie) p-6 shadow-(--pb-sombra-alta)">
+            <p className="text-xl font-semibold">{aviso.titulo}</p>
+            <p className="mt-2 text-lg leading-relaxed text-(--pb-texto-2)">{aviso.texto}</p>
           </div>
         </div>
       )}

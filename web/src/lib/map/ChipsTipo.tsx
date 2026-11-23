@@ -11,7 +11,7 @@ type ChipsTipoProps = {
 
 export function ChipsTipo({ activos, onAlternar, conteos }: ChipsTipoProps) {
   return (
-    <div role="group" aria-label="Tipos de punto" className="pointer-events-auto flex flex-wrap gap-1 rounded-2xl bg-white p-1.5 shadow-md">
+    <div role="group" aria-label="Tipos de punto" className="pointer-events-auto flex flex-wrap gap-1 rounded-(--pb-radio-grande) bg-(--pb-superficie) p-1 shadow-(--pb-sombra)">
       {TIPOS_ICONO.map((t) => {
         const on = activos.includes(t.id);
         const n = conteos?.[t.id];
@@ -24,7 +24,7 @@ export function ChipsTipo({ activos, onAlternar, conteos }: ChipsTipoProps) {
             title={tooltip}
             aria-label={tooltip}
             onClick={() => onAlternar(t.id)}
-            className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-base font-semibold transition-colors ${on ? "bg-stone-900 text-white" : "text-stone-500 hover:bg-stone-100"}`}
+            className={`flex min-h-(--pb-alto-control) items-center gap-2 rounded-full px-4 text-base font-semibold motion-safe:transition-colors ${on ? "bg-(--pb-acento-suave) text-(--pb-acento-fuerte)" : "text-(--pb-texto-2) hover:bg-(--pb-superficie-2)"}`}
           >
             <img src={t.icono} alt="" aria-hidden width={18} height={18} className={on ? "" : "opacity-40 grayscale"} />
             {t.etiqueta}
