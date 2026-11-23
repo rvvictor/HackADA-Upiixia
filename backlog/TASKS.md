@@ -416,3 +416,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Inicio: hexágonos sin verde (jade solo para éxito), paleta rosa y gris
 - **Verify:** `bash -c 'npm --prefix web run build'`
+
+## CO-044 · Negocio: sin alta todavía no es 'sin conexión'; aviso correcto para el ejemplo de Doña Lupe (follow-up of CO-034)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-034
+- **Follow-up of:** CO-034
+- **Paths:** web/src/features/negocio/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Negocio: sin alta todavía no es 'sin conexión'; aviso correcto para el ejemplo de Doña Lupe
+- **Verify:** `bash -c 'npm --prefix web run build'`
