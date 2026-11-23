@@ -6,7 +6,7 @@
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `bash -c 'test -s web/DESIGN.md && ls web/public/design-lock/screens/*-1280.png && npm --prefix web run build && bash .uak/bin/uak lint'`
-- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/13; run .uak/bin/smoke
+- Next: Integrated in main: 431fdd7559a805b089cec1482b674f8c3921b66a
 
 ## History
 - 1795414572 | CLAIMED | crismmolina-1 | claim; next: `/uak-design-lock`, con un humano presente para elegir
@@ -15,3 +15,4 @@
 - 1795416793 | REVIEW | crismmolina-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/13; evidence: Verify exit 0 (test -s DESIGN.md, screens/*-1280.png, build); smoke exit 0 (ruff, 193 passed, oxlint, build); design-critic SHIP; criteria: 2 rondas con capturas, elección humana en uak decision, DESIGN.md con recetas, AppShell/NavBar/PageHeader/PageLayout, App en AppShell, 3 pantallas fijadas; reviewer: -
 - 1795416842 | REVIEW | crismmolina-2 | review; approve; SHA 3bd4a7c38529bbad6d0aea13cab4ed9ff8fe5189; reviewer crismmolina-2
 - 1795416881 | REVIEW | crismmolina-1 | heartbeat; lease until 1795431281
+- 1795416954 | INTEGRATED | crismmolina-1 | merge; smoke and Verify PASS; commit 431fdd7559a805b089cec1482b674f8c3921b66a; reviewer crismmolina-2
