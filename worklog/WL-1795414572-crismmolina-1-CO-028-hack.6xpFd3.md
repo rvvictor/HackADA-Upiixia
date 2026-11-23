@@ -10,3 +10,4 @@
 
 ## History
 - 1795414572 | CLAIMED | crismmolina-1 | claim; next: `/uak-design-lock`, con un humano presente para elegir
+- 1795415767 | CLAIMED | crismmolina-1 | pending decision CO-028-1795415767; option: Direction C · Maqueta viva; Why: cris eligió la C viendo las capturas de la ronda 2 (A, B, C): toda la app con el lenguaje de la maqueta (bloques blancos, cobalto donde falta comercio, pines rosa)
