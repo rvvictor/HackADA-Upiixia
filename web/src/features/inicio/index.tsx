@@ -23,7 +23,7 @@ const DONA_LUPE = "alta-puesto-de-dona-lupe";
 type Acento = { acc: string };
 const TERRACOTA: Acento = { acc: "var(--pb-acento)" };
 const CEMPA: Acento = { acc: "var(--pb-cempasuchil-texto)" };
-const JADE: Acento = { acc: "var(--pb-jade)" };
+const JADE: Acento = { acc: "var(--pb-impulso-4)" }; // CO-043: sin verde, tono de la rampa rosa
 const ANIL: Acento = { acc: "var(--pb-anil)" };
 
 function Enlace({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
@@ -161,7 +161,7 @@ function Problema() {
 
 /* Mini-ilustraciones SVG (sin imágenes): cada paso tiene la suya. */
 const ANIL_C = "var(--pb-anil)";
-const JADE_C = "var(--pb-jade)";
+const JADE_C = "var(--pb-impulso-4)";
 const CEMPA_C = "var(--pb-cempasuchil)";
 const TERRA_C = "var(--pb-acento)";
 
