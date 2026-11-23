@@ -1,12 +1,13 @@
 # worklog/WL-1795417706-crismmolina-1-CO-036-hack.nNZBu1.md · CO-036
 
 ## Live summary
-- Done: Claim created; implementation pending
+- Done: build exit 0; smoke exit 0; Playwright login R-00001 → Incentivos 1280/390 ok
 - Decision: Own branch and worktree
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `bash -c 'npm --prefix web run build'`
-- Next: abrir `Incentivos.tsx`
+- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/17; run .uak/bin/smoke
 
 ## History
 - 1795417706 | CLAIMED | crismmolina-1 | claim; next: abrir `Incentivos.tsx`
+- 1795417964 | REVIEW | crismmolina-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/17; evidence: build exit 0; smoke exit 0; Playwright login R-00001 → Incentivos 1280/390 ok; reviewer: -
