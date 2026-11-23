@@ -1,4 +1,4 @@
-import { COLORES } from "./coloresCrecimiento";
+import { COLORES, TRAZOS } from "./coloresCrecimiento";
 import type { SerieAlcaldia } from "./tiposCrecimiento";
 
 const fmt = (n: number) => n.toLocaleString("es-MX");
@@ -8,7 +8,9 @@ export function Leyenda({ series }: { series: SerieAlcaldia[] }) {
     <ul className="flex flex-wrap gap-x-5 gap-y-1 text-base text-(--pb-texto-2)">
       {series.map((s, i) => (
         <li key={s.alcaldia_cvegeo} className="flex items-center gap-2">
-          <span aria-hidden className="inline-block h-2.5 w-5 rounded-full" style={{ background: COLORES[i % 2] }} />
+          <svg aria-hidden="true" width="28" height="10" className="shrink-0">
+            <line x1="2" x2="26" y1="5" y2="5" stroke={COLORES[i % 2]} strokeWidth="3" strokeLinecap="round" strokeDasharray={TRAZOS[i % 2]} />
+          </svg>
           {s.alcaldia}
         </li>
       ))}
@@ -76,6 +78,7 @@ export function Lineas({ series }: { series: SerieAlcaldia[] }) {
                 fill="none"
                 stroke={COLORES[i % 2]}
                 strokeWidth="3"
+                strokeDasharray={TRAZOS[i % 2]}
                 strokeLinejoin="round"
                 strokeLinecap="round"
                 points={s.puntos.map((p, j) => `${x(j)},${y(p.valor)}`).join(" ")}
@@ -129,7 +132,17 @@ export function Barras({ series }: { series: SerieAlcaldia[] }) {
                 const bx = cx - (series.length * ancho) / 2 + i * ancho;
                 return (
                   <g key={s.alcaldia_cvegeo}>
-                    <rect x={bx + 1} y={H - P.b - alto(v)} width={ancho - 2} height={alto(v)} rx="4" fill={COLORES[i % 2]} opacity={ultimo ? 1 : 0.55}>
+                    <rect
+                      x={bx + 1}
+                      y={H - P.b - alto(v)}
+                      width={ancho - 2}
+                      height={alto(v)}
+                      rx="4"
+                      fill={i % 2 ? "var(--pb-superficie)" : COLORES[0]}
+                      stroke={COLORES[i % 2]}
+                      strokeWidth={i % 2 ? 2 : 0}
+                      opacity={ultimo ? 1 : 0.55}
+                    >
                       <title>{`${s.alcaldia} ${periodo}: ${fmt(v)}`}</title>
                     </rect>
                     {ultimo && (
@@ -205,7 +218,7 @@ export function MapaAlcaldias({ activas }: { activas: string[] }) {
               stroke={on ? "var(--pb-acento-fuerte)" : "var(--pb-borde)"}
               strokeWidth="1.5"
             />
-            <text x={cx} y={cy + 4} textAnchor="middle" className={`text-[15px] font-bold ${on ? "fill-white" : "fill-(--pb-texto-2)"}`}>
+            <text x={cx} y={cy + 4} textAnchor="middle" className={`text-[15px] font-bold ${on ? "fill-(--pb-sobre-acento)" : "fill-(--pb-texto-2)"}`}>
               {a.corto}
             </text>
           </g>
