@@ -1,0 +1,12 @@
+# worklog/WL-1795414572-crismmolina-1-CO-028-hack.6xpFd3.md · CO-028
+
+## Live summary
+- Done: Claim created; implementation pending
+- Decision: Own branch and worktree
+- Why: Parallel work without touching the main checkout
+- Failing: No validation run yet
+- Commands: `bash -c 'test -s web/DESIGN.md && ls web/public/design-lock/screens/*-1280.png && npm --prefix web run build && bash .uak/bin/uak lint'`
+- Next: `/uak-design-lock`, con un humano presente para elegir
+
+## History
+- 1795414572 | CLAIMED | crismmolina-1 | claim; next: `/uak-design-lock`, con un humano presente para elegir
