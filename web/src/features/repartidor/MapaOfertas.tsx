@@ -67,22 +67,41 @@ export function MapaOfertas({
     pintar();
   }, [pintar]);
 
-  // Al elegir una oferta, el mapa se encuadra en sus puntos.
+  // The map frames the chosen offer; with none chosen, all of them. It runs when the map is ready, when offers first
+  // arrive and on every new choice (CO-051: before, the first fit ran before the map existed and it stayed on the city).
+  const encuadrado = useRef(false);
+  const encuadrar = useCallback(
+    (animar: boolean) => {
+      const map = mapa.current;
+      if (!map || ofertas.length === 0) return;
+      const o = ofertas.find((x) => x.id === elegida);
+      const lista = o ? [o] : ofertas;
+      const pts = lista.flatMap((x) => [...(x.origen ? [x.origen] : []), ...x.paradas]);
+      if (pts.length === 0) return;
+      encuadrado.current = true;
+      const opciones = { padding: 80, pitch: 0, bearing: 0, maxZoom: 15.5, duration: animar ? 700 : 0 };
+      if (pts.length === 1) {
+        map.easeTo({ center: [pts[0].lng, pts[0].lat], zoom: 15, pitch: 0, bearing: 0, duration: opciones.duration });
+        return;
+      }
+      map.fitBounds(
+        [
+          [Math.min(...pts.map((p) => p.lng)), Math.min(...pts.map((p) => p.lat))],
+          [Math.max(...pts.map((p) => p.lng)), Math.max(...pts.map((p) => p.lat))],
+        ],
+        opciones,
+      );
+    },
+    [ofertas, elegida],
+  );
+  const encuadrarRef = useRef(encuadrar);
   useEffect(() => {
-    const map = mapa.current;
-    const o = ofertas.find((x) => x.id === elegida);
-    if (!map || !o) return;
-    const pts = [...(o.origen ? [o.origen] : []), ...o.paradas];
-    if (pts.length < 2) return;
-    map.fitBounds(
-      [
-        [Math.min(...pts.map((p) => p.lng)), Math.min(...pts.map((p) => p.lat))],
-        [Math.max(...pts.map((p) => p.lng)), Math.max(...pts.map((p) => p.lat))],
-      ],
-      { padding: 80, pitch: 0, bearing: 0, duration: 700 },
-    );
-    // Solo al cambiar la elección, no en cada sondeo.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    encuadrarRef.current = encuadrar;
+    // First offers after the map is ready: frame them once; later polls do not move the camera.
+    if (!encuadrado.current) encuadrar(false);
+  }, [encuadrar]);
+  useEffect(() => {
+    if (encuadrado.current) encuadrarRef.current(true);
   }, [elegida]);
 
   const alListo = useCallback((map: MapboxMap) => {
@@ -122,6 +141,7 @@ export function MapaOfertas({
     map.on("mouseenter", "ofertas-puntos", () => (map.getCanvas().style.cursor = "pointer"));
     map.on("mouseleave", "ofertas-puntos", () => (map.getCanvas().style.cursor = ""));
     pintarRef.current();
+    encuadrarRef.current(false);
   }, []);
 
   return <MapaBase onReady={alListo} />;
