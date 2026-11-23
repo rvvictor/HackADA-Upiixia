@@ -43,22 +43,38 @@ for f in coy:
     ring = [xy(*c) for c in f["geometry"]["coordinates"][0]][:-1]
     ring = [(x, y * SQ) for x, y in ring]
     cy = sum(y for _, y in ring) / len(ring)
-    cols.append((cy, ring, h, i + 1, p["oculto"]))
+    cols.append((cy, ring, h, i + 1, p["oculto"], p["h3"]))
     tops[p["h3"]] = (sum(x for x, _ in ring) / len(ring), cy - h)
     suelo[p["h3"]] = (sum(x for x, _ in ring) / len(ring), cy)
 cols.sort(key=lambda c: c[0])
 parts = []
+# CO-053: illustrative per-day heights (not data by day). Each block gets a factor per weekday: a day base
+# (weekends a bit busier) times a small deterministic jitter, so every day looks the same each time and differs a little.
+BASE_DIA = [0.9, 0.86, 0.88, 0.93, 1.0, 1.1, 1.16]
+
+
+def factor(k, d):
+    r = math.sin(sum(ord(ch) for ch in k) * 12.9898 + d * 78.233) * 43758.5453
+    r -= math.floor(r)
+    return max(0.6, min(1.4, BASE_DIA[d] * (0.88 + 0.24 * r)))
+
+
+base_bloque = {}  # h3 → bottom y of the block (scale origin)
+retraso = {}  # h3 → the block's --d, so its pin moves with it
 # CO-049: each block is one <g class="b"> so it can rise from the ground; --d (0 center … 1 edge) staggers the animation.
-mx0 = sum(sum(x for x, _ in r) / len(r) for _, r, _, _, _ in cols) / len(cols)
-my0 = sum(c for c, _, _, _, _ in cols) / len(cols)
-dmax = max(math.hypot(sum(x for x, _ in r) / len(r) - mx0, c - my0) for c, r, _, _, _ in cols)
-for cy, ring, h, ci, oc in cols:
+mx0 = sum(sum(x for x, _ in r) / len(r) for _, r, _, _, _, _ in cols) / len(cols)
+my0 = sum(c for c, _, _, _, _, _ in cols) / len(cols)
+dmax = max(math.hypot(sum(x for x, _ in r) / len(r) - mx0, c - my0) for c, r, _, _, _, _ in cols)
+for cy, ring, h, ci, oc, k in cols:
     if oc:
         parts.append('<path class="z0" d="M' + "L".join(f"{x:.1f},{y:.1f}" for x, y in ring) + 'Z"/>')
         continue
     n = len(ring)
     dd = math.hypot(sum(x for x, _ in ring) / n - mx0, cy - my0) / dmax
-    parts.append(f'<g class="b" style="--d:{dd:.2f}">')
+    fs = ";".join(f"--f{d}:{factor(k, d):.3f}" for d in range(7))
+    base_bloque[k] = max(y for _, y in ring)
+    retraso[k] = dd
+    parts.append(f'<g class="b" style="--d:{dd:.2f};{fs}">')
     for j in range(n):
         (x1, y1), (x2, y2) = ring[j], ring[(j + 1) % n]
         # visible side: the edge's outward normal points down-screen (toward the viewer)
@@ -77,7 +93,8 @@ for p in pts:
     if p["alcaldia_cvegeo"] != "09003" or p["tipo"] != "tianguis":
         continue
     if p["h3"] in tops:
-        x, y = tops[p["h3"]]
+        k = p["h3"]
+        x, y = tops[k]
     else:
         # CO-047: no block for its hexagon. Stand on the nearest block; skip it if that is farther than ~1.5 blocks.
         gx, gy = xy(p["lng"], p["lat"])
@@ -87,7 +104,9 @@ for p in pts:
             continue
         x, y = tops[k]
     dias = " ".join(f"d{d}" for d in p.get("dias") or [])
-    marks.append(f'<g class="tg {dias}"><line x1="{x:.1f}" y1="{y:.1f}" x2="{x:.1f}" y2="{y - 18:.1f}"/><circle cx="{x:.1f}" cy="{y - 20:.1f}" r="4.2"/></g>')
+    # CO-053: how far the pin moves each day so it stays on its block (scaleY about the block's bottom edge).
+    ofs = (f"--d:{retraso[k]:.2f};" + ";".join(f"--p{d}:{(base_bloque[k] - y) * (1 - factor(k, d)):.1f}px" for d in range(7))) if k in base_bloque else ""
+    marks.append(f'<g class="tg {dias}" style="{ofs}"><line x1="{x:.1f}" y1="{y:.1f}" x2="{x:.1f}" y2="{y - 18:.1f}"/><circle cx="{x:.1f}" cy="{y - 20:.1f}" r="4.2"/></g>')
 Hc = H * SQ + 30
 svg = (
     f'<svg class="maqueta" viewBox="0 -70 {W} {Hc + 70:.0f}" role="img" aria-label="Maqueta de Coyoacán: {len(coy)} hexágonos H3">'
