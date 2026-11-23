@@ -8,7 +8,7 @@
   --ci-texto-2: var(--pb-texto-2);
   --ci-acento: var(--pb-acento);
   --ci-cempasuchil: var(--pb-cempasuchil);
-  --ci-jade: var(--pb-jade);
+  --ci-jade: var(--pb-actividad-3); /* CO-043: jade (verde) es solo para éxito; aquí gris de la maqueta */
   --ci-anil: var(--pb-anil);
   --ci-foco: var(--pb-foco);
 
