@@ -229,3 +229,41 @@
 @media (prefers-reduced-motion: reduce) {
   .mq-modelo .tg, .mq-btn { transition: none; }
 }
+
+/* CO-049: blocks rise from the ground on load, center first; a day change sends a soft wave through them.
+   The wave returns every block to its real height, so the data and the pins never move. */
+.mq-modelo .b {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: mq-sube 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--d) * 700ms);
+}
+.mq-modelo.mq-ola-0 .b {
+  animation: mq-ola-0 0.8s cubic-bezier(0.37, 0, 0.3, 1) both;
+  animation-delay: calc(var(--d) * 450ms);
+}
+.mq-modelo.mq-ola-1 .b {
+  animation: mq-ola-1 0.8s cubic-bezier(0.37, 0, 0.3, 1) both;
+  animation-delay: calc(var(--d) * 450ms);
+}
+@keyframes mq-sube {
+  from { transform: scaleY(0.04); }
+  to { transform: none; }
+}
+@keyframes mq-ola-0 {
+  0%, 100% { transform: none; }
+  45% { transform: scaleY(1.12); }
+}
+@keyframes mq-ola-1 {
+  0%, 100% { transform: none; }
+  45% { transform: scaleY(1.12); }
+}
+/* Pins land once their blocks have risen. Fill-mode backwards only: after it ends the day transition takes over. */
+.mq-modelo .tg { animation: mq-pin 0.45s cubic-bezier(0.16, 1, 0.3, 1) 1.2s backwards; }
+@keyframes mq-pin {
+  from { opacity: 0; transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mq-modelo .b, .mq-modelo.mq-ola-0 .b, .mq-modelo.mq-ola-1 .b, .mq-modelo .tg { animation: none; }
+}
