@@ -18,7 +18,7 @@ type NavBarProps = { items: NavItem[]; actual?: string };
 export function NavBar({ items, actual }: NavBarProps) {
   return (
     <>
-      <header className="relative z-20 flex h-(--pb-alto-nav) shrink-0 items-center justify-between gap-6 bg-(--pb-fondo)/90 px-4 backdrop-blur-sm md:px-8">
+      <header className="relative z-20 flex h-(--pb-alto-nav) shrink-0 items-center justify-between gap-6 bg-(--pb-fondo) px-4 md:px-8">
         <a href="#/inicio" className="rounded-full" aria-label="colonIA, ir al inicio">
           <Logo className="text-[1.4rem]" />
         </a>
@@ -30,7 +30,7 @@ export function NavBar({ items, actual }: NavBarProps) {
                 key={it.route}
                 href={`#/${it.route}`}
                 aria-current={activo ? "page" : undefined}
-                className={`inline-flex min-h-(--pb-alto-control) items-center rounded-full px-4 text-[0.9rem] font-medium motion-safe:transition-colors ${
+                className={`inline-flex min-h-(--pb-alto-control) items-center rounded-full px-4 text-base font-medium motion-safe:transition-colors ${
                   activo
                     ? "bg-(--pb-acento-suave) text-(--pb-acento-fuerte)"
                     : "text-(--pb-texto-2) hover:bg-(--pb-superficie-2) hover:text-(--pb-texto)"
@@ -55,7 +55,7 @@ export function NavBar({ items, actual }: NavBarProps) {
               key={it.route}
               href={`#/${it.route}`}
               aria-current={activo ? "page" : undefined}
-              className={`flex min-h-16 flex-col items-center justify-center gap-0.5 text-[0.7rem] font-medium ${
+              className={`flex min-h-16 flex-col items-center justify-center gap-0.5 text-[0.8125rem] font-medium ${
                 activo ? "text-(--pb-acento)" : "text-(--pb-texto-2)"
               }`}
             >

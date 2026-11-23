@@ -15,8 +15,8 @@ export function AppShell({ items, actual, children }: AppShellProps) {
         Saltar al contenido
       </a>
       <NavBar items={items} actual={actual} />
-      {/* pb-16 on phones leaves room for the bottom bar; md:pb-0 because the tabs live in the top bar there. */}
-      <main id="contenido" className="relative min-h-0 flex-1 overflow-y-auto pb-16 md:pb-0">
+      {/* Bottom padding on phones leaves room for the bottom bar; md:pb-0 because the tabs live in the top bar there. */}
+      <main id="contenido" className="relative min-h-0 flex-1 overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         {children}
       </main>
     </div>

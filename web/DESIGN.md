@@ -32,6 +32,9 @@ actividad y el color es impulso. La interfaz es el marco; la maqueta es la prota
 | `--pb-marca` | `#d1006c` | "IA" del logo y titulares grandes |
 | `--pb-pin` | `#14171c` | pines de tianguis sobre bloques rosa |
 | `--pb-jade` / `--pb-error` | `#2f7a5a` / `#b42318` | solo estados de éxito y error |
+| `--pb-foco` / `--pb-sobre-acento` | `#a00055` / `#ffffff` | anillo de foco de 3 px; texto sobre el acento |
+| `--pb-vidrio` / `--pb-sombra-marca` | blanco 86 % / sombra de tinta 25 % | paneles sobre el mapa; sombra del primario |
+| `--pb-real-*`, `--pb-estimado-*`, `--pb-simulado-*` | (dormidos) | solo dentro de `Etiqueta`, hoy apagada |
 | Rampa actividad (altura) | `#f4f5f7 → #d9dde3 → #b3bac4 → #7c8390 → #3a414c` | bloques: de blanco a tinta |
 | Rampa impulso (color) | `#faf3f6 → #f3d2e2 → #e693bb → #d6438a → #b0005a` | tapas de los bloques: de blanco a rosa |
 | Oscuro | `--pb-hero-fondo #14171c`, `--pb-hero-superficie #20242b` | solo momentos de presentación |

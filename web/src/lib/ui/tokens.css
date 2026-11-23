@@ -1,6 +1,6 @@
 /* Design tokens · colonIA · Dirección C "Maqueta viva" (web/DESIGN.md, uak decision CO-028).
-   The city as an architect's model: white blocks on a cool concrete ground, cobalt where commerce is missing,
-   magenta pins for tianguis. Same --pb-* names as before so every view picks up the direction; map ramps are
+   The city as an architect's model: white blocks on a cool concrete ground, rosa mexicano where commerce is
+   missing, ink pins for tianguis. Same --pb-* names as before so every view picks up the direction; map ramps are
    read at runtime with leerToken() (web/src/lib/map/hex.ts). Contrast: text pairs ≥ 4.5:1, large/controls ≥ 3:1. */
 @font-face {
   font-family: "Bricolage Grotesque Variable";
@@ -37,7 +37,8 @@
   --pb-error: #b42318;
   --pb-sobre-acento: #ffffff;
 
-  /* Data labels (Etiqueta): text over its background ≥ 5.7:1. */
+  /* Data labels (Etiqueta): text over its background ≥ 5.7:1. DORMANT while MOSTRAR_TIPO_DATO is false;
+     they are the only non-rosa hues allowed and only inside Etiqueta. */
   --pb-real-texto: #006b45;
   --pb-real-fondo: #ddf5ea;
   --pb-estimado-texto: #1f3b8c;
@@ -75,7 +76,7 @@
   --pb-sombra: 0 1px 2px rgb(20 23 28 / 0.05), 0 6px 18px -6px rgb(20 23 28 / 0.1);
   /* Neutral shadows only (opacity ≤ 0.35, long and soft like a model under a lamp): elevation, never a halo. */
   --pb-sombra-alta: 0 2px 4px rgb(20 23 28 / 0.06), 0 18px 40px -20px rgb(20 23 28 / 0.35);
-  --pb-sombra-marca: 0 8px 20px -10px rgb(200 0 106 / 0.3);
+  --pb-sombra-marca: 0 8px 20px -10px rgb(20 23 28 / 0.25);
 
   --pb-font-display: "Bricolage Grotesque Variable", "Geist Variable", ui-sans-serif, system-ui, sans-serif;
 }
