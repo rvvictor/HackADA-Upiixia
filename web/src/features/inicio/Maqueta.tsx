@@ -22,6 +22,12 @@ function hoy(): number {
 
 export function HeroMaqueta() {
   const [dia, setDia] = useState(hoy);
+  // CO-049: each day change replays a soft wave through the blocks (two identical keyframes, alternated, so it restarts).
+  const [ola, setOla] = useState(0);
+  function elegir(d: number) {
+    setDia(d);
+    setOla((n) => n + 1);
+  }
   return (
     <section className="mq" aria-labelledby="titulo-maqueta">
       <div className="mq-texto">
@@ -35,7 +41,7 @@ export function HeroMaqueta() {
         </a>
       </div>
 
-      <div className="mq-modelo" data-dia={dia} dangerouslySetInnerHTML={{ __html: maqueta }} />
+      <div className={`mq-modelo${ola ? ` mq-ola-${ola % 2}` : ""}`} data-dia={dia} dangerouslySetInnerHTML={{ __html: maqueta }} />
 
       <p className="mq-conteo" aria-live="polite">
         <strong>{ABIERTOS[dia]}</strong>
@@ -46,7 +52,7 @@ export function HeroMaqueta() {
         <span aria-hidden="true">Día</span>
         <div>
           {LETRAS.map((l, i) => (
-            <button key={i} type="button" aria-label={NOMBRES[i]} aria-pressed={dia === i} onClick={() => setDia(i)}>
+            <button key={i} type="button" aria-label={NOMBRES[i]} aria-pressed={dia === i} onClick={() => elegir(i)}>
               {l}
             </button>
           ))}

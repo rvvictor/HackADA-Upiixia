@@ -48,11 +48,17 @@ for f in coy:
     suelo[p["h3"]] = (sum(x for x, _ in ring) / len(ring), cy)
 cols.sort(key=lambda c: c[0])
 parts = []
+# CO-049: each block is one <g class="b"> so it can rise from the ground; --d (0 center … 1 edge) staggers the animation.
+mx0 = sum(sum(x for x, _ in r) / len(r) for _, r, _, _, _ in cols) / len(cols)
+my0 = sum(c for c, _, _, _, _ in cols) / len(cols)
+dmax = max(math.hypot(sum(x for x, _ in r) / len(r) - mx0, c - my0) for c, r, _, _, _ in cols)
 for cy, ring, h, ci, oc in cols:
     if oc:
         parts.append('<path class="z0" d="M' + "L".join(f"{x:.1f},{y:.1f}" for x, y in ring) + 'Z"/>')
         continue
     n = len(ring)
+    dd = math.hypot(sum(x for x, _ in ring) / n - mx0, cy - my0) / dmax
+    parts.append(f'<g class="b" style="--d:{dd:.2f}">')
     for j in range(n):
         (x1, y1), (x2, y2) = ring[j], ring[(j + 1) % n]
         # visible side: the edge's outward normal points down-screen (toward the viewer)
@@ -65,6 +71,7 @@ for cy, ring, h, ci, oc in cols:
             f'<path class="{side} s{ci}" d="M{x1:.1f},{y1:.1f}L{x2:.1f},{y2:.1f}L{x2:.1f},{y2 - h:.1f}L{x1:.1f},{y1 - h:.1f}Z"/>'
         )
     parts.append(f'<path class="c{ci}" d="M' + "L".join(f"{x:.1f},{y - h:.1f}" for x, y in ring) + 'Z"/>')
+    parts.append("</g>")
 marks = []
 for p in pts:
     if p["alcaldia_cvegeo"] != "09003" or p["tipo"] != "tianguis":
