@@ -120,13 +120,13 @@
   transform: translateY(1px);
 }
 
-.ci-btn-primario {
+.ci .ci-btn-primario {
   background: var(--ci-acento);
   color: var(--pb-sobre-acento);
   box-shadow: var(--pb-sombra);
 }
 
-.ci-btn-primario:hover {
+.ci .ci-btn-primario:hover {
   background: var(--pb-acento-fuerte);
 }
 
@@ -141,20 +141,11 @@
   color: var(--ci-acento);
 }
 
-.ci-btn-jade {
-  background: var(--ci-jade);
-  color: var(--pb-sobre-acento);
-}
-
-.ci-btn-jade:hover {
-  background: var(--pb-real-texto);
-}
-
 /* ---------- HERO ---------- */
 .ci-hero {
   position: relative;
   min-height: 100%;
-  padding: 56px 0 72px;
+  padding: 32px 0 48px;
   overflow: hidden;
   isolation: isolate;
 }
@@ -167,7 +158,7 @@
 
 @media (min-width: 900px) {
   .ci-hero {
-    padding: 80px 0 96px;
+    padding: 40px 0 56px;
   }
   .ci-hero-grid {
     grid-template-columns: 1.05fr 0.95fr;
@@ -178,8 +169,8 @@
 .ci-marca {
   margin: 0;
   font-weight: 800;
-  font-size: clamp(5.2rem, 22vw, 11.5rem);
-  line-height: 0.86;
+  font-size: clamp(3rem, 12vw, 6rem);
+  line-height: 0.92;
   letter-spacing: -0.05em;
   color: var(--ci-texto);
 }
@@ -219,7 +210,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: 22px;
 }
 
 .ci-ctas .ci-btn {
@@ -244,6 +235,10 @@
   height: auto;
   display: block;
   overflow: visible;
+}
+
+.ci-hero-cifra {
+  margin: 14px 0 0;
 }
 
 .ci-hero-etiqueta {
