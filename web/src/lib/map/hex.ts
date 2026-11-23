@@ -39,14 +39,18 @@ export function coloresRampa(rampa: Rampa): string[] {
   return [1, 2, 3, 4, 5].map((n) => leerToken(`--pb-${rampa}-${n}`));
 }
 
-/** `interpolate` over a 0–1 property (percentile or normalized index) using the 5 steps of the ramp. */
+// CO-050: most hexagons sit at low values, so the color stops are packed at the low end.
+const PARADAS = [0, 0.02, 0.1, 0.35, 1];
+
+/** `interpolate` over a 0–1 property (percentile or normalized index) using the 5 steps of the ramp.
+ *  Stops at PARADAS (0, 2 %, 10 %, 35 %, 100 %) so the map reads as rosa instead of near-white. */
 export function colorPorRampa(propiedad: string, rampa: Rampa, pasos?: string[]): ExpressionSpecification {
   const colores = pasos ?? coloresRampa(rampa);
   return [
     "interpolate",
     ["linear"],
     ["coalesce", ["get", propiedad], 0],
-    ...colores.flatMap((c, i) => [i / (colores.length - 1), c]),
+    ...colores.flatMap((c, i) => [PARADAS[i] ?? i / (colores.length - 1), c]),
   ] as ExpressionSpecification;
 }
 
