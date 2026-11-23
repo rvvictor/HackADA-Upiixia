@@ -127,7 +127,7 @@ export function Panel(p: PanelProps) {
           aria-checked={p.datoReal}
           aria-labelledby="etq-cnbv"
           onClick={() => p.onDatoReal(!p.datoReal)}
-          className={`relative h-8 w-14 shrink-0 rounded-full motion-safe:transition-colors ${p.datoReal ? "bg-(--pb-acento)" : "bg-(--pb-borde-fuerte)"}`}
+          className={`relative h-8 w-14 shrink-0 rounded-full before:absolute before:-inset-2 before:content-[""] motion-safe:transition-colors ${p.datoReal ? "bg-(--pb-acento)" : "bg-(--pb-borde-fuerte)"}`}
         >
           <span
             className={`absolute top-1 size-6 rounded-full bg-(--pb-superficie) motion-safe:transition-all ${p.datoReal ? "left-7" : "left-1"}`}
