@@ -11,3 +11,4 @@
 ## History
 - 1795414572 | CLAIMED | crismmolina-1 | claim; next: `/uak-design-lock`, con un humano presente para elegir
 - 1795415767 | CLAIMED | crismmolina-1 | pending decision CO-028-1795415767; option: Direction C · Maqueta viva; Why: cris eligió la C viendo las capturas de la ronda 2 (A, B, C): toda la app con el lenguaje de la maqueta (bloques blancos, cobalto donde falta comercio, pines rosa)
+- 1795416239 | CLAIMED | crismmolina-1 | pending decision CO-028-1795416239; option: Paleta rosa mexicano y sin etiquetas real/simulado en pantalla; Why: cris (chat, 2026-11-23): quitar todo lo que dice simulado y datos reales, y usar la paleta rosa. Se apagan los chips con MOSTRAR_TIPO_DATO=false en Etiqueta; tipo_dato y fuente siguen en la API. Choca con C3 y criterios de CO-030/032/034/036, que piden etiqueta visible
