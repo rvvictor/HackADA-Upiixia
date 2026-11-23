@@ -11,3 +11,4 @@
 ## History
 - 1795417206 | CLAIMED | yojanmoralesuwu-1 | claim; next: leer la receta de landing en `web/DESIGN.md` y la pantalla fijada más parecida
 - 1795419126 | REVIEW | yojanmoralesuwu-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/new/feat/co-029; evidence: build verde con Node 22; capturas 1280x720 y 390x844 con movimiento reducido en .uak-shots/CO-029; sin scroll horizontal; hero con cifra real de /api/puntos (61,567); design-lint sin hallazgos en features/inicio --no-red pantalla: sin comportamiento que probar primero; reviewer: -
+- 1795419536 | REVIEW | crismmolina-1 | review; reject; SHA b20f8779b9bde406a56b39e248519ec7e9cf96c6; reviewer crismmolina-1
