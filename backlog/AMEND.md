@@ -167,3 +167,76 @@ Append-only; the last section of an ID replaces its section in the backlog. Why:
 - **Verify:** `bash -c 'npm --prefix web run build'`
 - **Next step:** abrir `Incentivos.tsx`
 
+## CO-029 · Landing de colonIA para directivos
+
+- **Type:** feature
+- **Priority:** P0
+- **Estimate:** 60 min
+- **Rubric / Spec:** C4 · `IDEA.md` · skill `landing-story`
+- **Depends on:** CO-028
+- **Uses contract:** CO-041
+- **Paths:** web/src/features/inicio/
+- **Freeze-Allowed:** yes
+- **Test-First:** no (pantalla: se verifica con build, design-lint y capturas)
+- **Acceptance:** Recipe: landing · Hero: el mapa vivo con la cifra de negocios dados de alta, todo visible a 1280×720 sin scroll, La frase de una línea, una cifra grande con su texto, el wow como pantalla real, tres pasos y un llamado a la acción hacia `#/sedeco`, Sin texto fuera de los tokens; respeta `prefers-reduced-motion`; se ve bien a 390×844
+- **Verify:** `bash -c 'npm --prefix web run build'`
+- **Next step:** leer la receta de landing en `web/DESIGN.md` y la pantalla fijada más parecida
+
+## CO-030 · Mapa SEDECO: panel lateral y tarjetas de alcaldía
+
+- **Type:** feature
+- **Priority:** P0
+- **Estimate:** 45 min
+- **Rubric / Spec:** C4, C3 · `IDEA-v2.md`
+- **Depends on:** CO-028
+- **Uses contract:** CO-031
+- **Paths:** web/src/features/mapa/PanelSedeco.tsx, web/src/features/mapa/TarjetaAlcaldia.tsx, web/src/features/mapa/Leyenda.tsx, web/src/features/mapa/ChipsAdaptador.tsx
+- **Freeze-Allowed:** yes
+- **Test-First:** no (pantalla: build, design-lint y capturas)
+- **Acceptance:** Recipe: map + panel · Hero: el panel con día y hora y la cifra de actividad, Sin textos real · estimado · simulado en pantalla (uak decision CO-028); leyenda legible a 1280×720, Panel usable a 390×844 como hoja inferior
+- **Verify:** `bash -c 'npm --prefix web run build'`
+- **Next step:** abrir `PanelSedeco.tsx` y la receta map + panel
+
+## CO-032 · Gráficas de crecimiento y paneles de datos
+
+- **Type:** feature
+- **Priority:** P1
+- **Estimate:** 40 min
+- **Rubric / Spec:** C3, C4
+- **Depends on:** CO-028
+- **Paths:** web/src/features/mapa/graficasCrecimiento.tsx, web/src/features/mapa/coloresCrecimiento.ts, web/src/features/mapa/tiposCrecimiento.ts
+- **Freeze-Allowed:** yes
+- **Test-First:** no (gráficas: build y capturas)
+- **Acceptance:** Recipe: dashboard · Hero: la gráfica de crecimiento con su fuente, Colores de los tokens (rampa rosa), ejes legibles, sin textos real · estimado · simulado en pantalla (uak decision CO-028)
+- **Verify:** `bash -c 'npm --prefix web run build'`
+- **Next step:** abrir `graficasCrecimiento.tsx`
+
+## CO-034 · Vista del negocio: alta y su ficha
+
+- **Type:** feature
+- **Priority:** P0
+- **Estimate:** 45 min
+- **Rubric / Spec:** C4 · `IDEA-v2.md`
+- **Depends on:** CO-028
+- **Paths:** web/src/features/negocio/
+- **Freeze-Allowed:** yes
+- **Test-First:** no (pantalla: build, design-lint y capturas)
+- **Acceptance:** Recipe: detail · Hero: la ficha del negocio recién dado de alta con el repartidor de su colonia, Campos extraídos de la nota de voz visibles y editables; sin textos real · estimado · simulado en pantalla (uak decision CO-028), Estados de carga, vacío y error; se ve bien a 390×844
+- **Verify:** `bash -c 'npm --prefix web run build'`
+- **Next step:** abrir `negocio/index.tsx` y la receta detail
+
+## CO-036 · Portal del repartidor: incentivos con la bici
+
+- **Type:** feature
+- **Priority:** P1
+- **Estimate:** 30 min
+- **Rubric / Spec:** C4 · `IDEA-v2.md` §4.4
+- **Depends on:** CO-028
+- **Uses contract:** CO-035
+- **Paths:** web/src/features/repartidor/Incentivos.tsx, web/src/features/repartidor/incentivos.css
+- **Freeze-Allowed:** yes
+- **Test-First:** no (pantalla: build, design-lint y capturas)
+- **Acceptance:** Recipe: list · Hero: la bici en tarjeta grande con la barra "te faltan X rutas", sin textos real · estimado · simulado en pantalla (uak decision CO-028); avance animado y con `prefers-reduced-motion` apagado
+- **Verify:** `bash -c 'npm --prefix web run build'`
+- **Next step:** abrir `Incentivos.tsx`
+

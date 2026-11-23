@@ -25,3 +25,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1793314311 | deadline lease/CO-016/1793314168 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
 - 1795413635 | plan | yojan/yojan | tasks added: CO-028 CO-029 CO-030 CO-031 CO-032 CO-033 CO-034 CO-035 CO-036 CO-037 CO-038 CO-039 CO-040 CO-041 | Why: backlog without PR (Plan-Channel: claims)
 - 1795416089 | plan --amend | cris/cris | amended: CO-028 Verify changed; CO-029 Verify changed; CO-030 Verify changed; CO-031 CO-032 Verify changed; CO-033 Verify changed; CO-034 Verify changed; CO-035 Verify changed; CO-036 Verify changed; | Why: scope or criteria fixed before review
+- 1795416769 | plan --amend | cris/cris | amended: CO-029 CO-030 CO-032 CO-034 CO-036 | Why: scope or criteria fixed before review
