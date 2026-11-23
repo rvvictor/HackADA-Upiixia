@@ -6,10 +6,11 @@
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `bash -c 'npm --prefix web run build && ls .uak-shots/CO-037/*.png'`
-- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/31; run .uak/bin/smoke
+- Next: Integrated in main: 055ed6988139a8bb42b987d06b64637ddc3f2c07
 
 ## History
 - 1795437955 | CLAIMED | crismmolina-2 | claim; next: Implement CO-045 and run: `bash -c 'npm --prefix web run build && ls .uak-shots/CO-037/*.png'`
 - 1795438075 | REVIEW | crismmolina-2 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/31; evidence: smoke exit 0 at c653f76; 390: mapa visible 218-565 px, sin hscroll; leyenda 'Actividad con tarjeta'; reviewer: -
 - 1795438112 | REVIEW | crismmolina-1 | review; approve; SHA c653f760e7536e35c312fa970c18e9665b73eff7; reviewer crismmolina-1
 - 1795438145 | REVIEW | crismmolina-2 | heartbeat; lease until 1795452545
+- 1795438226 | INTEGRATED | crismmolina-2 | merge; smoke and Verify PASS; commit 055ed6988139a8bb42b987d06b64637ddc3f2c07; reviewer crismmolina-1
