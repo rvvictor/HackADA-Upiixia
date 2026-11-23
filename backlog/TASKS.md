@@ -500,3 +500,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Mapa principal: rosa más intenso en zonas de poca actividad
 - **Verify:** `bash -c 'npm --prefix web run build && npm --prefix web test'`
+
+## CO-051 · Portal del repartidor: el mapa abre encuadrado en sus ofertas, no en toda la ciudad (follow-up of CO-035)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-035
+- **Follow-up of:** CO-035
+- **Paths:** web/src/features/repartidor/index.tsx, web/src/features/repartidor/MapaOfertas.tsx, web/src/features/repartidor/cliente.ts
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Portal del repartidor: el mapa abre encuadrado en sus ofertas, no en toda la ciudad
+- **Verify:** `bash -c 'npm --prefix web run build'`
