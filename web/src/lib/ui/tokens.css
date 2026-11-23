@@ -1,31 +1,44 @@
-/* Design tokens · colonIA (web/DESIGN.md). Every color in the app comes from here.
-   Same --pb-* names as before so every view picks up the new direction; map ramps are read at runtime
-   with leerToken() (web/src/lib/map/hex.ts). Contrast checked: text pairs ≥ 4.5:1, large text/controls ≥ 3:1. */
+/* Design tokens · colonIA · Dirección C "Maqueta viva" (web/DESIGN.md, uak decision CO-028).
+   The city as an architect's model: white blocks on a cool concrete ground, rosa mexicano where commerce is
+   missing, ink pins for tianguis. Same --pb-* names as before so every view picks up the direction; map ramps are
+   read at runtime with leerToken() (web/src/lib/map/hex.ts). Contrast: text pairs ≥ 4.5:1, large/controls ≥ 3:1. */
+@font-face {
+  font-family: "Bricolage Grotesque Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("./fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2-variations");
+}
+
 :root {
-  /* Base: crisp paper white, deep ink. */
-  --pb-fondo: #f6f7f4;
+  /* Base: cool concrete ground, white model blocks, near-black ink. */
+  --pb-fondo: #eef0f3;
+  --pb-suelo: #dfe3e8;
   --pb-superficie: #ffffff;
-  --pb-superficie-2: #eef0ec;
-  --pb-texto: #0e1116;
-  --pb-texto-2: #4a5160;
-  --pb-borde: #dde1db;
+  --pb-superficie-2: #e6e9ed;
+  --pb-texto: #14171c;
+  --pb-texto-2: #4b5360;
+  --pb-borde: #d3d8de;
   --pb-borde-fuerte: #7c8390;
 
-  /* Brand: muted terracotta, no neon (IDEA-v2 §3). --pb-marca is for the logo and big display type;
-     --pb-acento passes AA with white text. --pb-*-texto variants are the AA-safe versions for text on white. */
-  --pb-marca: #a8472b;
-  --pb-acento: #9c4127;
-  --pb-acento-fuerte: #7d3320;
-  --pb-acento-suave: #f5e6df;
-  --pb-cempasuchil: #d19a3a;
-  --pb-cempasuchil-texto: #8a5a12;
+  /* Brand: one palette, rosa mexicano (cris, 2026-11-23). Rosa for action, logo "IA" and "falta comercio";
+     ink pins for tianguis so they read on rosa blocks. Old names kept for compatibility: --pb-cempasuchil and
+     --pb-anil now map into the rosa family; --pb-jade stays only for success states. */
+  --pb-marca: #d1006c;
+  --pb-pin: #14171c;
+  --pb-acento: #c8006a;
+  --pb-acento-fuerte: #a00055;
+  --pb-acento-suave: #fbe3ef;
+  --pb-cempasuchil: #d1006c;
+  --pb-cempasuchil-texto: #a00055;
   --pb-jade: #2f7a5a;
-  --pb-anil: #2d4a86;
-  --pb-foco: #2d4a86;
+  --pb-anil: #a00055;
+  --pb-foco: #a00055;
   --pb-error: #b42318;
   --pb-sobre-acento: #ffffff;
 
-  /* Data labels (Etiqueta): text over its background ≥ 5.7:1. */
+  /* Data labels (Etiqueta): text over its background ≥ 5.7:1. DORMANT while MOSTRAR_TIPO_DATO is false;
+     they are the only non-rosa hues allowed and only inside Etiqueta. */
   --pb-real-texto: #006b45;
   --pb-real-fondo: #ddf5ea;
   --pb-estimado-texto: #1f3b8c;
@@ -33,35 +46,37 @@
   --pb-simulado-texto: #3d4651;
   --pb-simulado-fondo: #eceef1;
 
-  /* Map ramps (5 steps, light → dark, medium saturation). Actividad: verde → añil. Impulso: arena → terracota. */
-  --pb-actividad-1: #e4efe9;
-  --pb-actividad-2: #b3d3c4;
-  --pb-actividad-3: #6fa98f;
-  --pb-actividad-4: #3a7a6c;
-  --pb-actividad-5: #2d4a86;
-  --pb-impulso-1: #f7eee2;
-  --pb-impulso-2: #ecd2ad;
-  --pb-impulso-3: #d9a46e;
-  --pb-impulso-4: #bc6c43;
-  --pb-impulso-5: #8f3a23;
-  --pb-oculto: #c9cdd3;
+  /* Map ramps (5 steps, light → dark). Actividad = height of the model: white → concrete → ink.
+     Impulso (where commerce is missing) = color of the block tops: white → rosa mexicano. */
+  --pb-actividad-1: #f4f5f7;
+  --pb-actividad-2: #d9dde3;
+  --pb-actividad-3: #b3bac4;
+  --pb-actividad-4: #7c8390;
+  --pb-actividad-5: #3a414c;
+  --pb-impulso-1: #faf3f6;
+  --pb-impulso-2: #f3d2e2;
+  --pb-impulso-3: #e693bb;
+  --pb-impulso-4: #d6438a;
+  --pb-impulso-5: #b0005a;
+  --pb-oculto: #e6e9ed;
 
   /* Dark surface (map overlays, presentation moments). Flat colors only, no halos. */
-  --pb-hero-fondo: #1b1f24;
-  --pb-hero-superficie: #262b31;
+  --pb-hero-fondo: #14171c;
+  --pb-hero-superficie: #20242b;
   --pb-hero-texto: #f4f5f7;
   --pb-hero-texto-2: #b3bac4;
-  --pb-vidrio: rgb(255 255 255 / 0.78);
+  --pb-vidrio: rgb(255 255 255 / 0.86);
 
   /* Shape and depth. */
   --pb-radio-control: 14px;
   --pb-radio-tarjeta: 20px;
   --pb-radio-grande: 28px;
   --pb-alto-control: 48px;
-  --pb-sombra: 0 1px 2px rgb(14 17 22 / 0.05), 0 6px 18px -6px rgb(14 17 22 / 0.1);
-  /* Neutral shadows only (opacity ≤ 0.15): elevation, never a halo. */
-  --pb-sombra-alta: 0 2px 4px rgb(14 17 22 / 0.06), 0 18px 40px -12px rgb(14 17 22 / 0.15);
-  --pb-sombra-marca: 0 8px 20px -10px rgb(14 17 22 / 0.15);
+  --pb-alto-nav: 68px;
+  --pb-sombra: 0 1px 2px rgb(20 23 28 / 0.05), 0 6px 18px -6px rgb(20 23 28 / 0.1);
+  /* Neutral shadows only (opacity ≤ 0.35, long and soft like a model under a lamp): elevation, never a halo. */
+  --pb-sombra-alta: 0 2px 4px rgb(20 23 28 / 0.06), 0 18px 40px -20px rgb(20 23 28 / 0.35);
+  --pb-sombra-marca: 0 8px 20px -10px rgb(20 23 28 / 0.25);
 
   --pb-font-display: "Bricolage Grotesque Variable", "Geist Variable", ui-sans-serif, system-ui, sans-serif;
 }

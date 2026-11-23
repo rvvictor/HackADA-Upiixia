@@ -28,8 +28,13 @@ type EtiquetaProps = {
   className?: string;
 };
 
-/** Goes next to every visible figure (DESIGN.md §1.2). Shape differs per type, not only color. */
+/** Hidden on screen by decision of cris (uak decision CO-028, 2026-11-23): the UI shows no real/simulado chips.
+ *  `tipo_dato` and `fuente` stay in the API and the data; set this to true to bring every chip back at once. */
+export const MOSTRAR_TIPO_DATO = false;
+
+/** Data-type chip for a figure. Shape differs per type, not only color. Renders nothing while MOSTRAR_TIPO_DATO is false. */
 export function Etiqueta({ tipo, fuente, className = "" }: EtiquetaProps) {
+  if (!MOSTRAR_TIPO_DATO) return null;
   const e = estilos[tipo];
   return (
     <span
