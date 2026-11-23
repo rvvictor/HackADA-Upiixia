@@ -14,7 +14,9 @@
 set -u
 LC_ALL=C; export LC_ALL
 top=$(git rev-parse --show-toplevel 2>/dev/null) || top=.
-cap=$(sed -n 's/^[-* ]*Output-Cap-Chars:[* ]*//p' "$top/.uak/PROJECT.md" 2>/dev/null | head -n 1 | tr -d '\r `')
+case $0 in */*|*\\*) cfg_dir=${0%[/\\]*};; *) cfg_dir=.;; esac   # no dirname process; D:\a\…\cap on Windows
+. "$cfg_dir/lib/config.sh" 2>/dev/null || . "$(dirname "$0")/lib/config.sh"
+cap=$(uak_cfg "$top/.uak/PROJECT.md" Output-Cap-Chars)
 case "$cap" in off|0) cap=999999999;; ''|*[!0-9]*) cap=12000;; esac
 out_dir() {
   local d
@@ -53,9 +55,9 @@ case "${1:-}" in
   --b64)
     cmd=$(printf '%s' "${2:-}" | base64 -d 2>/dev/null) || cmd=$(printf '%s' "${2:-}" | base64 -D 2>/dev/null) || exit 2
     [ -n "$cmd" ] || exit 2
-    d=$(out_dir) || exec bash -c "$cmd"
+    d=$(out_dir) || exec bash -c "$cmd" < /dev/null
     log="$d/$(date +%s)-$$.log"
-    bash -c "$cmd" > "$log" 2>&1; rc=$?
+    bash -c "$cmd" > "$log" 2>&1 < /dev/null; rc=$?
     print_log "$log" "$rc"; exit "$rc";;
 esac
 log=${1:-}; rc=${2:-0}

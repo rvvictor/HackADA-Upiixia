@@ -1,0 +1,296 @@
+#!/usr/bin/env bash
+# design-lint: product screens use the design system, never their own colors or components. Bash 3.2+, grep -E.
+#   design-lint [SRC_DIR]   default: web/src, else src, else app (Next.js); UI kit: SRC/lib/ui, SRC/components/ui, components/ui
+#   design-lint --changed [BASE]   only the lines this branch adds since origin/BASE (uak done runs it)
+#   design-lint --file PATH        one file (the post-edit hook runs it on each UI file an agent writes)
+#   design-lint --strict ...       the scale warnings below fail too
+#   design-lint .uak/design/rounds/R<k>   a round of static pages: every v*/index.html, tokens read from its <style>,
+#                                  each warning names the variant by its path (R2/v3/index.html:44)
+# Fails on, outside the UI kit: raw Tailwind palette classes (bg-stone-400, text-emerald-900), hex colors in code
+# (#c2410c; a fallback inside var(--x, #fff) is fine), and a local component named like one of the UI kit's.
+# A line with "design-lint: ok" is skipped (say why on that line).
+# Warns (DESIGN_LINT_WARN, exit 0; --strict fails): font size above 96 px (px, rem at 16, Tailwind text-[..], text-8xl/9xl,
+# the max of a clamp()), vw type above 12vw, a button or input taller than 56 px. Why (F0, 2026-11-11, docs/design/
+# failures.md): two landings with 168 and 207 px display type scored 1; the one scored 5 topped out at 36 px.
+# Why (Chilangatón): view agents started before the design system landed; each built its own badge, toggle and boxes
+# from stone-*/emerald-* and a hand-typed orange, and the first UI was redone 3 hours in.
+set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
+LC_ALL=C; export LC_ALL
+root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+cd "$root" || exit 2
+changed= base=${UAK_BASE:-main} only= strict=no
+for a in "$@"; do [ "$a" != --strict ] || strict=yes; done
+if [ "$strict" = yes ]; then n=$#; while [ "$n" -gt 0 ]; do a=$1; shift; n=$((n - 1)); [ "$a" = --strict ] || set -- "$@" "$a"; done; fi
+if [ "${1:-}" = --changed ]; then changed=yes; shift; [ -z "${1:-}" ] || { base=$1; shift; }; fi
+if [ "${1:-}" = --file ]; then
+  only=${2:-}; shift 2 2>/dev/null || shift
+  # Compare physical paths: on macOS /var is a link to /private/var, so a hook's path may not start with git's root.
+  [ ! -d "$(dirname "$only")" ] || only="$(cd "$(dirname "$only")" && pwd -P)/$(basename "$only")"
+  proot=$(cd "$root" && pwd -P)
+  case "$only" in "$proot"/*) only=${only#"$proot"/};; "$root"/*) only=${only#"$root"/};; esac
+fi
+# The design lock's HTML directions: colors live in :root only (hand-typed hex elsewhere drifted from the tokens), and no
+# tile server that needs a key (the directions shipped with a CARTO watermark). Why (frontend experiment, Oct 2026).
+lock_out=
+for h in web/public/design-lock/*.html public/design-lock/*.html design-lock/*.html; do
+  [ -f "$h" ] || continue
+  [ -z "$only" ] || [ "$h" = "$only" ] || continue
+  lock_out="$lock_out$(awk -v f="$h" '
+    /:root[[:space:]]*\{/ { inroot = 1 }
+    { line = $0; if (!inroot && line ~ /#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]([0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])?([^0-9A-Za-z_]|$)/ && line !~ /design-lint: ok/ && line !~ /href=|src=|url\(#/) {
+        printf "%s:%d · hex color outside :root in a design-lock direction: name it a token\n", f, NR; n++ }
+      if (line ~ /basemaps\.cartocdn\.com|api\.mapbox\.com|tiles\.stadiamaps\.com/) printf "%s:%d · tile server that needs a key: use OpenFreeMap or grayscale OSM (product-ui §2)\n", f, NR }
+    inroot && /\}/ { inroot = 0 }' "$h" | head -n 10)
+"
+done
+src=${1:-}
+if [ -z "$src" ]; then for d in web/src src app; do [ -d "$d" ] && { src=$d; break; }; done; fi
+if [ -z "$src" ] || [ ! -d "$src" ]; then
+  lock_out=$(printf '%s' "$lock_out" | grep -v '^$' || true)
+  if [ -n "$lock_out" ]; then printf '%s\n' "$lock_out" | sed 's/^/DESIGN_LINT /'; printf 'DESIGN_LINT_FAIL %s finding(s) in the design-lock directions\n' "$(printf '%s\n' "$lock_out" | wc -l | tr -d ' ')"; exit 1; fi
+  printf 'DESIGN_LINT_SKIP: no web/src, src or app folder\n'; exit 0
+fi
+ui=
+for d in "$src/lib/ui" "$src/components/ui" components/ui; do [ -d "$d" ] && { ui=$d; break; }; done
+# Tokens exist when some stylesheet defines custom properties (or a Tailwind @theme), or a theme file holds them
+# (React Native: theme.ts, tokens.ts, constants/Colors.ts). Without them there is nothing to enforce yet.
+tokfiles=$(find "$src" constants theme -type f \( -iname '*token*' -o -iname 'theme.*' -o -name 'Colors.*' \) ! -path '*/node_modules/*' 2>/dev/null)
+# After the design lock (web/DESIGN.md exists) a screen with no tokens is a failure, not a skip. Why (frontend audit,
+# Oct 2026): the skip let screens built before or around the tokens pass.
+locked=no; for d in web/DESIGN.md DESIGN.md "$src/../DESIGN.md"; do [ -f "$d" ] && locked=yes; done
+# Static pages (a design round's v*/index.html) keep their tokens in a <style> block: those count too. Why (AXIA R1,
+# 2026-11-11): design-lint skipped all six variants of the first real round, so its scale warnings never ran on them.
+html_tokens() {
+  find "$src" -type f -name '*.html' ! -path '*/node_modules/*' 2>/dev/null | while IFS= read -r f; do
+    awk '/<[Ss][Tt][Yy][Ll][Ee]/ { ins = 1 } ins && /--[a-z][a-z0-9-]*[[:space:]]*:/ { found = 1; exit } /<\/[Ss][Tt][Yy][Ll][Ee]/ { ins = 0 } END { exit !found }' "$f" && echo y
+  done | grep -q y
+}
+if [ -z "$tokfiles" ] && ! html_tokens && ! find "$src" "${ui:-$src}" -name '*.css' -type f 2>/dev/null | while IFS= read -r f; do grep -Eq -- '(--[a-z][a-z0-9-]*:|@theme)' "$f" && echo y; done | grep -q y; then
+  if [ "$locked" = yes ]; then printf 'DESIGN_LINT_FAIL DESIGN.md exists but no stylesheet defines its tokens (CSS custom properties or @theme): write them in the tokens file\n'; exit 1; fi
+  printf 'DESIGN_LINT_SKIP: no design tokens yet (CSS custom properties or @theme): the design lock writes them\n'; exit 0
+fi
+list=$(mktemp "${TMPDIR:-/tmp}/uak-dlint.XXXXXX") || exit 2
+out=$(mktemp "${TMPDIR:-/tmp}/uak-dlint.XXXXXX") || exit 2
+trap 'rm -f "$list" "$out"' EXIT
+find "$src" -type f \( -name '*.tsx' -o -name '*.jsx' -o -name '*.ts' -o -name '*.js' -o -name '*.vue' -o -name '*.svelte' \) \
+  ! -name '*.d.ts' ! -name '*.test.*' ! -name '*.spec.*' ! -path '*/node_modules/*' 2>/dev/null |
+  while IFS= read -r f; do
+    case "$f" in "$ui"/*) [ -n "$ui" ] && continue;; esac
+    printf '%s\n' "$tokfiles" | grep -qxF -- "$f" && continue   # the token files themselves hold the colors
+    [ -z "$only" ] || [ "$f" = "$only" ] || [ "$f" = "./$only" ] || continue
+    printf '%s\n' "$f"
+  done > "$list"
+palette='(^|[^A-Za-z0-9-])(bg|text|border|ring|fill|stroke|from|via|to|outline|divide|decoration|shadow|accent|caret|placeholder)-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)([^0-9]|$)'
+hex='(^|[^,&0-9A-Za-z_])#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})([^0-9A-Za-z_]|$)'
+emoji=$(printf '\360\237')   # the first two bytes of every 4-byte emoji (U+1F300 and up), matched byte-wise under LC_ALL=C
+# 3-byte symbols used as icons: U+2600-27BF (sparkles, lightning, check marks, stars) and U+2B50 (star).
+sym=$(printf '\342\234\250|\342\232\241|\342\234\205|\342\230\205|\342\255\220|\342\234\224|\342\235\214|\342\232\240')
+# The UI kit's component names (PascalCase files). No `case` inside $(...): Bash 3.2 (macOS) cannot parse it.
+ui_names() {
+  local f b
+  for f in "$ui"/*; do
+    [ -f "$f" ] || continue
+    b=$(basename "$f"); b=${b%.*}
+    case "$b" in index|*.test|*.stories|*[!A-Za-z0-9_]*) continue;; esac
+    case "$b" in [A-Z]*) printf '%s|' "$b";; esac
+  done
+}
+names=
+[ -z "$ui" ] || names=$(ui_names)
+names=${names%|}
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  grep -nE "$palette" "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    cls=$(printf '%s' "${l#*:}" | grep -Eo '(bg|text|border|ring|fill|stroke|from|via|to|outline|divide|decoration|shadow|accent|caret|placeholder)-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-[0-9]+' | head -n 1)
+    printf '%s:%s · raw palette class %s: use a design token (web/DESIGN.md) or a UI kit component\n' "$f" "${l%%:*}" "$cls"
+  done
+  grep -nE "$hex" "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    h=$(printf '%s' "${l#*:}" | grep -Eo '#[0-9a-fA-F]{3,8}' | head -n 1)
+    printf '%s:%s · hex color %s in code: read it from a token (var(--…)) so every screen shares one palette\n' "$f" "${l%%:*}" "$h"
+  done
+  [ -z "$names" ] || grep -nE "(function|const|class)[[:space:]]+($names)([^A-Za-z0-9_]|$)" "$f" 2>/dev/null | grep -v 'design-lint: ok' |
+    while IFS= read -r l; do
+      n=$(printf '%s' "${l#*:}" | grep -Eo "(function|const|class)[[:space:]]+($names)" | awk '{print $2}' | head -n 1)
+      printf '%s:%s · local %s: %s already has it; import it (missing a variant? ask its owner: uak msg <owner-ID> --kind request "what · why")\n' "$f" "${l%%:*}" "$n" "$ui"
+    done
+  # AI tells a reader spots at once (Anthropic's frontend-design calibration, Impeccable's detector).
+  grep -nE 'animate-bounce|easeOutBounce|"bounce"' "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    printf '%s:%s · bounce easing reads as generated: one purposeful 150-300 ms ease-out\n' "$f" "${l%%:*}"
+  done
+  { grep -n "$emoji" "$f"; grep -nE "$sym" "$f"; } 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    printf '%s:%s · emoji in the UI: use the icon set (Phosphor) at one size and stroke\n' "$f" "${l%%:*}"
+  done
+  # The tells the frontend audit found on shipped hackathon screens (Impeccable and Hallmark flag the same):
+  # a colored side stripe on rows and cards, gradients and color literals in feature code, arbitrary pixel values
+  # that bypass the scale, and tracked uppercase eyebrows.
+  grep -nE '(^|[^A-Za-z0-9-])border-[ls]-([2-9]|\[[0-9]+px\])([^0-9]|$)|border-(left|inline-start)(-width)?:[[:space:]]*[2-9]px' "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    printf '%s:%s · colored side stripe on a row or card reads as generated: use a leading icon, a chip or weight\n' "$f" "${l%%:*}"
+  done
+  grep -nE '(^|[^A-Za-z0-9-])bg-gradient-to-|linear-gradient\(|radial-gradient\(' "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    printf '%s:%s · gradient in feature code: if the direction has one, it is a token or a UI kit surface\n' "$f" "${l%%:*}"
+  done
+  grep -nE '(^|[^A-Za-z0-9_-])(rgba?|hsla?|oklch)\([[:space:]]*[0-9]' "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    printf '%s:%s · color literal in code: read it from a token (var(--…))\n' "$f" "${l%%:*}"
+  done
+  grep -nE '(^|[^A-Za-z0-9-])(p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|gap|text|rounded|w|h|top|left|right|bottom)-\[[0-9.]+px\]' "$f" 2>/dev/null | grep -v 'design-lint: ok' | while IFS= read -r l; do
+    v=$(printf '%s' "${l#*:}" | grep -Eo '[a-z]+-\[[0-9.]+px\]' | head -n 1)
+    printf '%s:%s · arbitrary value %s bypasses the scale in DESIGN.md: use a spacing, type or radius step\n' "$f" "${l%%:*}" "$v"
+  done
+  grep -nE 'uppercase[^"]*tracking-|tracking-[^"]*uppercase' "$f" 2>/dev/null | grep -v 'design-lint: ok' | head -n 3 | while IFS= read -r l; do
+    printf '%s:%s · tracked uppercase eyebrow reads as generated: a heading weight or size does the job (mark it design-lint: ok if DESIGN.md asks for one)\n' "$f" "${l%%:*}"
+  done
+  # The 2026 tells (Impeccable's detector names them; v5.10 research): gradient text, glows and text shadows, an
+  # italic serif display headline, a pill chip above the hero heading, a stack of icon tiles above headings, em
+  # dashes all over the copy, and marketing filler instead of what the product does.
+  grep -nE 'bg-clip-text|background-clip:[[:space:]]*text' "$f" 2>/dev/null | grep -v 'design-lint: ok' | head -n 2 | while IFS= read -r l; do
+    printf '%s:%s · gradient text reads as generated: solid ink; weight and size carry a heading
+' "$f" "${l%%:*}"
+  done
+  grep -nE 'text-shadow|\[text-shadow|drop-shadow-\[0_0|shadow-\[0_0_' "$f" 2>/dev/null | grep -v 'design-lint: ok' | head -n 2 | while IFS= read -r l; do
+    printf '%s:%s · glow or text shadow reads as generated: contrast comes from the tokens, depth from the one elevation
+' "$f" "${l%%:*}"
+  done
+  grep -nE 'italic' "$f" 2>/dev/null | grep -E 'font-serif|font-display|serif' | grep -E '<h[12]|text-([3-9]xl|\[[4-9][0-9]px\])' | grep -v 'design-lint: ok' | head -n 2 |
+    while IFS= read -r l; do
+      printf '%s:%s · italic serif display headline is the 2026 generated look: the design lock picks the display face and style
+' "$f" "${l%%:*}"
+    done
+  awk -v f="$f" '
+    /design-lint: ok/ { next }
+    /<h1/ { for (i = 1; i <= 3; i++) if (p[i] ~ /rounded-full/ && p[i] ~ /text-(xs|sm)/ && p[i] ~ /(px|py)-/) { printf "%s:%d · pill chip above the hero heading reads as generated: the heading leads; news goes in the copy\n", f, NR - i; break } }
+    { p[3] = p[2]; p[2] = p[1]; p[1] = $0 }' "$f" 2>/dev/null | head -n 1
+  awk -v f="$f" '
+    { L[NR] = $0 }
+    END { for (i = 1; i <= NR; i++) {
+            t = L[i]; if (t ~ /design-lint: ok/) continue
+            if (t !~ /(^|[^A-Za-z0-9-])(h|size)-(8|9|10|11|12|14)([^0-9]|$)/ || t !~ /rounded-(md|lg|xl|2xl|3xl)/ || t !~ /(items-center|place-items-center)/) continue
+            head = 0; for (j = i + 1; j <= i + 4 && j <= NR; j++) if (L[j] ~ /<h[2-4]/) head = 1
+            if (!head) continue
+            inmap = 0; for (j = i - 1; j >= i - 8 && j >= 1; j--) if (L[j] ~ /\.map\(/) inmap = 1
+            n++; if (!first) first = i; if (inmap) rep = 1 }
+          if (n >= 3 || rep) printf "%s:%d · icon tiles stacked above headings: the feature grid of every generated page; let the content or a real screen lead\n", f, first }' "$f" 2>/dev/null
+  n_dash=$(grep -o "$(printf '\342\200\224')" "$f" 2>/dev/null | wc -l | tr -d ' ')
+  [ "${n_dash:-0}" -lt 4 ] || grep -q 'design-lint: ok' "$f" ||
+    printf '%s:%s · %s em dashes in the copy: a generated-writing tell; periods and commas read as written\n' "$f" "$(grep -n "$(printf '\342\200\224')" "$f" | head -n 1 | cut -d: -f1)" "$n_dash"
+  grep -niE "(^|[^A-Za-z])(elevate your|unlock (the|your)|supercharge|revolutioni[sz]e|seamless(ly)?|effortless(ly)?|unleash|game[- ]?changer|cutting[- ]edge|next[- ]level|world[- ]class|harness the power|in today.s (fast|digital|world))([^A-Za-z]|$)" "$f" 2>/dev/null |
+    grep -v 'design-lint: ok' | head -n 2 | while IFS= read -r l; do
+      w=$(printf '%s' "${l#*:}" | grep -ioE "elevate your|unlock (the|your)|supercharge|revolutioni[sz]e|seamless(ly)?|effortless(ly)?|unleash|game[- ]?changer|cutting[- ]edge|next[- ]level|world[- ]class|harness the power|in today.s [a-z]+" | head -n 1)
+      printf '%s:%s · marketing filler "%s": say what it does for whom, with a number (skill landing-story)\n' "$f" "${l%%:*}" "$w"
+    done
+  n_blur=$(grep -oE 'backdrop-blur|backdrop-filter' "$f" 2>/dev/null | wc -l | tr -d ' ')
+  [ "${n_blur:-0}" -le 1 ] || printf '%s:%s · %s glass surfaces: one at most per screen (DESIGN.md: one solid container level)\n' "$f" "$(grep -nE 'backdrop-blur|backdrop-filter' "$f" | head -n 1 | cut -d: -f1)" "$n_blur"
+  grep -nE '(^|[^A-Za-z0-9-])shadow-(xl|2xl)([^A-Za-z0-9-]|$)' "$f" 2>/dev/null | grep -v 'design-lint: ok' | head -n 3 | while IFS= read -r l; do
+    printf '%s:%s · heavy shadow: the one elevation token of DESIGN.md\n' "$f" "${l%%:*}"
+  done
+  grep -nE 'basemaps\.cartocdn\.com|api\.mapbox\.com|tiles\.stadiamaps\.com' "$f" 2>/dev/null | grep -v 'design-lint: ok' | head -n 2 | while IFS= read -r l; do
+    printf '%s:%s · tile server that needs a key: use OpenFreeMap or grayscale OSM (product-ui §2)\n' "$f" "${l%%:*}"
+  done
+done < "$list" > "$out"
+# More than 6 type sizes across the screens is no scale. Why (Hacktoberfest): one view used 9 text sizes.
+sizes=$(while IFS= read -r f; do [ -n "$f" ] && grep -Eo '(^|[^A-Za-z0-9-])text-(xs|sm|base|lg|xl|[2-9]xl)([^A-Za-z0-9-]|$)' "$f" 2>/dev/null; done < "$list" |
+  grep -Eo 'text-[a-z0-9]+' | sort -u | tr '\n' ' ')
+n_sizes=$(printf '%s' "$sizes" | wc -w | tr -d ' ')
+if [ "${n_sizes:-0}" -gt 6 ] && [ -z "$only" ] && [ "$changed" != yes ]; then
+  printf '%s:1 · %s type sizes across the screens (%s): DESIGN.md allows 6 at most; use the scale\n' "$(head -n 1 "$list")" "$n_sizes" "${sizes% }" >> "$out"
+fi
+# Typefaces: the defaults every generated page reaches for, in any stylesheet or font import of the project.
+find "$src" "${ui:-$src}" -type f \( -name '*.css' -o -name '*.tsx' -o -name '*.ts' -o -name '*.jsx' \) ! -path '*/node_modules/*' 2>/dev/null | sort -u |
+  while IFS= read -r f; do
+    [ -z "$only" ] || [ "$f" = "$only" ] || continue
+    grep -niE "font-family:[[:space:]]*[\"']?(inter|roboto|arial|helvetica|geist)([\"', ;]|$)|--font-[a-z-]+:[[:space:]]*[\"']?(inter|roboto|geist)([\"' ,;]|$)|@fontsource(-variable)?/(inter|roboto|geist)[\"'/]|import[[:space:]]*\{[^}]*(Inter|Roboto|Geist)[^}]*\}[[:space:]]*from[[:space:]]*[\"'](next/font/google|geist/font)" "$f" 2>/dev/null | grep -v 'design-lint: ok' |
+      while IFS= read -r l; do printf '%s:%s · default typeface: the design lock picks deliberate faces (frontend-design), not Inter, Roboto, Arial or Geist\n' "$f" "${l%%:*}"; done
+  done >> "$out"
+# Contrast of the token pairs text sits on (WCAG 2): text on bg/surface, and every --X-ink on --X. Hex values, through
+# up to 3 var() hops. Why (frontend experiment): white on amber (2.2:1) passed every check twice.
+find "$src" "${ui:-$src}" -type f -name '*.css' ! -path '*/node_modules/*' 2>/dev/null | sort -u | while IFS= read -r f; do
+  [ -z "$only" ] || [ "$f" = "$only" ] || continue
+  awk -v f="$f" '
+    function hv(ch) { return index("0123456789abcdef", tolower(ch)) - 1 }
+    function lum(h,   r, g, b) { sub(/^#/, "", h); if (length(h) == 3) h = substr(h,1,1) substr(h,1,1) substr(h,2,1) substr(h,2,1) substr(h,3,1) substr(h,3,1)
+      if (length(h) < 6) return -1
+      r = (hv(substr(h,1,1)) * 16 + hv(substr(h,2,1))) / 255; g = (hv(substr(h,3,1)) * 16 + hv(substr(h,4,1))) / 255; b = (hv(substr(h,5,1)) * 16 + hv(substr(h,6,1))) / 255
+      return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b) }
+    function lin(c) { return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ^ 2.4 }
+    function val(k,   v, i) { v = def[k]; for (i = 0; i < 3 && v ~ /^var\(--/; i++) { sub(/^var\(/, "", v); sub(/[,)].*/, "", v); v = def[v] }; return v }
+    function check(a, b,   x, y, l1, l2, r) { if (!(a in def) || !(b in def)) return; x = val(a); y = val(b)
+      if (x !~ /^#[0-9a-fA-F]+$/ || y !~ /^#[0-9a-fA-F]+$/) return; l1 = lum(x); l2 = lum(y); if (l1 < 0 || l2 < 0) return
+      r = (l1 > l2) ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05)
+      if (r < 4.5) printf "%s:%d · contrast %s on %s is %.1f:1 (AA needs 4.5): darken or lighten one token\n", f, line[a], a, b, r }
+    { s = $0; while (match(s, /--[a-z0-9-]+[[:space:]]*:[[:space:]]*[^;]+/)) { d = substr(s, RSTART, RLENGTH); k = d; sub(/[[:space:]]*:.*/, "", k); v = d; sub(/^[^:]*:[[:space:]]*/, "", v); sub(/[[:space:]]+$/, "", v)
+        if (!(k in def)) { def[k] = v; line[k] = NR }; s = substr(s, RSTART + RLENGTH) } }
+    END { check("--text", "--bg"); check("--text", "--surface"); check("--text-2", "--bg"); check("--text-2", "--surface")
+      for (k in def) if (k ~ /-ink$/) { b = k; sub(/-ink$/, "", b); check(k, b) } }' "$f"
+done >> "$out"
+# Scale (F0): sizes above the bounds are warnings. Every stylesheet and component under src, the UI kit and tokens included.
+warn=$(mktemp "${TMPDIR:-/tmp}/uak-dlint.XXXXXX") || exit 2
+trap 'rm -f "$list" "$out" "$warn"' EXIT
+find "$src" -type f \( -name '*.css' -o -name '*.scss' -o -name '*.tsx' -o -name '*.jsx' -o -name '*.ts' -o -name '*.js' -o -name '*.vue' -o -name '*.svelte' -o -name '*.html' \) \
+  ! -name '*.d.ts' ! -name '*.test.*' ! -name '*.spec.*' ! -path '*/node_modules/*' 2>/dev/null | sort |
+  while IFS= read -r f; do
+    [ -z "$only" ] || [ "$f" = "$only" ] || [ "$f" = "./$only" ] || continue
+    awk -v f="$f" '
+      function scan(e) { mpx = -1; mvw = -1
+        while (match(e, /[0-9]*\.?[0-9]+(px|rem|vw)/)) { t = substr(e, RSTART, RLENGTH); e = substr(e, RSTART + RLENGTH)
+          if (t ~ /vw$/) { if (t + 0 > mvw) mvw = t + 0 } else { v = (t ~ /rem$/) ? (t + 0) * 16 : t + 0; if (v > mpx) mpx = v } } }
+      function size(e, n,   capped) { scan(e); capped = (mpx >= 0 && e ~ /(clamp|min)\(/)
+        if (mpx > 96) printf "%s:%d · font size %d px is above the 96 px bound at 1280 (F0, docs/design/failures.md): hero display 96 px at most, 48 px at 390\n", f, n, mpx
+        else if (mvw > 12 && !capped) printf "%s:%d · font size %svw is above 12vw (F0, docs/design/failures.md): mega type only when the human picked it\n", f, n, mvw }
+      function cut(e) { sub(/^[^-0-9a-z.(]+/, "", e)
+        if (e ~ /^(clamp|min|calc)\(/) { i = index(e, ")"); return i ? substr(e, 1, i) : e }
+        sub(/[,;}].*/, "", e); return e }
+      function px_h(n, v, what) { if (v > 56) printf "%s:%d · %s height %d px is above 56 px (F0, docs/design/failures.md): primary buttons are 40-52 px tall\n", f, n, what, v }
+      { line = $0; n = FNR
+        if (line ~ /\{/) { sel = line; sub(/\{.*/, "", sel) }
+        if (line !~ /design-lint: ok/) {
+          rest = line
+          while (match(rest, /font-size[[:space:]]*:[[:space:]]*[^;}]*/)) { e = substr(rest, RSTART, RLENGTH); rest = substr(rest, RSTART + RLENGTH); sub(/^[^:]*:/, "", e); size(cut(e), n) }
+          rest = line
+          while (match(rest, /fontSize[[:space:]]*:[[:space:]]*[^}]*/)) { e = substr(rest, RSTART, RLENGTH); rest = substr(rest, RSTART + RLENGTH); sub(/^[^:]*:/, "", e); e = cut(e)
+            gsub(/[[:space:]]/, "", e); if (e ~ /^[0-9.]+$/) e = e "px"; size(e, n) }
+          rest = line
+          while (match(rest, /--(font|text|fs|type)[a-z0-9-]*[[:space:]]*:[[:space:]]*[^;}]*/)) { e = substr(rest, RSTART, RLENGTH); rest = substr(rest, RSTART + RLENGTH); sub(/^[^:]*:/, "", e); if (e !~ /^[[:space:]]*var\(/) size(cut(e), n) }
+          rest = line
+          while (match(rest, /text-\[[^]]+\]/)) { e = substr(rest, RSTART, RLENGTH); pre = (RSTART > 1) ? substr(rest, RSTART - 1, 1) : " "; rest = substr(rest, RSTART + RLENGTH)
+            if (pre !~ /[A-Za-z0-9-]/) size(e, n) }
+          if (line ~ /(^|[^A-Za-z0-9-])text-(8|9)xl([^A-Za-z0-9-]|$)/) printf "%s:%d · text-8xl or text-9xl is a font size of 96 px or more (F0, docs/design/failures.md): hero display 96 px at most, 48 px at 390\n", f, n
+          # Heights of buttons and inputs: a CSS rule whose selector names one, or a Tailwind class on a line that has one.
+          if (line ~ /(^|[^-A-Za-z])(min-)?height[[:space:]]*:[[:space:]]*[0-9.]+(px|rem)/ && (sel ~ /button|btn|input/ || line ~ /button|btn|input/)) {
+            match(line, /(^|[^-A-Za-z])(min-)?height[[:space:]]*:[[:space:]]*[0-9.]+(px|rem)/); e = substr(line, RSTART, RLENGTH); scan(e); px_h(n, mpx, "button or input") }
+          if (line ~ /<(button|Button|input|Input|textarea)|btn|button|Button/) {
+            rest = line
+            while (match(rest, /(^|[^A-Za-z0-9-])(min-)?h-(\[[0-9.]+(px|rem)\]|[0-9]+)/)) { e = substr(rest, RSTART, RLENGTH); rest = substr(rest, RSTART + RLENGTH)
+              if (e ~ /\[/) { scan(e); px_h(n, mpx, "button or input") } else { sub(/^.*h-/, "", e); px_h(n, (e + 0) * 4, "button or input") } } } }
+        if (line ~ /\}/) sel = "" }' "$f"
+  done > "$warn"
+# A round folder (v*/genome.json): the page must load the Google Fonts pair TASK.md assigned (UAK-071). Why (AXIA R3): all six
+# variants loaded the same pair whatever the type gene said. A warning, like the scale checks.
+if [ -z "$only" ] && [ "$changed" != yes ] && command -v python3 >/dev/null 2>&1 && [ -f "$(dirname "$0")/lib/design_fonts.py" ]; then
+  python3 "$(dirname "$0")/lib/design_fonts.py" check "$src" 2>/dev/null >> "$warn" || :
+fi
+[ -z "$(printf '%s' "$lock_out" | tr -d '\n')" ] || printf '%s\n' "$lock_out" | grep -v '^$' >> "$out"
+files=$(awk 'END {print NR + 0}' "$list")
+# Why (AXIA R2): a round of static pages has no code files; the pass line counts the pages the scale checks read.
+[ "$files" != 0 ] || files=$(find "$src" -type f -name '*.html' ! -path '*/node_modules/*' 2>/dev/null | awk 'END {print NR + 0}')
+if [ "$changed" = yes ]; then
+  # Keep only findings on lines this branch adds (committed or not) since its fork from origin/BASE.
+  mb=$(git merge-base HEAD "refs/remotes/${UAK_REMOTE:-origin}/$base" 2>/dev/null) || { printf 'DESIGN_LINT_SKIP: no origin/%s to compare with\n' "$base"; exit 0; }
+  git diff -U0 --no-color "$mb" -- "$src" 2>/dev/null | awk '
+    /^\+\+\+ / { f = substr($0, 5); sub(/^b\//, "", f); next }
+    /^@@/ { h = $3; sub(/^\+/, "", h); n = split(h, a, ","); c = (n > 1) ? a[2] + 0 : 1; for (i = 0; i < c; i++) print f ":" (a[1] + i) }' > "$list.added"
+  awk 'NR == FNR { ok[$0] = 1; next } { k = $0; sub(/ · .*/, "", k); if (k in ok) print }' "$list.added" "$out" > "$out.c"
+  mv "$out.c" "$out"
+  awk 'NR == FNR { ok[$0] = 1; next } { k = $0; sub(/ · .*/, "", k); if (k in ok) print }' "$list.added" "$warn" > "$warn.c"
+  mv "$warn.c" "$warn"
+  files=$(cut -d: -f1 "$list.added" | sort -u | awk 'END {print NR + 0}'); rm -f "$list.added"
+fi
+[ "$strict" != yes ] || { cat "$warn" >> "$out"; : > "$warn"; }
+if [ -s "$warn" ]; then head -n 10 "$warn" | sed 's/^/DESIGN_LINT_WARN /'; fi
+if [ -s "$out" ]; then
+  head -n 30 "$out" | sed 's/^/DESIGN_LINT /'
+  n=$(awk 'END {print NR + 0}' "$out")
+  [ "$n" -le 30 ] || printf 'DESIGN_LINT … %s more\n' "$((n - 30))"
+  printf 'DESIGN_LINT_FAIL %s finding(s) in %s file(s) of %s · fix them, or mark a deliberate line with "design-lint: ok"\n' "$n" "$(cut -d: -f1 "$out" | sort -u | awk 'END {print NR + 0}')" "$files"
+  exit 1
+fi
+printf 'DESIGN_LINT_PASS files=%s ui=%s\n' "$files" "${ui:--}"

@@ -13,3 +13,4 @@ dist/
 .DS_Store
 data/raw/
 data/live/
+.uak-shots/
