@@ -175,7 +175,7 @@ export default function Mapa(_props: FeatureProps) {
        </div>
         <div className="pointer-events-none order-first relative z-10 flex flex-col items-start gap-2 px-3 py-3 lg:absolute lg:inset-x-0 lg:top-0 lg:py-0 lg:pt-3">
          <div className="flex flex-wrap items-start justify-between gap-2 self-stretch">
-          <div role="group" aria-label="Capa del mapa" className="pointer-events-auto flex flex-wrap gap-1 rounded-(--pb-radio-grande) bg-(--pb-superficie) p-1 shadow-(--pb-sombra)">
+          <div role="group" aria-label="Capa del mapa" className="pointer-events-auto flex max-w-full flex-nowrap gap-1 overflow-x-auto rounded-(--pb-radio-grande) [scrollbar-width:none] lg:flex-wrap bg-(--pb-superficie) p-1 shadow-(--pb-sombra)">
             {CAPAS.map((c) => (
               <button
                 key={c.id}
@@ -183,7 +183,7 @@ export default function Mapa(_props: FeatureProps) {
                 aria-pressed={capa === c.id}
                 onClick={() => setCapa(c.id)}
                 disabled={datoReal}
-                className={`min-h-(--pb-alto-control) rounded-full px-4 text-base font-semibold motion-safe:transition-colors disabled:opacity-40 ${
+                className={`min-h-(--pb-alto-control) shrink-0 whitespace-nowrap rounded-full px-4 text-base font-semibold motion-safe:transition-colors disabled:opacity-40 ${
                   capa === c.id ? "bg-(--pb-texto) text-(--pb-superficie)" : "text-(--pb-texto-2) hover:bg-(--pb-superficie-2) hover:text-(--pb-texto)"
                 }`}
               >

@@ -7,7 +7,7 @@ export function ChipsTipoMinimo({ activos, onAlternar }: { activos: TipoPunto[];
     <div
       role="group"
       aria-label="Tipos de punto"
-      className="pointer-events-auto flex flex-wrap gap-1 rounded-(--pb-radio-grande) bg-(--pb-superficie) p-1 shadow-(--pb-sombra)"
+      className="pointer-events-auto flex max-w-full flex-nowrap gap-1 overflow-x-auto rounded-(--pb-radio-grande) [scrollbar-width:none] lg:flex-wrap bg-(--pb-superficie) p-1 shadow-(--pb-sombra)"
     >
       {TIPOS.map((t) => {
         const on = activos.includes(t.id);
@@ -17,7 +17,7 @@ export function ChipsTipoMinimo({ activos, onAlternar }: { activos: TipoPunto[];
             type="button"
             aria-pressed={on}
             onClick={() => onAlternar(t.id)}
-            className={`flex min-h-(--pb-alto-control) items-center gap-2 rounded-full px-4 text-base font-semibold motion-safe:transition-colors ${
+            className={`flex min-h-(--pb-alto-control) shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 text-base font-semibold motion-safe:transition-colors ${
               on ? "bg-(--pb-acento-suave) text-(--pb-acento-fuerte)" : "text-(--pb-texto-2) hover:bg-(--pb-superficie-2)"
             }`}
           >
