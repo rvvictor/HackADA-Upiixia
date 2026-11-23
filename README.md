@@ -54,9 +54,9 @@ Los tianguis, mercados y tienditas sostienen el abasto de las colonias, pero cas
 
 ## Qué hace
 
-<img src="docs/media/mapa.png" alt="Mapa de colonIA con panel de día y hora; sin llave de Mapbox el mapa base no se dibuja y el panel sigue funcionando" width="640">
+<img src="docs/media/mapa.png" alt="Mapa 3D de colonIA: hexágonos de actividad, tianguis abiertos y panel de día y hora" width="640">
 
-*Captura sin `VITE_MAPBOX_TOKEN`: el mapa base pide la llave y el panel lateral sigue funcionando.*
+*Captura con `DEMO_MODE=1` y llave de Mapbox. Sin llave, el mapa base muestra un aviso y el panel lateral sigue funcionando.*
 
 - **Mapa** (`#/mapa`): tianguis, mercados y negocios locales; capas de actividad, oferta barrial, población, impulso, crecimiento y rutas; filtro por día y hora.
 - **Alta por nota de voz en Telegram:** el negocio manda un audio, se transcribe y se extraen los campos; queda en el mapa (`app/bot/`, `app/routers/altas.py`).
