@@ -452,3 +452,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Inicio con la Maqueta viva elegida: maqueta 3D de Coyoacán, selector de día y pines, en paleta rosa
 - **Verify:** `bash -c 'npm --prefix web run build'`
+
+## CO-047 · Maqueta de Inicio: quitar pines de tianguis que caen fuera de los hexágonos (follow-up of CO-029)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-029
+- **Follow-up of:** CO-029
+- **Paths:** web/src/features/inicio/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Maqueta de Inicio: quitar pines de tianguis que caen fuera de los hexágonos
+- **Verify:** `bash -c 'npm --prefix web run build'`
