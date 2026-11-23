@@ -41,3 +41,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1795440854 | CO-049 | followups por tarea dueña de los Paths | Why: kit: más trabajo sobre tareas integradas
 - 1795446945 | CO-051 | follow-up of CO-035 by crismmolina-2: Portal del repartidor: el mapa abre encuadrado en sus ofertas, no en toda la ciudad | Why: same Paths, no scope change
 - 1795446966 | CO-052 | follow-up of CO-019 by crismmolina-2: Favicon con la marca actual de colonIA (tres hexágonos rosa y tinta) | Why: same Paths, no scope change
+- 1795449251 | CO-053 | follow-up of CO-029 by crismmolina-2: Landing: las alturas de la maqueta cambian un poco con cada día (ilustrativo) y los pines las siguen | Why: same Paths, no scope change

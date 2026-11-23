@@ -524,3 +524,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Favicon con la marca actual de colonIA (tres hexágonos rosa y tinta)
 - **Verify:** `bash -c 'test -s web/public/favicon.svg && ! grep -q "Pulso" web/public/favicon.svg' && npm --prefix web run build`
+
+## CO-053 · Landing: las alturas de la maqueta cambian un poco con cada día (ilustrativo) y los pines las siguen (follow-up of CO-029)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-029
+- **Follow-up of:** CO-029
+- **Paths:** web/src/features/inicio/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Landing: las alturas de la maqueta cambian un poco con cada día (ilustrativo) y los pines las siguen
+- **Verify:** `bash -c 'npm --prefix web run build'`
