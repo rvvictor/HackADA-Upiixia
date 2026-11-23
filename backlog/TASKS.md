@@ -464,3 +464,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Maqueta de Inicio: quitar pines de tianguis que caen fuera de los hexágonos
 - **Verify:** `bash -c 'npm --prefix web run build'`
+
+## CO-048 · Mapa principal con color: capas de actividad, oferta y población en la rampa rosa (follow-up of CO-031)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-031
+- **Follow-up of:** CO-031
+- **Paths:** web/src/features/mapa/index.tsx, web/src/features/mapa/MapaHex.tsx, web/src/features/mapa/puntos.ts, web/src/features/mapa/datos.ts, web/src/lib/map/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Mapa principal con color: capas de actividad, oferta y población en la rampa rosa
+- **Verify:** `bash -c 'npm --prefix web run build && npm --prefix web test'`
