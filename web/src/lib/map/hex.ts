@@ -70,15 +70,15 @@ export type MetaCapa = {
 export const CAPAS: MetaCapa[] = [
   {
     id: "actividad", texto: "Actividad", metrica: "Actividad con tarjeta (actividad_tpv_est)",
-    propiedad: "n_actividad", rampa: "actividad", tipo_dato: "estimado", fuente: "CNBV por alcaldía, repartido por negocios",
+    propiedad: "n_actividad", rampa: "impulso", tipo_dato: "estimado", fuente: "CNBV por alcaldía, repartido por negocios",
   },
   {
     id: "oferta", texto: "Oferta barrial", metrica: "Negocios de barrio (negocios_barriales)",
-    propiedad: "n_negocios", rampa: "actividad", tipo_dato: "real", fuente: "DENUE y Tianguis Abierto (pipeline)",
+    propiedad: "n_negocios", rampa: "impulso", tipo_dato: "real", fuente: "DENUE y Tianguis Abierto (pipeline)",
   },
   {
     id: "poblacion", texto: "Población", metrica: "Población (poblacion)",
-    propiedad: "n_poblacion", rampa: "actividad", tipo_dato: "real", fuente: "hexágonos del pipeline (data/processed/hex.geojson)",
+    propiedad: "n_poblacion", rampa: "impulso", tipo_dato: "real", fuente: "hexágonos del pipeline (data/processed/hex.geojson)",
   },
   {
     id: "impulso", texto: "Impulso", metrica: "Índice de impulso (impulso)",
