@@ -6,7 +6,7 @@
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `bash -c 'ls docs/media/*.png && grep -q "docs/media" README.md'`
-- Next: Another agent reviews https://github.com/rvvictor/HackADA-Upiixia/pull/30; run .uak/bin/smoke
+- Next: Integrated in main: 100d3b25ffb4257761d2006fddd82f6fcc63655c
 
 ## History
 - 1795436498 | CLAIMED | crismmolina-1 | claim; next: tomar las capturas con Playwright
@@ -15,3 +15,4 @@
 - 1795437112 | REVIEW | crismmolina-1 | done; PR https://github.com/rvvictor/HackADA-Upiixia/pull/30; evidence: Verify exit 0; smoke exit 0 at 6c8b755; reviewer: -
 - 1795437139 | REVIEW | crismmolina-2 | review; approve; SHA 6c8b755f945d101c8ffe37843b9f9a9aedc1d50a; reviewer crismmolina-2
 - 1795437156 | REVIEW | crismmolina-1 | heartbeat; lease until 1795451556
+- 1795437233 | INTEGRATED | crismmolina-1 | merge; smoke and Verify PASS; commit 100d3b25ffb4257761d2006fddd82f6fcc63655c; reviewer crismmolina-2
