@@ -3,9 +3,14 @@ import type { GeoJSONSource, Map as MapboxMap } from "mapbox-gl";
 import { useCallback, useEffect, useRef } from "react";
 
 import { MapaBase } from "../../lib/map";
+import { leerToken } from "../../lib/map/hex";
 import type { Punto, Ruta } from "./tipos";
 
 const VACIO: FeatureCollection = { type: "FeatureCollection", features: [] };
+
+// Mapbox no lee variables CSS: colores de los tokens al montar (web/DESIGN.md, Maqueta viva). La ruta va en rosa,
+// las paradas en tinta, el negocio recién dado de alta en rosa y el punto de salida en concreto.
+const tk = (nombre: string, respaldo: string) => leerToken(nombre) || respaldo;
 
 function paradasGeoJSON(ruta: Ruta | null, origen: Punto): FeatureCollection {
   const origenF: Feature = {
@@ -61,7 +66,7 @@ export function MapaRuta({ ruta, origen }: { ruta: Ruta | null; origen: Punto })
         type: "line",
         source: "ruta-linea",
         layout: { "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": "#c2410c", "line-width": 5, "line-opacity": 0.85 },
+        paint: { "line-color": tk("--pb-acento", "#c8006a"), "line-width": 5, "line-opacity": 0.85 },
       });
       map.addLayer({
         id: "ruta-paradas",
@@ -69,8 +74,15 @@ export function MapaRuta({ ruta, origen }: { ruta: Ruta | null; origen: Punto })
         source: "ruta-paradas",
         paint: {
           "circle-radius": ["case", ["==", ["get", "origen"], 1], 11, 15],
-          "circle-color": ["case", ["==", ["get", "origen"], 1], "#1d4ed8", ["==", ["get", "alta"], 1], "#14532d", "#c2410c"],
-          "circle-stroke-color": "#ffffff",
+          "circle-color": [
+            "case",
+            ["==", ["get", "origen"], 1],
+            tk("--pb-borde-fuerte", "#7c8390"),
+            ["==", ["get", "alta"], 1],
+            tk("--pb-acento", "#c8006a"),
+            tk("--pb-texto", "#14171c"),
+          ],
+          "circle-stroke-color": tk("--pb-superficie", "#ffffff"),
           "circle-stroke-width": 3,
         },
       });
@@ -80,7 +92,7 @@ export function MapaRuta({ ruta, origen }: { ruta: Ruta | null; origen: Punto })
         source: "ruta-paradas",
         filter: ["==", ["get", "origen"], 0],
         layout: { "text-field": ["get", "etiqueta"], "text-size": 15, "text-allow-overlap": true },
-        paint: { "text-color": "#ffffff" },
+        paint: { "text-color": tk("--pb-superficie", "#ffffff") },
       });
       pintarRef.current();
     },

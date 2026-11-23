@@ -6,9 +6,9 @@ import type { TipoDato } from "./datos";
 export type TipoPunto = "tianguis" | "mercado" | "negocio_local";
 
 export const TIPOS: { id: TipoPunto; etiqueta: string; glifo: string; color: string }[] = [
-  { id: "tianguis", etiqueta: "Tianguis", glifo: "●", color: "#c2410c" },
-  { id: "mercado", etiqueta: "Mercado", glifo: "■", color: "#0e5c58" },
-  { id: "negocio_local", etiqueta: "Negocio local", glifo: "▲", color: "#4338ca" },
+  { id: "tianguis", etiqueta: "Tianguis", glifo: "●", color: "#14171c" },
+  { id: "mercado", etiqueta: "Mercado", glifo: "■", color: "#a00055" },
+  { id: "negocio_local", etiqueta: "Negocio local", glifo: "▲", color: "#d6438a" },
 ];
 
 export type PuntoMapa = {

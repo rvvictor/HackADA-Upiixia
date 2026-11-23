@@ -25,6 +25,7 @@ import { CAPAS } from "../../lib/map/hex";
 import { ChipsTipoMinimo } from "./ChipsAdaptador";
 import { cargarAlcaldiasInfo, cargarPuntosProgresivo, type AlcaldiaInfo, type PuntoMapa, type TipoPunto } from "./puntos";
 import { Leyenda } from "./Leyenda";
+import { TarjetaAlcaldia } from "./TarjetaAlcaldia";
 import { MapaHex } from "./MapaHex";
 import { Panel, TarjetaHex } from "./PanelSedeco";
 
@@ -45,6 +46,8 @@ export default function Mapa(_props: FeatureProps) {
 
   const [tipos, setTipos] = useState<TipoPunto[]>(["tianguis", "mercado"]);
   const [infoAlcaldias, setInfoAlcaldias] = useState<AlcaldiaInfo[]>([]);
+  // Alcaldía de la tarjeta del panel (serie CNBV y altas por año). Coyoacán primero, como la demo.
+  const [alcaldiaPanel, setAlcaldiaPanel] = useState("09003");
   const [puntos, setPuntos] = useState<PuntoMapa[]>([]);
 
   useEffect(() => {
@@ -144,9 +147,9 @@ export default function Mapa(_props: FeatureProps) {
   const hayEjemplo = hex?.origen === "ejemplo" || alcaldias.origen === "ejemplo" || tianguis.origen === "ejemplo";
 
   return (
-    <div className="flex h-full flex-col lg:grid lg:grid-cols-[70fr_30fr]">
+    <div className="flex h-full flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_400px]">
       <div className="flex min-w-0 flex-col lg:relative lg:h-full">
-       <div className="relative h-[60vh] lg:absolute lg:inset-0 lg:h-full">
+       <div className="relative h-[72dvh] lg:absolute lg:inset-0 lg:h-full">
         <MapaHex
           hex={hexCapas}
           capa={capa}
@@ -158,7 +161,7 @@ export default function Mapa(_props: FeatureProps) {
           onSeleccion={setSeleccion}
         />
 
-        <div className="pointer-events-none absolute bottom-3 right-3 z-10 flex max-w-[calc(100%-1.5rem)]">
+        <div className="pointer-events-none absolute bottom-3 right-3 z-10 hidden max-w-[calc(100%-1.5rem)] md:flex">
           <div className="pointer-events-auto">
             <Leyenda capa={capa} tipoDato={capa === "rutas" ? rutas?.tipo_dato : undefined} />
           </div>
@@ -172,7 +175,7 @@ export default function Mapa(_props: FeatureProps) {
        </div>
         <div className="pointer-events-none order-first relative z-10 flex flex-col items-start gap-2 px-3 py-3 lg:absolute lg:inset-x-0 lg:top-0 lg:py-0 lg:pt-3">
          <div className="flex flex-wrap items-start justify-between gap-2 self-stretch">
-          <div role="group" aria-label="Capa del mapa" className="pointer-events-auto flex flex-wrap gap-1 rounded-2xl bg-white p-1.5 shadow-md">
+          <div role="group" aria-label="Capa del mapa" className="pointer-events-auto flex flex-wrap gap-1 rounded-(--pb-radio-grande) bg-(--pb-superficie) p-1 shadow-(--pb-sombra)">
             {CAPAS.map((c) => (
               <button
                 key={c.id}
@@ -180,8 +183,8 @@ export default function Mapa(_props: FeatureProps) {
                 aria-pressed={capa === c.id}
                 onClick={() => setCapa(c.id)}
                 disabled={datoReal}
-                className={`rounded-xl px-3.5 py-2 text-base font-semibold disabled:opacity-40 ${
-                  capa === c.id ? "bg-stone-900 text-white" : "text-stone-900 hover:bg-stone-100"
+                className={`min-h-(--pb-alto-control) rounded-full px-4 text-base font-semibold motion-safe:transition-colors disabled:opacity-40 ${
+                  capa === c.id ? "bg-(--pb-texto) text-(--pb-superficie)" : "text-(--pb-texto-2) hover:bg-(--pb-superficie-2) hover:text-(--pb-texto)"
                 }`}
               >
                 {c.texto}
@@ -190,8 +193,8 @@ export default function Mapa(_props: FeatureProps) {
           </div>
           <ChipsTipoMinimo activos={tipos} onAlternar={alternarTipo} />
           {hayEjemplo && (
-            <span role="status" className="pointer-events-auto rounded-xl bg-amber-100 px-3 py-2 text-base font-bold text-amber-950 shadow-md">
-              Datos de ejemplo
+            <span role="status" className="pointer-events-auto rounded-full bg-(--pb-superficie) px-4 py-3 text-base font-medium text-(--pb-texto-2) shadow-(--pb-sombra)">
+              Sin conexión: datos de ejemplo
             </span>
           )}
          </div>
@@ -199,8 +202,13 @@ export default function Mapa(_props: FeatureProps) {
 
       </div>
 
-      <aside aria-label="Panel SEDECO" className="min-h-0 min-w-0 border-l border-stone-300 bg-stone-50 lg:h-full">
+      <aside aria-label="Panel SEDECO" className="min-w-0 lg:h-full lg:min-h-0 lg:border-l lg:border-(--pb-borde)">
         <Panel
+          alcaldiaNodo={
+            infoAlcaldias.length > 0 && (
+              <TarjetaAlcaldia alcaldias={infoAlcaldias} seleccion={alcaldiaPanel} onSeleccion={setAlcaldiaPanel} />
+            )
+          }
           dia={dia}
           onDia={setDia}
           hora={hora}

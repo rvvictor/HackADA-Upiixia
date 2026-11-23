@@ -126,6 +126,14 @@ def test_resumen_altas_hoy_y_rutas(datos) -> None:
     assert body["tipo_campos"]["poblacion_cubierta_pct"] == "estimado"
 
 
+def test_resumen_etiqueta_cada_cifra(datos) -> None:
+    """CO-042: toda cifra numérica del resumen lleva su tipo de dato (rúbrica C3)."""
+    body = client.get("/api/sedeco/resumen", params={"dia": 6, "hora": "10:00"}).json()
+    cifras = {k for k, v in body.items() if isinstance(v, (int, float)) and not isinstance(v, bool) and k != "dia"}
+    assert cifras <= set(body["tipo_campos"]), cifras - set(body["tipo_campos"])
+    assert body["tipo_campos"]["abiertos"] == "real"
+
+
 # ---------- CO-012: /api/puntos y /api/alcaldias ----------
 
 def test_puntos_filtra_por_tipo_y_trae_fuente(datos) -> None:

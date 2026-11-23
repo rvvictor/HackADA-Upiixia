@@ -1,14 +1,23 @@
 import type { GeoJSONSource, Map as MapboxMap } from "mapbox-gl";
 import { useCallback, useEffect, useRef } from "react";
 
+import { leerToken } from "../../lib/map/hex";
 import { MapaBase } from "../../lib/map/MapaBase";
 import type { Oferta } from "./tipos";
 
 type FC = GeoJSON.FeatureCollection;
 const VACIO: FC = { type: "FeatureCollection", features: [] };
 
-// Mapbox no lee variables CSS: mismos valores que usa la vista de la vecina.
-const COLOR = { origen: "#1d4ed8", parada: "#c2410c", elegida: "#14532d", borde: "#ffffff" };
+// Mapbox no lee variables CSS: se leen los tokens al pintar (web/DESIGN.md, Maqueta viva). La ruta elegida va en
+// rosa; las demás quedan en concreto para que la primera ruta resalte; el origen es tinta.
+function colores() {
+  return {
+    origen: leerToken("--pb-texto") || "#14171c",
+    parada: leerToken("--pb-borde-fuerte") || "#7c8390",
+    elegida: leerToken("--pb-acento") || "#c8006a",
+    borde: leerToken("--pb-superficie") || "#ffffff",
+  };
+}
 
 function puntos(ofertas: Oferta[], elegida: string | null): FC {
   const features: GeoJSON.Feature[] = [];
@@ -78,13 +87,14 @@ export function MapaOfertas({
 
   const alListo = useCallback((map: MapboxMap) => {
     mapa.current = map;
+    const COLOR = colores();
     map.addSource("ofertas", { type: "geojson", data: VACIO });
     map.addLayer({
       id: "ofertas-puntos",
       type: "circle",
       source: "ofertas",
       paint: {
-        "circle-radius": ["case", ["==", ["get", "origen"], 1], 12, 15],
+        "circle-radius": ["case", ["==", ["get", "sel"], 1], 17, ["==", ["get", "origen"], 1], 11, 12],
         "circle-color": [
           "case",
           ["==", ["get", "sel"], 1],
@@ -114,5 +124,5 @@ export function MapaOfertas({
     pintarRef.current();
   }, []);
 
-  return <MapaBase onReady={alListo} className="rounded-(--pb-radio-tarjeta)" />;
+  return <MapaBase onReady={alListo} />;
 }

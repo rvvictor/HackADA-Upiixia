@@ -6,9 +6,9 @@ export type TipoIcono = { id: TipoPunto; etiqueta: string; icono: string; color:
 
 /** Distinct shape per type (circle, square, triangle), so it does not rely on color alone. */
 export const TIPOS_ICONO: TipoIcono[] = [
-  { id: "tianguis", etiqueta: "Tianguis", icono: "/iconos/tianguis.svg", color: "#c2410c", forma: "círculo" },
-  { id: "mercado", etiqueta: "Mercado", icono: "/iconos/mercado.svg", color: "#0e5c58", forma: "cuadro" },
-  { id: "negocio_local", etiqueta: "Negocio local", icono: "/iconos/negocio.svg", color: "#4338ca", forma: "triángulo" },
+  { id: "tianguis", etiqueta: "Tianguis", icono: "/iconos/tianguis.svg", color: "#14171c", forma: "círculo" },
+  { id: "mercado", etiqueta: "Mercado", icono: "/iconos/mercado.svg", color: "#a00055", forma: "cuadro" },
+  { id: "negocio_local", etiqueta: "Negocio local", icono: "/iconos/negocio.svg", color: "#d6438a", forma: "triángulo" },
 ];
 
 export type PuntoIcono = { id: string; tipo: TipoPunto; nombre: string | null; lat: number; lng: number };
@@ -65,9 +65,10 @@ export async function agregarIconos(map: MapaMapbox, puntos: PuntoIcono[]): Prom
     source: FUENTE_PUNTOS,
     filter: ["has", "point_count"],
     paint: {
-      "circle-color": "#1c1917",
+      // Ink cluster, same as --pb-texto / --pb-superficie (Mapbox can't read CSS vars).
+      "circle-color": "#14171c",
       "circle-opacity": 0.85,
-      "circle-stroke-color": "#fff",
+      "circle-stroke-color": "#ffffff",
       "circle-stroke-width": 2,
       "circle-radius": ["step", ["get", "point_count"], 14, 20, 18, 100, 24],
     },
