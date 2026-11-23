@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
@@ -8,7 +8,8 @@ import {
   UsersThreeIcon,
   HouseIcon,
 } from "@phosphor-icons/react";
-import { Cifra } from "./Cifra";
+import { Cifra } from "../../lib/ui";
+import { api } from "../../lib/api";
 import { RejillaHex } from "./Hexagonos";
 import "./inicio.css";
 
@@ -33,7 +34,25 @@ function Enlace({ href, children, className = "" }: { href: string; children: Re
   );
 }
 
+type PuntosTotal = { total: number };
+
+/** Lo que ya está en el mapa (tianguis, mercados y negocios): el mismo dato que dibuja la vista Mapa. */
+function useTotalMapa(): number | null {
+  const [total, setTotal] = useState<number | null>(null);
+  useEffect(() => {
+    let vivo = true;
+    api<PuntosTotal>("/puntos?tipo=tianguis,mercado,negocio_local&limite=1")
+      .then((r) => vivo && setTotal(r.total))
+      .catch(() => undefined);
+    return () => {
+      vivo = false;
+    };
+  }, []);
+  return total;
+}
+
 function Hero() {
+  const total = useTotalMapa();
   return (
     <section className="ci-hero" aria-labelledby="titulo-colonia">
       <div className="ci-wrap ci-hero-grid">
@@ -43,16 +62,16 @@ function Hero() {
           </h1>
           <p className="ci-tagline">La red viva de los negocios de barrio</p>
           <p className="ci-wow">
-            Una nota de voz da de alta un negocio y a su repartidor; el negocio aparece en el mapa de la ciudad y el
-            repartidor ve su primera ruta en el portal.
+            Una nota de voz da de alta un negocio; aparece en el mapa y su repartidor de la colonia ve su primera ruta.
           </p>
-          <p className="ci-pitch">
-            Tianguis, mercados y negocios de barrio en un solo mapa, con rutas de compra sin cadenas y repartidores de
-            la misma colonia.
-          </p>
+          {total !== null && (
+            <p className="ci-hero-cifra">
+              <Cifra valor={total} etiqueta="tianguis, mercados y negocios ya en el mapa" tipo="real" tamano="lg" />
+            </p>
+          )}
           <div className="ci-ctas">
-            <Enlace href="#/sedeco" className="ci-btn ci-btn-primario">
-              Ver el mapa de SEDECO
+            <Enlace href="#/mapa" className="ci-btn ci-btn-primario">
+              Ver el mapa
               <ArrowRightIcon size={20} weight="bold" aria-hidden="true" />
             </Enlace>
             <Enlace href="#/usuario" className="ci-btn ci-btn-sec">
@@ -63,10 +82,6 @@ function Hero() {
 
         <figure className="ci-hero-visual" style={{ margin: 0 }}>
           <RejillaHex />
-          <figcaption className="ci-hero-etiqueta">
-            <span className="ci-punto-vivo" aria-hidden="true" />
-            Demo con datos simulados
-          </figcaption>
         </figure>
       </div>
     </section>
@@ -133,9 +148,8 @@ function Problema() {
           {CIFRAS.map((c) => (
             <article key={c.texto} className="ci-cifra-card" style={{ "--acc": c.acento.acc } as CSSProperties}>
               <p className="ci-cifra-num">
-                <Cifra valor={c.valor} decimales={c.decimales} prefijo={c.prefijo} sufijo={c.sufijo} />
+                <Cifra valor={c.valor} etiqueta={c.texto} tipo="real" decimales={c.decimales} prefijo={c.prefijo} sufijo={c.sufijo} />
               </p>
-              <p className="ci-cifra-txt">{c.texto}</p>
               <p className="ci-fuente">{c.fuente}</p>
             </article>
           ))}
@@ -348,7 +362,7 @@ function Escala() {
               ))}
             </div>
             <p style={{ margin: "10px 0 0", color: "var(--ci-texto-2)", fontSize: "0.9rem" }}>
-              Esquema simulado: las alcaldías encendidas son solo de demo.
+              Las alcaldías encendidas son las de la demo.
             </p>
           </article>
 
@@ -397,11 +411,11 @@ function Cierre() {
         <h2 id="titulo-cierre">Pon tu barrio en el mapa.</h2>
         <p>Mira la red de SEDECO o arma tu ruta de hoy. Todo en la misma demo.</p>
         <div className="ci-ctas">
-          <Enlace href="#/sedeco" className="ci-btn ci-btn-primario">
-            Ver el mapa de SEDECO
+          <Enlace href="#/mapa" className="ci-btn ci-btn-primario">
+            Ver el mapa
             <ArrowRightIcon size={20} weight="bold" aria-hidden="true" />
           </Enlace>
-          <Enlace href="#/usuario" className="ci-btn ci-btn-jade">
+          <Enlace href="#/usuario" className="ci-btn ci-btn-sec">
             Armar mi ruta
           </Enlace>
         </div>
@@ -421,7 +435,7 @@ export default function Inicio() {
       <Cierre />
       <footer className="ci-pie">
         <div className="ci-wrap">
-          <p>colonIA · hecho en HackADA 2026 · datos de la demo simulados donde se indica</p>
+          <p>colonIA · hecho en HackADA 2026</p>
         </div>
       </footer>
     </div>
