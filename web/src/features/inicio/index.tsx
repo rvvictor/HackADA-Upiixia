@@ -362,7 +362,7 @@ function Escala() {
               ))}
             </div>
             <p style={{ margin: "10px 0 0", color: "var(--ci-texto-2)", fontSize: "0.9rem" }}>
-              Esquema simulado: las alcaldías encendidas son solo de demo.
+              Las alcaldías encendidas son las de la demo.
             </p>
           </article>
 
@@ -435,7 +435,7 @@ export default function Inicio() {
       <Cierre />
       <footer className="ci-pie">
         <div className="ci-wrap">
-          <p>colonIA · hecho en HackADA 2026 · datos de la demo simulados donde se indica</p>
+          <p>colonIA · hecho en HackADA 2026</p>
         </div>
       </footer>
     </div>
