@@ -60,16 +60,21 @@ Los tianguis, mercados y tienditas sostienen el abasto de las colonias, pero cas
 
 - **Mapa** (`#/mapa`): tianguis, mercados y negocios locales; capas de actividad, oferta barrial, población, impulso, crecimiento y rutas; filtro por día y hora.
 - **Alta por nota de voz en Telegram:** el negocio manda un audio, se transcribe y se extraen los campos; queda en el mapa (`app/bot/`, `app/routers/altas.py`).
+- **Ficha del negocio** (`#/negocio`): lo que dijo en su nota de voz, editable, y el repartidor de su colonia (`app/routers/negocio.py`).
 - **Ruta de compras** (`#/usuario`): ruta sin cadenas entre negocios locales (`app/routers/ruta.py`).
-- **Portal de repartidores** (`#/repartidor`): entra con número de repartidor y código de 6 dígitos; ve ofertas cercanas e incentivos (`app/routers/repartidores.py`, `app/routers/incentivos.py`).
+- **Portal de repartidores** (`#/repartidor`): entra solo con su número de repartidor (demo: `R-00001`); ve ofertas cercanas en el mapa, toma rutas y sigue sus premios (`app/routers/repartidores.py`, `app/routers/incentivos.py`).
 
-<img src="docs/media/repartidor.png" alt="Portal de repartidores de colonIA" width="640">
+<img src="docs/media/negocio.png" alt="Ficha de Puesto de Doña Lupe dada de alta por nota de voz, con el repartidor de San Lucas" width="640">
+
+<img src="docs/media/vecina.png" alt="Ruta de compras de la vecina: 0 cadenas, paradas en negocios de barrio" width="640">
+
+<img src="docs/media/repartidor.png" alt="Portal de repartidores de colonIA con la primera oferta resaltada" width="640">
 
 ## Cómo funciona la IA
 
 1. **El LLM solo extrae campos** de la nota de voz transcrita (nombre, giro, colonia, repartidor). No inventa cifras ni rutas.
 2. **Las cifras y las rutas son código determinista** (`app/services/`): alcance a 800 m, población con tianguis, índice de impulso, distancia de ruta.
-3. **Cada dato lleva `tipo_dato`** (`real`, `estimado`, `simulado`) y `fuente`; la interfaz los muestra junto a la cifra.
+3. **Cada dato lleva `tipo_dato`** (`real`, `estimado`, `simulado`) y `fuente` en cada respuesta de la API. En pantalla no se muestra la etiqueta (decisión de diseño de CO-028); la tabla de abajo dice qué es real y qué es simulado.
 4. **Plan B sin red:** con `DEMO_MODE=1` las respuestas del LLM y de Mapbox son grabadas (`app/fixtures/`).
 
 ## Datos reales vs simulados
