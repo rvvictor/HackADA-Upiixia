@@ -230,40 +230,46 @@
   .mq-modelo .tg, .mq-btn { transition: none; }
 }
 
-/* CO-049: blocks rise from the ground on load, center first; a day change sends a soft wave through them.
-   The wave returns every block to its real height, so the data and the pins never move. */
+/* CO-049 + CO-053: blocks rise from the ground on load, center first. Each weekday has its own (illustrative) height
+   per block, --f0 … --f6 from maqueta.py; changing the day moves every block to it in a wave from the center, and
+   the pins ride along with --p0 … --p6 so they stay on their blocks. */
 .mq-modelo .b {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: mq-sube 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform: scaleY(var(--f, 1));
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--d) * 350ms);
+  animation: mq-sube 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: calc(var(--d) * 700ms);
-}
-.mq-modelo.mq-ola-0 .b {
-  animation: mq-ola-0 0.8s cubic-bezier(0.37, 0, 0.3, 1) both;
-  animation-delay: calc(var(--d) * 450ms);
-}
-.mq-modelo.mq-ola-1 .b {
-  animation: mq-ola-1 0.8s cubic-bezier(0.37, 0, 0.3, 1) both;
-  animation-delay: calc(var(--d) * 450ms);
 }
 @keyframes mq-sube {
   from { transform: scaleY(0.04); }
-  to { transform: none; }
 }
-@keyframes mq-ola-0 {
-  0%, 100% { transform: none; }
-  45% { transform: scaleY(1.12); }
-}
-@keyframes mq-ola-1 {
-  0%, 100% { transform: none; }
-  45% { transform: scaleY(1.12); }
-}
+.mq-modelo[data-dia="0"] .b { --f: var(--f0); }
+.mq-modelo[data-dia="1"] .b { --f: var(--f1); }
+.mq-modelo[data-dia="2"] .b { --f: var(--f2); }
+.mq-modelo[data-dia="3"] .b { --f: var(--f3); }
+.mq-modelo[data-dia="4"] .b { --f: var(--f4); }
+.mq-modelo[data-dia="5"] .b { --f: var(--f5); }
+.mq-modelo[data-dia="6"] .b { --f: var(--f6); }
+.mq-modelo[data-dia="0"] .tg.d0 { transform: translateY(var(--p0, 0px)); }
+.mq-modelo[data-dia="1"] .tg.d1 { transform: translateY(var(--p1, 0px)); }
+.mq-modelo[data-dia="2"] .tg.d2 { transform: translateY(var(--p2, 0px)); }
+.mq-modelo[data-dia="3"] .tg.d3 { transform: translateY(var(--p3, 0px)); }
+.mq-modelo[data-dia="4"] .tg.d4 { transform: translateY(var(--p4, 0px)); }
+.mq-modelo[data-dia="5"] .tg.d5 { transform: translateY(var(--p5, 0px)); }
+.mq-modelo[data-dia="6"] .tg.d6 { transform: translateY(var(--p6, 0px)); }
+
 /* Pins land once their blocks have risen. Fill-mode backwards only: after it ends the day transition takes over. */
+.mq-modelo .tg {
+  transition: opacity 0.35s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0s, calc(var(--d, 0) * 350ms);
+}
 .mq-modelo .tg { animation: mq-pin 0.45s cubic-bezier(0.16, 1, 0.3, 1) 1.2s backwards; }
 @keyframes mq-pin {
   from { opacity: 0; transform: translateY(-10px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mq-modelo .b, .mq-modelo.mq-ola-0 .b, .mq-modelo.mq-ola-1 .b, .mq-modelo .tg { animation: none; }
+  .mq-modelo .b, .mq-modelo .tg { animation: none; transition: none; }
 }
