@@ -404,3 +404,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Resumen SEDECO: etiquetar 'abiertos' en tipo_campos (tianguis abiertos, real)
 - **Verify:** `uv run pytest -q app/tests/test_mapa.py && npm --prefix web run build`
+
+## CO-043 · Inicio: hexágonos sin verde (jade solo para éxito), paleta rosa y gris (follow-up of CO-029)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** CO-029
+- **Follow-up of:** CO-029
+- **Paths:** web/src/features/inicio/
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Inicio: hexágonos sin verde (jade solo para éxito), paleta rosa y gris
+- **Verify:** `bash -c 'npm --prefix web run build'`
