@@ -7,14 +7,15 @@
 # Exit: 0 ok · 1 cycle, missing dependency or wave 1 below --min-wave1 · 2 usage.
 # Portable awk (mawk-safe: no {n} intervals, no gensub, no arrays of arrays).
 set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
 MSYS2_ARG_CONV_EXCL="refs/;origin/;HEAD;FETCH_HEAD;:"; export MSYS2_ARG_CONV_EXCL  # Git Bash: keep ref:path arguments
 LC_ALL=C; export LC_ALL
 mermaid=no min1=0 file= assign=no
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --mermaid) mermaid=yes; shift;;
-    --min-wave1) min1=${2:-}; shift 2;;
-    --file) file=${2:-}; shift 2;;
+    --min-wave1) min1=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --file) file=${2:-}; shift $(($# > 1 ? 2 : 1));;
     --assign) assign=yes; shift;;
     *) printf 'Usage: graph [--mermaid] [--min-wave1 N] [--file TASKS.md] | graph --assign\n' >&2; exit 2;;
   esac
@@ -43,6 +44,10 @@ if [ -z "$file" ]; then
       for t in "$tmp"/meta/retired/*.md; do [ -f "$t" ] && basename "$t" .md; done > "$tmp/retired"
     fi
   fi
+fi
+# One line per key and upper-case dependency IDs, as the engine reads the backlog (coord_fold_backlog).
+if [ -f "$file" ] && [ -f "$(dirname "$0")/uak-coordination" ]; then
+  cp "$file" "$tmp/folded.md" && ( . "$(dirname "$0")/uak-coordination" && coord_fold_backlog "$tmp/folded.md" ) && file="$tmp/folded.md"
 fi
 if [ "$assign" = yes ]; then
   # Why (MLB hackathon): a human redistributed tasks by hand in messages ("you take 033, I take 020").

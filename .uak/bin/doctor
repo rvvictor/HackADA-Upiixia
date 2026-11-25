@@ -4,16 +4,30 @@
 # them by hand), that mawk on the Jetson silently disabled the secret scanner, that port
 # 8000 was taken and that nobody set Freeze-Epoch.
 set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
 LC_ALL=C; export LC_ALL
 fix=no; [ "${1:-}" != --fix ] || fix=yes
 fails=0 warns=0
 ok()   { printf 'OK    %s\n' "$*"; }
 warn() { printf 'WARN  %s\n' "$*"; warns=$((warns + 1)); }
 bad()  { printf 'FAIL  %s\n' "$*"; fails=$((fails + 1)); }
-field() { sed -n "s/^[-* ]*$1:[* ]*//p" "$project" 2>/dev/null | head -n 1 | tr -d '\r`'; }
+self_d=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)  # before the cd to the top level: $0 may be relative
+. "$self_d/lib/config.sh"
+field() { uak_cfg "$project" "$1"; }
 
+# A checkout's .git marked bare: uak-mcp 5.4.5-5.5.0, started through its git alias in a task worktree, re-initialized
+# the main repository (core.bare=true) and git then refused every command there ("must be run in a work tree").
+common=$(git rev-parse --git-common-dir 2>/dev/null) && common=$(cd "$common" 2>/dev/null && pwd -P)
+if [ "$(git rev-parse --is-bare-repository 2>/dev/null)" = true ] && [ "$(basename "${common:-x}")" = .git ]; then
+  if [ "$fix" = yes ] && git --git-dir="$common" config core.bare false; then ok "core.bare=false restored on $common"
+  else bad "core.bare=true on a checkout ($common): fix with git --git-dir=\"$common\" config core.bare false (or uak doctor --fix)"; exit 1; fi
+fi
 root=$(git rev-parse --show-toplevel 2>/dev/null) || { bad "not a Git repository"; exit 1; }
 cd "$root" || exit 1
+# Why (v6.0 review): a fresh laptop could not commit, and wt answered about a flag it never passed.
+if [ -z "$(git config user.name 2>/dev/null)" ] || [ -z "$(git config user.email 2>/dev/null)" ]; then
+  bad "git has no user.name or user.email: git config --global user.name \"Your Name\" && git config --global user.email you@example.com"
+else ok "git identity: $(git config user.name)"; fi
 project=.uak/PROJECT.md
 remote=${UAK_REMOTE:-origin}
 
@@ -21,11 +35,14 @@ remote=${UAK_REMOTE:-origin}
 bash_major=${BASH_VERSINFO[0]:-0}
 [ "$bash_major" -ge 3 ] && ok "bash $BASH_VERSION" || bad "bash 3.2+ required"
 git_v=$(git --version | awk '{print $3}'); ok "git $git_v"
-command -v python3 >/dev/null 2>&1 && ok "python3 $(python3 -c 'import sys;print(sys.version.split()[0])') (kit tests only)" ||
-  warn "no python3: uak works, but the kit test suite cannot run"
+# Run each candidate: on Windows python3 is often the Store alias, found by command -v but exiting 49 with a message.
+py_v=; for c in python3 python py; do py_v=$("$c" -c 'import sys;print(sys.version.split()[0])' 2>/dev/null) && [ -n "$py_v" ] && { py_c=$c; break; }; py_v=; done
+[ -n "$py_v" ] && ok "$py_c $py_v (kit tests and the MCP server only)" ||
+  warn "no Python that runs (python3, python or py; a Windows Store alias does not count): uak works, but the kit tests and the MCP server cannot run"
 if printf 'AKIA%s\n' ZZZZZZZZZZZZZZZZ | grep -Eq 'AKIA[A-Z0-9]{16}'; then ok "grep -E supports intervals (secret scanner active)"
 else bad "grep -E lacks intervals: the secret scanner would miss keys"; fi
-awk_name=$(awk -W version 2>&1 | head -n 1 | awk '{print $1}')
+# </dev/null: BSD awk (macOS) ignores -W, takes "version" as the program and would wait on the terminal.
+awk_name=$(awk -W version </dev/null 2>&1 | head -n 1 | awk '{print $1}')
 case "$awk_name" in mawk) warn "awk is mawk: uak avoids awk {n} intervals; do not add rules that use them";; esac
 
 # Claude Code orchestration needs Haiku 5.5 (v2.1.293+) and the advisor tool (Anthropic API).
@@ -51,15 +68,117 @@ fi
 [ -f .uak/TASKS.md ] && ok ".uak/TASKS.md exists" || warn "no .uak/TASKS.md yet: run /uak-plan"
 hooks_dir=.uak/githooks; [ -d "$hooks_dir" ] || hooks_dir=.githooks   # v5.2 moved them under .uak
 cur_hooks=$(git config --get core.hooksPath 2>/dev/null || true)
-case "$cur_hooks" in
-  "$hooks_dir"|"$hooks_dir/") ok "pre-commit secret scanner active ($hooks_dir)";;
-  ?*) grep -qs 'secret-scan\|uak/githooks/pre-commit' "$cur_hooks/pre-commit" "$cur_hooks/../pre-commit" &&
-        ok "pre-commit secret scanner active (through your $cur_hooks)" ||
-        warn "core.hooksPath is $cur_hooks (yours or another hook manager): add 'bash .uak/githooks/pre-commit' to its pre-commit";;
-  *)
-    if [ "$fix" = yes ]; then git config core.hooksPath "$hooks_dir" && ok "core.hooksPath=$hooks_dir (fixed)"
-    else bad "core.hooksPath is not set: commits skip the scanner (doctor --fix)"; fi;;
-esac
+# UAK-135. Why (v6.7.0): the kit's own repository had core.hooksPath=.githooks with no such directory for weeks (wt set it
+# without looking): git ran no hook, neither the secret scan nor the pre-push, and nothing said so. doctor and wt were
+# written before UAK-124 added pre-push, so it was never checked either.
+phys() { (cd "$1" 2>/dev/null && pwd -P); }
+# $1 = hooks dir, $2 = hook name. A comment line does not call anything (review of UAK-135).
+calls_kit() { grep -vhs '^[[:space:]]*#' "$1/$2" "$1/../$2" | grep -Eq "(uak/githooks|kit/\.githooks)/$2"; }
+# Another hook manager's mark (UAK-135 review): its install makes its hooks directory, so --fix must not repoint it.
+other_manager() {
+  case "$cur_hooks" in .husky|.husky/*|*/.husky|*/.husky/*) return 0;; esac
+  [ -d .husky ] || [ -f lefthook.yml ] || [ -f lefthook.yaml ] || [ -f .pre-commit-config.yaml ]
+}
+kit_src=; for s in kit/.githooks "${UAK_KIT_HOME:-$HOME/.uak-kit}/kit/.githooks"; do
+  if [ -f "$s/pre-commit" ] && [ -f "$s/pre-push" ]; then kit_src=$s; break; fi
+done
+restore_hook() { # $1 = hook name: the kit's own copy back into $hooks_dir (never over a file; never in the kit's own repo)
+  [ "$fix" = yes ] && [ -n "$kit_src" ] && [ ! -d kit/.githooks ] && [ ! -e "$hooks_dir/$1" ] || return 1
+  mkdir -p "$hooks_dir" && cp "$kit_src/$1" "$hooks_dir/$1" && chmod +x "$hooks_dir/$1" 2>/dev/null
+  git update-index --chmod=+x "$hooks_dir/$1" 2>/dev/null; return 0
+}
+own_dir=$(phys "$hooks_dir"); cur_dir=; own_hooks=no
+if [ -n "$cur_hooks" ]; then
+  cur_dir=$(phys "$cur_hooks")
+  # Same directory by device and inode (UAK-146): exact on every disk. Lowercased text called .UAK/githooks the kit's
+  # on a case-sensitive one, while git ran the other directory. A path that does not exist never gets here.
+  [ -z "$cur_dir" ] || [ -z "$own_dir" ] || [ ! "$cur_hooks" -ef "$hooks_dir" ] || own_hooks=yes
+fi
+if [ -z "$cur_hooks" ]; then
+  if [ "$fix" = yes ] && [ -f "$hooks_dir/pre-commit" ]; then git config core.hooksPath "$hooks_dir" && ok "core.hooksPath=$hooks_dir (fixed)"
+  else bad "core.hooksPath is not set: commits skip the scanner (doctor --fix)"; fi
+elif [ -z "$cur_dir" ]; then
+  if other_manager; then
+    bad "core.hooksPath is $cur_hooks, which is not a directory: git runs no hook at all (secret scan, main-checkout guard and pre-push are off). It looks like another hook manager's (husky, lefthook or pre-commit): --fix does not repoint it. Run that manager's install, then have its pre-commit call 'bash .uak/githooks/pre-commit' and its pre-push call 'bash .uak/githooks/pre-push \"\$@\"'"
+  elif [ "$fix" = yes ] && [ -f "$hooks_dir/pre-commit" ]; then git config core.hooksPath "$hooks_dir" && ok "core.hooksPath=$hooks_dir (fixed; it was $cur_hooks, which does not exist)"
+  elif [ -f "$hooks_dir/pre-commit" ]; then
+    bad "core.hooksPath is $cur_hooks, which is not a directory: git runs no hook at all (secret scan, main-checkout guard and pre-push are off). Fix: bash .uak/bin/doctor --fix (sets core.hooksPath=$hooks_dir); or, if another hook manager makes $cur_hooks on its install, run that install and have its pre-commit call 'bash .uak/githooks/pre-commit'"
+  else
+    bad "core.hooksPath is $cur_hooks, which is not a directory: git runs no hook at all (secret scan, main-checkout guard and pre-push are off). Fix: git config --unset core.hooksPath, or point it at a directory with the kit's hooks (doctor --fix cannot: there is no $hooks_dir here)"
+  fi
+elif [ "$own_hooks" = yes ]; then
+  for hk in pre-commit pre-push; do
+    if [ -f "$hooks_dir/$hk" ]; then
+      if [ "$hk" = pre-commit ]; then ok "pre-commit secret scanner active ($hooks_dir)"
+      else ok "pre-push guard active ($hooks_dir): an agent cannot push to the base or claims branch"; fi
+    elif restore_hook "$hk"; then ok "$hooks_dir/$hk restored from the kit (fixed; commit it)"
+    else bad "$hooks_dir/$hk is missing: git runs no $hk (doctor --fix restores the kit's own, or bash install.sh --update)"; fi
+  done
+else
+  if calls_kit "$cur_hooks" pre-commit; then
+    ok "the kit's pre-commit runs (through your $cur_hooks): scanner and main-checkout guard"
+  elif grep -Eqs 'secret-scan' "$cur_hooks/pre-commit" "$cur_hooks/../pre-commit"; then
+    ok "pre-commit secret scanner active (through your $cur_hooks)"
+    warn "your $cur_hooks pre-commit does not run the kit's: commits on main in the main checkout are not stopped. Add 'bash .uak/githooks/pre-commit' to it"
+  else
+    warn "core.hooksPath is $cur_hooks (yours or another hook manager), so the kit's pre-commit does not run (secret scan, main-checkout guard): add 'bash .uak/githooks/pre-commit' to its pre-commit"
+  fi
+  if calls_kit "$cur_hooks" pre-push; then
+    ok "the kit's pre-push runs (through your $cur_hooks): an agent cannot push to the base or claims branch"
+  else
+    warn "your $cur_hooks pre-push does not run the kit's (or is missing): an agent's push to the base or claims branch is not stopped. Add 'bash $hooks_dir/pre-push \"\$@\"' to it (it reads git's stdin)"
+  fi
+fi
+# Skills for Codex, Cursor and Gemini: .agents/skills is a real folder with a copy of .claude/skills. A link checked out
+# on Windows (core.symlinks=false) is a one-line text file, and a copy can go stale. Why (DevDay and deus-ex-machina,
+# v6.0.0): both committed .agents/skills and .cursor/skills as symlinks; a Windows teammate's Codex had no skills.
+if [ -d .claude/skills ]; then
+  kit_home=${UAK_KIT_HOME:-$HOME/.uak-kit}
+  skills_refresh() { # $1 = folder; phase skills come from the kit clone when there is one
+    mkdir -p "$1" || return 1   # the team's own skills in it stay
+    for s in .claude/skills/*/; do s=${s%/}; rm -rf "$1/$(basename "$s")"; cp -R "$s" "$1/" || return 1; done
+    for c in .claude/commands/uak-*.md; do
+      [ -f "$c" ] || continue; n=$(basename "$c" .md)
+      [ ! -d "$kit_home/kit/.agents/skills/$n" ] || cp -R "$kit_home/kit/.agents/skills/$n" "$1/"
+    done
+  }
+  # One line per file: its path and the checksum of its content without CRs. POSIX tools only. Why (v6.1.0 review of
+  # UAK-041): `diff --strip-trailing-cr` is GNU; BSD diff before macOS 13 fails on it and every run said "stale".
+  skill_sums() { # $1 = skill folder
+    [ -d "$1" ] || return 0
+    (cd "$1" && find . -type f | LC_ALL=C sort | while IFS= read -r f; do printf '%s %s\n' "$f" "$(tr -d '\r' < "$f" | cksum)"; done)
+  }
+  skills_stale() { # $1 = folder: a kit skill missing or different (CRLF-only differences do not count)
+    for s in .claude/skills/*/; do
+      s=${s%/}; [ -d "$1/$(basename "$s")" ] || return 0
+      [ "$(skill_sums "$s")" = "$(skill_sums "$1/$(basename "$s")")" ] || return 0
+    done
+    return 1
+  }
+  for link in .agents/skills .cursor/skills; do
+    if [ -f "$link" ] || { [ -L "$link" ] && [ ! -d "$link" ]; }; then
+      if [ "$fix" = yes ]; then
+        if [ "$link" = .agents/skills ]; then rm -f "$link" && skills_refresh "$link" && ok "$link is a real folder again (fixed; commit it)"
+        else rm -f "$link" && ok "$link removed (fixed; Cursor reads .agents/skills)"; fi
+      else bad "$link is a text file or a broken link (a clone with core.symlinks=false, Windows): skills do not load. Fix: bash .uak/bin/doctor --fix"; fi
+    elif [ "$link" = .agents/skills ] && [ -d "$link" ] && [ ! -L "$link" ] && skills_stale "$link"; then
+      if [ "$fix" = yes ]; then skills_refresh "$link" && ok "$link refreshed from .claude/skills (fixed; commit it)"
+      else bad "$link is a stale copy of .claude/skills: Codex, Cursor and Gemini read old skills. Fix: bash .uak/bin/doctor --fix (or install.sh --update)"; fi
+    fi
+  done
+  if [ ! -e .agents/skills ] && [ ! -L .agents/skills ] && { [ -d .codex ] || [ -d .gemini ] || [ -d .cursor ]; }; then
+    if [ "$fix" = yes ]; then skills_refresh .agents/skills && ok ".agents/skills created (fixed; commit it)"
+    else warn ".agents/skills is missing: Codex, Cursor and Gemini load no skills. Fix: bash .uak/bin/doctor --fix (or install.sh --update)"; fi
+  fi
+fi
+# External skills (settings/external-skills.tsv, fetched by install.sh): a warning, never a failure; landing-story works alone.
+if [ -d .claude/skills/landing-story ] && [ -f .uak/settings/external-skills.tsv ]; then
+  while IFS="$(printf '\t')" read -r en eu ec es et || [ -n "$en" ]; do
+    [ -n "$en" ] || continue
+    if [ -f ".claude/skills/$en/SKILL.md" ]; then ok "external skills: $en ok ($(printf %.7s "$ec"))"
+    else warn "external skills: $en missing (offline or no git at install); landings use landing-story alone. Install it: bash .uak/bin/uak start --update (or bash install.sh --update TARGET from the kit clone)"; fi
+  done < .uak/settings/external-skills.tsv
+fi
 # Kit files an update could not replace because the team edited them.
 newfiles=$(git ls-files --others --exclude-standard 2>/dev/null | grep '\.uak-new$' | head -n 6 | tr '\n' ' ')
 [ -z "$newfiles" ] || warn "kit files to merge by hand (yours differ from the kit's): ${newfiles% } — merge each into its file, then delete the .uak-new"
@@ -105,6 +224,31 @@ if url=$(git config --get "remote.$remote.url"); then
       esac
     else warn "gh not authenticated: agents cannot open PRs (gh auth login)"; fi;;
   esac
+  # Merge-Engine: ci lets an approved engine change land when the REQUIRED checks of its tip are green, so it needs a list
+  # of them, from the base side: the forge's required status checks of the base branch, else Merge-Engine-Checks in
+  # PROJECT.md. Neither is a FAIL: the gate would send every engine change to the human with that reason anyway.
+  # Why (UAK-131 review): counting whatever checks exist proved nothing.
+  if [ "$(field Merge-Engine)" = ci ]; then
+    ci_base=${UAK_BASE:-main} ci_req= ci_src=
+    case "$url" in *github.com*)
+      if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+        ci_repo=$(printf '%s' "$url" | sed -E 's#(git@github.com:|https://github.com/)##; s#\.git$##')
+        ci_req=$(gh api "repos/$ci_repo/branches/$ci_base/protection/required_status_checks" --template '{{range .contexts}}{{.}}{{"\n"}}{{end}}{{range .checks}}{{.context}}{{"\n"}}{{end}}' 2>/dev/null |
+          awk '{ sub(/^[ \t]+/, ""); sub(/[ \t]+$/, ""); if ($0 != "" && $0 != "*") print }' | sort -u | tr '\n' ',' | sed 's/,$//')
+        [ -z "$ci_req" ] || ci_src="the required status checks of $ci_base on $ci_repo"
+      fi;;
+    esac
+    if [ -z "$ci_req" ]; then
+      ci_req=$(field Merge-Engine-Checks | tr ',' '\n' | awk '{ sub(/^[ \t]+/, ""); sub(/[ \t]+$/, ""); if ($0 != "" && $0 != "*") print }' | sort -u | tr '\n' ',' | sed 's/,$//')
+      [ -z "$ci_req" ] || ci_src="Merge-Engine-Checks in PROJECT.md (no readable required checks on the forge)"
+    fi
+    ci_root=$(git rev-parse --show-toplevel 2>/dev/null) ci_ref=HEAD
+    git rev-parse -q --verify "refs/remotes/$remote/$ci_base" >/dev/null 2>&1 && ci_ref="refs/remotes/$remote/$ci_base"
+    ci_rel=$( (. "$(dirname "$0")/lib/review-merge.sh" >/dev/null 2>&1; rm_released_lib "$ci_root" "$ci_ref") 2>/dev/null | tr '\n' ' ' | sed 's/ $//')
+    ok "Merge-Engine: ci releases only these files of .uak/bin/lib/, which nothing the gate loads names: ${ci_rel:-none}. Every other file of .uak/bin/lib/, and bin/uak and bin/uak-coordination (the dispatcher sources its libs into one process and the last definition wins, so any loaded file can redefine the gate), .github/, smoke, secret-scan, .githooks/, lock files, migrations and PROJECT.md goes to a human"
+    if [ -n "$ci_req" ]; then ok "Merge-Engine: ci will require every one of: $ci_req (from $ci_src); a trailing * is a prefix"
+    else bad "Merge-Engine: ci is set and no list of required checks exists: protect $ci_base on GitHub with required status checks, or set Merge-Engine-Checks: in .uak/PROJECT.md (check-run names, comma-separated, a trailing * is a prefix: suite (*, windows (*). Until then every engine change goes to a human"; fi
+  fi
 else
   bad "no remote $remote: uak coordinates through the remote claims branch"
 fi
@@ -128,6 +272,51 @@ if [ -f .mcp.json ] || [ -f .cursor/mcp.json ]; then
   for c in python3 python py; do "$c" -c 'import sys; sys.exit(sys.version_info < (3, 8))' 2>/dev/null && { py=$c; break; }; done
   if [ -n "$py" ] && "$py" .uak/bin/uak-mcp --version >/dev/null 2>&1; then ok "MCP server: $("$py" .uak/bin/uak-mcp --version) (Claude Code asks once to approve the project server)"
   else warn "MCP server configured but no Python 3.8+ to run it: the uak CLI still works; install Python or remove .mcp.json"; fi
+fi
+# The tools the plan's Verify commands run, on this machine. Why (HackADA, Windows): uv was not on PATH and rg was
+# missing; agents found out task by task, and a Verify that negated rg passed for any code.
+if [ -s .uak/TASKS.md ]; then
+  vfile=$(mktemp "${TMPDIR:-/tmp}/uak-doctor-verify.XXXXXX") || vfile=
+  trap '[ -z "$vfile" ] || rm -f "$vfile"' EXIT   # every exit path, not just the end of the block
+  { cat .uak/TASKS.md; git show "$remote/claims:backlog/TASKS.md" 2>/dev/null; } | grep -E '^[-* ]*Verify:' | tr -d '\r' > "${vfile:-/dev/null}"
+  lacking=
+  for t in uv npm npx pnpm yarn bun node rg go mvn cargo docker make java; do
+    grep -Eq "(^|[;&|(\`'\"!:[:space:]])$t([[:space:]]|\$)" "${vfile:-/dev/null}" || continue
+    command -v "$t" >/dev/null 2>&1 || lacking="$lacking $t"
+  done
+  [ -z "$vfile" ] || rm -f "$vfile"
+  if [ -z "$lacking" ]; then ok "the tools the plan's Verify commands run are on PATH"
+  else
+    warn "Verify commands run$lacking, missing on this machine: install them before claiming$(case " $lacking " in (*" uv "*) printf ' (uv on Windows: winget install astral-sh.uv, then open a new terminal)';; esac)$(case " $lacking " in (*" rg "*) printf '; a negated rg (! rg) passes when rg is missing';; esac)"
+  fi
+fi
+# The product's own setup, which install.sh --update never touches. Why (Windows audit of HackADA, Oct 2026): the
+# stack's fixes reached the template, not the copied project. No tzdata (every test failed to import on Windows), Vite
+# without envDir, and Node 20.16 under Vite 8's engines (npm skipped the native rolldown binding; the build failed).
+on_windows=; case "$(uname -s 2>/dev/null)" in MINGW*|MSYS*|CYGWIN*) on_windows=yes;; esac
+for pp in $(git ls-files 'pyproject.toml' '*/pyproject.toml' 2>/dev/null); do
+  d=$(dirname "$pp")
+  git grep -qE '(^|[^A-Za-z_])(ZoneInfo\(|zoneinfo)' -- "$d/*.py" 2>/dev/null || continue
+  grep -qi tzdata "$pp" "$d/uv.lock" 2>/dev/null && continue
+  msg="$pp: the code uses zoneinfo but tzdata is no dependency; Windows has no time zone database, so imports fail with ZoneInfoNotFoundError. Fix: uv add tzdata"
+  if [ -n "$on_windows" ]; then bad "$msg"; else warn "$msg"; fi
+done
+for vc in $(git ls-files '*/vite.config.ts' '*/vite.config.js' '*/vite.config.mjs' '*/vite.config.mts' 2>/dev/null); do
+  d=$(dirname "$vc")
+  case "$d" in */*) continue;; esac  # web/, frontend/: the root .env is one level up
+  grep -q envDir "$vc" && continue
+  { [ -e "$d/.env" ] || [ -e "$d/.env.example" ]; } && continue
+  grep -qs '^VITE_' .env.example .env || continue  # names only: nothing is printed
+  warn "$vc reads $d/.env only, but the VITE_ keys live in the root .env: add envDir: \"..\" to its defineConfig"
+done
+if node_v=$(node --version 2>/dev/null | tr -d 'v\r') && [ -n "$node_v" ]; then
+  for pj in $(git ls-files 'package.json' '*/package.json' 2>/dev/null); do
+    d=$(dirname "$pj")
+    lock=; [ ! -f "$d/package-lock.json" ] || lock=$d/package-lock.json
+    short=$(awk -v node="$node_v" -f "$self_d/lib/engines.awk" "$pj" ${lock:+"$lock"} 2>/dev/null |
+            head -n 3 | awk -F '\t' '{printf "%s%s wants %s", (NR > 1 ? "; " : ""), $1, $2}')
+    [ -z "$short" ] || bad "Node $node_v is too old for $d: $short. npm skips native packages a Node excludes, so the build fails (\"Cannot find module @rolldown/binding-…\"). Fix: winget install OpenJS.NodeJS.LTS (Windows), brew upgrade node, or nvm install --lts; then rm -rf $d/node_modules and npm ci"
+  done
 fi
 # Harnesses, pacing and black box (v4.1)
 here_d=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)

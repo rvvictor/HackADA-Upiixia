@@ -13,21 +13,22 @@
 # Why: LOOPS.md rule 5 ("a loop never edits its own verifier") and rule 3 ("stop on no progress") were text
 # only; v5 enforces both. Parallel: one failing file per agent keeps each prompt small (roadmap v3.2).
 set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
 LC_ALL=C; export LC_ALL
 verify= agent=${UAK_LOOP_AGENT:-} prompt_file= max=5 minutes=0 tail_n=40 task= parallel=0 each=
 protect='(^|/)(tests?|__tests__|spec|specs|e2e)/|(^|/)test_[^/]*$|_test\.[a-z]+$|\.(test|spec)\.[a-z]+$'
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    --verify) verify=${2:-}; shift 2;;
-    --agent) agent=${2:-}; shift 2;;
-    --prompt) prompt_file=${2:-}; shift 2;;
-    --max) max=${2:-}; shift 2;;
-    --minutes) minutes=${2:-}; shift 2;;
-    --tail) tail_n=${2:-}; shift 2;;
-    --task) task=${2:-}; shift 2;;
-    --parallel) parallel=${2:-}; shift 2;;
-    --each) each=${2:-}; shift 2;;
-    --protect) protect=${2:-}; shift 2;;
+    --verify) verify=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --agent) agent=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --prompt) prompt_file=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --max) max=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --minutes) minutes=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --tail) tail_n=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --task) task=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --parallel) parallel=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --each) each=${2:-}; shift $(($# > 1 ? 2 : 1));;
+    --protect) protect=${2:-}; shift $(($# > 1 ? 2 : 1));;
     -h|--help) sed -n '2,13p' "$0"; exit 0;;
     *) printf 'loop: unknown option %s\n' "$1" >&2; exit 2;;
   esac
@@ -59,7 +60,7 @@ work_sig() {
 
 # ---- parallel: one sub-loop per failing test file ----
 if [ "$parallel" -gt 0 ]; then
-  bash -c "$verify" > "$out" 2>&1 && { printf 'LOOP_PASS iteration=0 · %s\n' "$(last_line "$out")"; exit 0; }
+  bash -c "$verify" > "$out" 2>&1 < /dev/null && { printf 'LOOP_PASS iteration=0 · %s\n' "$(last_line "$out")"; exit 0; }
   files=$(sed -n -E 's/^(FAILED|ERROR) ([^: ]+)(::| ).*/\2/p; s/^ *FAIL +([^ ]+\.(js|jsx|ts|tsx|mjs|cjs)).*/\1/p; s/^FAIL[[:space:]]+([^[:space:]]+\/[^[:space:]]+)[[:space:]].*/\1/p' "$out" |
     awk '!seen[$0]++' | head -n "$parallel")
   [ -n "$files" ] || { printf 'LOOP_STOP no failing test files found in the output (pytest FAILED/ERROR, jest/vitest FAIL, go FAIL): use a plain loop\n'; exit 3; }
@@ -68,8 +69,10 @@ if [ "$parallel" -gt 0 ]; then
   for f in $files; do
     n=$((n + 1)); d="$gd/uak-out/$run_id-wt$n"
     git worktree add -q --detach "$d" "$base" 2>> "$log" || { printf 'loop: could not create a worktree for %s\n' "$f" >> "$log"; continue; }
-    sub=$(printf '%s' "$each" | sed "s|{}|$f|g")
-    ( cd "$d" && UAK_LOOP_AGENT= bash "$here/loop" --verify "$sub" --agent "$agent" --max "$max" --minutes "$minutes" --tail "$tail_n" \
+    # The file goes in as a variable, never as text in the command: a test file name parsed from the output could
+    # carry shell (audit, Oct 2026). `pytest -q {}` runs `pytest -q "$UAK_LOOP_FILE"`.
+    sub=$(printf '%s' "$each" | awk '{ gsub(/\{\}/, "\"$UAK_LOOP_FILE\""); print }')
+    ( cd "$d" && UAK_LOOP_FILE=$f UAK_LOOP_AGENT= bash "$here/loop" --verify "$sub" --agent "$agent" --max "$max" --minutes "$minutes" --tail "$tail_n" \
         ${prompt_file:+--prompt "$prompt_file"} --protect "$protect" > "$d.result" 2>&1 ) &
     pids="$pids $!"
     printf '%s\n' "$f" > "$d.file"
@@ -93,7 +96,7 @@ if [ "$parallel" -gt 0 ]; then
   done
   git worktree prune 2>/dev/null
   printf 'LOOP_MERGE applied:%s · not fixed:%s\n' "${applied:- none}" "${failed:- none}"
-  bash -c "$verify" > "$out" 2>&1; code=$?
+  bash -c "$verify" > "$out" 2>&1 < /dev/null; code=$?
   if [ "$code" -eq 0 ]; then printf 'LOOP_PASS parallel · %s\n' "$(last_line "$out")"; uak log "$task" "parallel loop pass: $verify"; exit 0; fi
   printf 'LOOP_STOP parallel: Verify still fails · %s · log %s\n' "$(last_line "$out" 160)" "$log"
   uak log "$task" --state BLOCKED "parallel loop: Verify still fails: $(last_line "$out" 160)"
@@ -102,9 +105,13 @@ fi
 
 # ---- sequential ----
 tests0=$(tests_sig)
+# A parallel sub-loop runs `… "$UAK_LOOP_FILE"`; its agent reads the file name itself.
+shown=$verify
+[ -z "${UAK_LOOP_FILE:-}" ] || shown=$(printf '%s\n' "$verify" | awk -v f="$UAK_LOOP_FILE" '{ t = "\"$UAK_LOOP_FILE\""
+  while ((i = index($0, t)) > 0) $0 = substr($0, 1, i - 1) f substr($0, i + length(t)); print }')
 while :; do
   i=$((i + 1))
-  bash -c "$verify" > "$out" 2>&1; code=$?
+  bash -c "$verify" > "$out" 2>&1 < /dev/null; code=$?
   if [ "$code" -eq 0 ]; then
     printf 'LOOP_PASS iteration=%s · %s\n' "$i" "$(last_line "$out")"
     printf 'LOOP_SUMMARY %s iteration(s) · %s s · changed: %s · log %s\n' "$i" "$(( $(date +%s) - start ))" \
@@ -129,7 +136,7 @@ while :; do
   {
     printf 'You are fixing a failing check in this repository (iteration %s of %s).\n' "$i" "$max"
     [ -z "$prompt_file" ] || { printf '\nTask context:\n'; cat "$prompt_file"; printf '\n'; }
-    printf '\nCheck: %s\nExit code: %s\nLast %s lines of output:\n' "$verify" "$code" "$tail_n"
+    printf '\nCheck: %s\nExit code: %s\nLast %s lines of output:\n' "$shown" "$code" "$tail_n"
     tail -n "$tail_n" "$out"
     [ "$i" -eq 1 ] || { printf '\nYour changes so far (diff stat):\n'; git diff --stat HEAD 2>/dev/null | tail -n 15; }
     printf '\nRules: find the root cause and make the smallest correct change. Do not weaken, skip, edit or delete existing tests or the check (the loop stops if you do). Do not touch files outside the task. Do not commit, push or deploy. When the change is done, stop.\n'

@@ -41,6 +41,7 @@
       "Bash(git push -u origin feat/*)",
       "Bash(git push -u origin HEAD)",
       "Bash(git merge origin/main)",
+      "Bash(git merge --no-edit origin/main)",
       "Bash(git rebase origin/main)",
       "Bash(git switch:*)",
       "Bash(git branch:*)",
@@ -90,7 +91,14 @@
       "Bash(rm -rf ~:*)",
       "Bash(rm -rf ..:*)",
       "Read(./.env)",
-      "Read(./.env.*)",
+      "Read(./.env.local)",
+      "Read(./.env.production)",
+      "Read(./.env.prod)",
+      "Read(./.env.development)",
+      "Read(./.env.dev)",
+      "Read(./.env.staging)",
+      "Read(./.env.test)",
+      "Read(./**/.env.local)",
       "Read(./**/.env)",
       "Read(./secrets/**)",
       "Read(./**/*.pem)",
@@ -127,11 +135,11 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Bash",
+        "matcher": "Bash|PowerShell",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PROJECT_DIR/.uak/bin/guard\" bash",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.uak/bin/guard\" bash claude",
             "timeout": 5
           }
         ]
@@ -159,7 +167,7 @@
         ]
       },
       {
-        "matcher": "Bash",
+        "matcher": "Bash|PowerShell",
         "hooks": [
           {
             "type": "command",

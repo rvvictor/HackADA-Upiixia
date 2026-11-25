@@ -1,14 +1,14 @@
 # Subagent orchestration: fast swarms, a balanced lead, a strong advisor
 
 Goal: the best result per token, in every harness. The strongest model wakes up only where judgment changes the
-outcome. Verified 2026-10-09 against the Claude Code, Codex, Cursor and Gemini CLI docs. Prices and plans: `COSTS.md`.
+outcome. Verified 2026-11-10 against the Claude Code, Codex, Cursor and Gemini CLI docs. Prices and plans: `COSTS.md`.
 
 ## Tiers (harness-neutral)
 | Tier | Claude Code | Codex | Cursor | Gemini CLI | Does |
 |---|---|---|---|---|---|
 | **fast** (swarm) | Haiku 5.5 | GPT-6 Luna (`gpt-6-luna`) | Composer 2.5 | `gemini-3-flash-preview` | scouts and runners: find, read, run noisy commands, return ≤15 lines |
 | **balanced** (lead) | Sonnet 5.5 | GPT-6.1 Sol (`gpt-6.1-sol`) | your model (`inherit`) | your model (`inherit`) | owns the task: plans, edits, runs Verify, decides; reviewers |
-| **strong** (advisor) | Opus 5.5 | GPT-6 Astra (`gpt-6-astra`) | `claude-opus-5-5[effort=high]` | `gemini-3-pro-preview` | 3 checkpoints and security reviews; never swarms |
+| **strong** (advisor) | Opus 5.5 | GPT-6 Astra (`gpt-6-astra`) | `claude-opus-5[effort=high]` | `gemini-3.1-pro-preview` | 3 checkpoints and security reviews; never swarms |
 
 GPT-5.6 family (still rolling out, older accounts): Sol is strong, Terra is balanced, Luna is fast. Replace the IDs in
 `.codex/config.toml` and `.codex/agents/*.toml`. The guard already maps both families to the right tier.
@@ -19,7 +19,7 @@ The same 6 subagents exist in every harness. `scripts/gen_harness.py` generates 
 | `uak-scout` | fast | yes | where/how is X; file:line evidence |
 | `uak-runner` | fast | runs commands | tests, smoke, app, probes; verdict only |
 | `uak-reviewer` | balanced | yes | independent PR review → `uak review` |
-| `design-critic` (sprint) | balanced | yes | UI screenshots vs DESIGN.md |
+| `design-critic` | balanced | yes | UI screenshots vs DESIGN.md |
 | `security-reviewer` (marathon) | strong | yes | auth, data, payments, uploads |
 | `uak-architect` | strong | yes | the 3 checkpoints from a compact packet |
 

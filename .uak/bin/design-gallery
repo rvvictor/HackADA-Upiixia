@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+# design-gallery: the design lock's directions side by side, opened in the human's browser. Bash 3.2+.
+#   design-gallery [DIR] [--no-open | --serve [PORT] | --stop]   default DIR: web/public/design-lock
+# Reads N-1280.png and N-390.png per direction (N = 1, 2, 3…) and an optional N.md: first line the name, then one
+# line of intent, and "Recommended: yes" on the agent's pick. Other PNGs show under "More screens". Writes
+# DIR/index.html (relative paths, no network) and opens it: open (macOS), xdg-open (Linux with a display),
+# start (Git Bash), wslview or explorer.exe (WSL). --no-open or UAK_NO_OPEN=1 only prints the path.
+# Over SSH (or --serve) there is no screen to open: it serves the folder in the background on 127.0.0.1 and on this
+# machine's Tailscale address, prints the URLs and the ssh -L tunnel, and returns; --stop ends that server.
+# Why: Claude Code runs in a terminal; screenshots it takes are files the human never sees unless something opens them,
+# and the design lock is decided by looking (Chilangatón: the look was decided from a sentence).
+set -u
+LC_ALL=C; export LC_ALL
+# A design round's picking page (UAK-058) is its own program: lib/gallery_pick.py gets the whole command line.
+for a in "$@"; do
+  [ "$a" = --round ] || continue
+  here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  for p in python3 python py; do
+    "$p" -c 'import sys; sys.exit(sys.version_info < (3, 8))' 2>/dev/null && exec "$p" "$here/lib/gallery_pick.py" "$@"
+  done
+  printf '%s\n' 'design-gallery --round needs Python 3.8+ (python3, python or py).' >&2; exit 2
+done
+dir= open=yes serve=no port=8790 stop=no prev=
+for a in "$@"; do
+  if [ "$prev" = --serve ]; then prev=; case "$a" in *[!0-9]*) ;; *) port=$a; continue;; esac; fi
+  case "$a" in --no-open) open=no;; --serve) serve=yes; prev=--serve;; --stop) stop=yes;;
+    -*) printf 'Usage: design-gallery [DIR] [--no-open | --serve [PORT] | --stop]\n' >&2; exit 2;; *) dir=$a;; esac
+done
+[ "${UAK_NO_OPEN:-}" != 1 ] || open=no
+root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+[ -n "$dir" ] || dir="$root/web/public/design-lock"
+case "$dir" in /*|[A-Za-z]:[\\/]*) ;; *) dir="$(pwd)/$dir";; esac  # C:/... is absolute too (git on Windows)
+if [ "$stop" = yes ]; then
+  pid=$(cat "$dir/.gallery.pid" 2>/dev/null); [ -n "$pid" ] && kill "$pid" 2>/dev/null && printf 'DESIGN_GALLERY stopped (pid %s)\n' "$pid" || printf 'DESIGN_GALLERY: no server running for %s\n' "$dir"
+  rm -f "$dir/.gallery.pid"; exit 0
+fi
+[ -d "$dir" ] || { printf 'DESIGN_GALLERY: no folder %s (the design lock saves N-1280.png and N-390.png there)\n' "$dir" >&2; exit 1; }
+esc() { sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g'; }
+project=$(basename "$root" | esc)
+n=0 cards= more=
+for d in $(ls "$dir" 2>/dev/null | sed -n 's/^\([0-9][0-9]*\)-1280\.png$/\1/p' | sort -n); do
+  n=$((n + 1))
+  name="Direction $d" intent= rec=
+  if [ -f "$dir/$d.md" ]; then
+    name=$(grep -v '^[[:space:]]*$' "$dir/$d.md" | head -n 1 | sed 's/^#* *//' | cut -c 1-80 | esc)
+    intent=$(grep -v '^[[:space:]]*$' "$dir/$d.md" | sed -n '2p' | grep -vi '^recommended:' | cut -c 1-220 | esc)
+    grep -qi '^recommended:[[:space:]]*yes' "$dir/$d.md" && rec=yes
+  fi
+  phone=
+  [ ! -f "$dir/$d-390.png" ] || phone="<a class=\"phone\" href=\"$d-390.png\" target=\"_blank\" title=\"Open the phone screen full size\"><img src=\"$d-390.png\" alt=\"$name on a phone, 390 by 844\" loading=\"lazy\"></a>"
+  cards="$cards<figure class=\"work${rec:+ pick}\"><div class=\"wall\"><a class=\"desk\" href=\"$d-1280.png\" target=\"_blank\" title=\"Open the projector screen full size\"><img src=\"$d-1280.png\" alt=\"$name on the projector, 1280 by 720\" loading=\"lazy\"></a>$phone</div>"
+  cards="$cards<figcaption><span class=\"plate\">$d</span><span class=\"title\">$name${rec:+<span class=\"dot\" title=\"The agent recommends this one\"></span>}</span>${intent:+<span class=\"intent\">$intent</span>}"
+  cards="$cards<span class=\"say\">${rec:+Recommended by the agent. }To choose it, tell the agent: <kbd>Direction $d</kbd></span></figcaption></figure>"
+done
+for f in $(ls "$dir" 2>/dev/null | grep -i '\.png$' | grep -Ev '^[0-9]+-(1280|390)\.png$|^[_.]'); do
+  more="$more<a href=\"$f\" target=\"_blank\"><img src=\"$f\" alt=\"$(printf '%s' "$f" | esc)\" loading=\"lazy\"><span>$(printf '%s' "$f" | esc)</span></a>"
+done
+if [ "$n" -eq 1 ]; then count="One direction"; else count="$n directions"; fi
+[ "$n" -gt 0 ] || [ -n "$more" ] || { printf 'DESIGN_GALLERY: no screenshots in %s (expected 1-1280.png, 1-390.png, …)\n' "$dir" >&2; exit 1; }
+cat > "$dir/index.html" <<EOF
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design lock · $project</title>
+<style>
+:root {
+  --wall: #c9ccc6; --wall-2: #bfc3bc; --mat: #fbfbf9; --ink: #1d1f1c; --ink-2: #4e534c; --rule: #a9aea6; --dot: #d63a2f; --mat-ink: #1d1f1c;
+  --hang: 0 2px 3px rgb(30 32 28 / .18), 0 18px 34px -12px rgb(30 32 28 / .45);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --wall: #33363a; --wall-2: #2c2f33; --mat: #f4f3ef; --ink: #ecebe6; --ink-2: #b4b5ae; --rule: #55595e; --dot: #ff5a4c;
+    --hang: 0 2px 3px rgb(0 0 0 / .4), 0 22px 40px -14px rgb(0 0 0 / .7); }
+}
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--wall); }
+body { min-height: 100vh; color: var(--ink); font: 400 16px/1.5 "Avenir Next", Avenir, "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  background: radial-gradient(120% 70% at 50% 0%, var(--wall) 40%, var(--wall-2) 100%); padding: 56px clamp(16px, 4vw, 56px) 72px; }
+main { max-width: 1480px; margin: 0 auto; }
+.intro { display: flex; flex-wrap: wrap; gap: 8px 40px; align-items: baseline; padding-bottom: 22px; border-bottom: 1px solid var(--rule); }
+h1 { font: 600 clamp(30px, 3.6vw, 46px)/1.02 "Avenir Next", Avenir, "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif; letter-spacing: -0.025em; }
+h1 em { font-style: normal; color: var(--ink-2); font-weight: 400; }
+.intro p { color: var(--ink-2); max-width: 58ch; }
+.room { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 64px 56px; margin-top: 48px; align-items: start; }
+.work { display: grid; gap: 22px; }
+.wall { position: relative; padding: 0 0 34px 0; }
+.desk, .phone { display: block; background: var(--mat); padding: 10px; box-shadow: var(--hang); transition: transform .2s ease-out; }
+.desk img, .phone img { display: block; width: 100%; height: auto; }
+.phone { position: absolute; right: -16px; bottom: 0; width: 21%; min-width: 84px; padding: 5px; border-radius: 4px; }
+.desk:hover, .phone:hover { transform: translateY(-3px); }
+figcaption { display: grid; grid-template-columns: auto 1fr; gap: 2px 16px; max-width: 46ch; }
+.plate { grid-row: span 3; font: 600 15px/1 ui-monospace, Menlo, Consolas, monospace; color: var(--ink-2); border: 1px solid var(--rule); width: 34px; height: 34px; display: grid; place-items: center; }
+.title { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--dot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot) 22%, transparent); }
+.intent { color: var(--ink-2); }
+.say { color: var(--ink-2); font-size: 14px; margin-top: 8px; }
+kbd { font: 600 13px ui-monospace, Menlo, Consolas, monospace; color: var(--mat-ink); background: var(--mat); border-radius: 4px; padding: 2px 7px; box-shadow: 0 1px 0 var(--rule); }
+.pick .say { color: var(--ink); }
+.more h2 { margin-top: 72px; font-size: 18px; font-weight: 600; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.more div { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 28px; margin-top: 24px; }
+.more a { display: block; color: var(--ink-2); text-decoration: none; font-size: 14px; }
+.more img { display: block; width: 100%; background: var(--mat); padding: 8px; box-shadow: var(--hang); margin-bottom: 10px; }
+a:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+@media (max-width: 760px) { .phone { right: 8px; } .wall { padding-bottom: 28px; } }
+@media (prefers-reduced-motion: reduce) { .desk, .phone { transition: none; } .desk:hover, .phone:hover { transform: none; } }
+</style>
+</head>
+<body>
+<main>
+<header class="intro">
+<h1>Design lock <em>· $project</em></h1>
+<p>$count, hung as the judges will see them: the projector at 1280×720, a phone at 390×844. Open any screen full size. Choose by looking, then tell the agent.</p>
+</header>
+<section class="room">$cards</section>
+$( [ -z "$more" ] || printf '<section class="more"><h2>More screens</h2><div>%s</div></section>' "$more" )
+</main>
+</body>
+</html>
+EOF
+page="$dir/index.html"
+printf 'DESIGN_GALLERY %s direction(s) · file://%s\n' "$n" "$page"
+# No screen here (SSH): serve it instead of opening it.
+[ "$open" = no ] || [ -z "${SSH_CONNECTION:-}${SSH_TTY:-}" ] || serve=yes
+if [ "$serve" = yes ]; then
+  py=; for c in python3 python; do "$c" -c 'import sys; sys.exit(sys.version_info < (3, 7))' 2>/dev/null && { py=$c; break; }; done
+  [ -n "$py" ] || { printf 'DESIGN_GALLERY: no Python 3 to serve it; copy %s to your laptop and open index.html\n' "$dir"; exit 1; }
+  old=$(cat "$dir/.gallery.pid" 2>/dev/null); [ -z "$old" ] || kill "$old" 2>/dev/null
+  ts=$(tailscale ip -4 2>/dev/null | head -n 1)
+  case "$ts" in 100.*) ;; *) ts=;; esac   # only a tailnet address: never the LAN or 0.0.0.0
+  nohup "$py" - "$dir" "$port" $ts > "$dir/.gallery.log" 2>&1 <<'PY' &
+import functools, http.server, sys, threading
+root, port, addrs = sys.argv[1], int(sys.argv[2]), ["127.0.0.1"] + sys.argv[3:]
+handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=root)
+for p in range(port, port + 20):
+    servers = []
+    try:
+        for a in addrs:
+            servers.append(http.server.ThreadingHTTPServer((a, p), handler))
+        break
+    except OSError:
+        for s in servers:          # a port free on one address but not the other: release it, try the next
+            s.server_close()
+        continue
+else:
+    sys.exit("no free port from %d" % port)
+print("PORT", p, flush=True)
+for s in servers[1:]:
+    threading.Thread(target=s.serve_forever, daemon=True).start()
+servers[0].serve_forever()
+PY
+  pid=$!; printf '%s\n' "$pid" > "$dir/.gallery.pid"
+  # Up to 40 s: a cold Python on a busy Mac took over 5 s to bind (CI, Oct 2026), and once more than 15 s on a
+  # loaded macOS runner; the loop ends as soon as the port is printed.
+  i=0; while [ "$i" -lt 400 ] && ! grep -q '^PORT ' "$dir/.gallery.log" 2>/dev/null; do sleep 0.1; i=$((i + 1)); done
+  got=$(sed -n 's/^PORT //p' "$dir/.gallery.log" | head -n 1)
+  [ -n "$got" ] || { printf 'DESIGN_GALLERY: the server did not start: %s\n' "$(tail -n 1 "$dir/.gallery.log")"; exit 1; }
+  [ -z "$ts" ] || printf 'DESIGN_GALLERY open on your laptop (Tailscale): http://%s:%s/\n' "$ts" "$got"
+  printf 'DESIGN_GALLERY or tunnel it: ssh -L %s:127.0.0.1:%s %s@%s, then http://localhost:%s/ (VS Code Remote forwards the port itself)\n' \
+    "$got" "$got" "$(id -un)" "$(hostname)" "$got"
+  printf 'DESIGN_GALLERY serving in the background (pid %s); stop it: bash .uak/bin/uak design-gallery --stop\n' "$pid"
+  exit 0
+fi
+[ "$open" = yes ] || exit 0
+if [ "$(uname -s 2>/dev/null)" = Darwin ]; then open "$page" >/dev/null 2>&1 &
+elif grep -qi microsoft /proc/version 2>/dev/null; then
+  { command -v wslview >/dev/null 2>&1 && wslview "$page"; } || explorer.exe "$(wslpath -w "$page" 2>/dev/null || printf '%s' "$page")" >/dev/null 2>&1 &
+else case "$(uname -s 2>/dev/null)" in
+  MINGW*|MSYS*|CYGWIN*) start "" "$page" >/dev/null 2>&1 &;;
+  *) if [ -n "${DISPLAY:-}${WAYLAND_DISPLAY:-}" ] && command -v xdg-open >/dev/null 2>&1; then xdg-open "$page" >/dev/null 2>&1 &
+     else printf 'DESIGN_GALLERY: no display here; open the file above in a browser (or copy the folder to your laptop)\n'; fi;;
+esac; fi
+exit 0

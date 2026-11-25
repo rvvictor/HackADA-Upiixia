@@ -5,14 +5,27 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 cd "$root"
 mode=product
-case "${1:-}" in
-  "") ;;
-  --package-only) mode=package; shift ;;
-  --full) mode=full; shift ;;
-  *) printf '%s\n' 'Usage: .uak/bin/smoke [--package-only|--full]' >&2; exit 2 ;;
-esac
-[ "$#" -eq 0 ] || { printf '%s\n' 'Extra arguments not allowed.' >&2; exit 2; }
-for script in .uak/bin/uak .uak/bin/uak-coordination .uak/bin/guard .uak/bin/doctor .uak/bin/graph .uak/bin/loop .uak/bin/board .uak/bin/stats .uak/bin/up .uak/bin/demo .uak/bin/policy .uak/bin/secret-scan .uak/bin/wt .uak/bin/q .uak/bin/hook .uak/bin/tokens .uak/bin/map .uak/bin/cap .uak/bin/clock .uak/bin/lib/*.sh .githooks/pre-commit; do
+jobs=''
+affected='' base_ref='' list_only=''
+usage() { printf '%s\n' 'Usage: .uak/bin/smoke [--package-only|--full] [--jobs N|auto] [--affected [BASE] [--list]]  (--affected: lint, secrets, the task Verify and only the tests the diff against BASE touches or names; --list prints the choice and stops; the merge gate never passes it)' >&2; exit 2; }
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --package-only) mode=package; shift ;;
+    --full) mode=full; shift ;;
+    --affected)
+      affected=1; shift
+      if [ "$#" -gt 0 ]; then case "$1" in -*) ;; *) base_ref=$1; shift ;; esac; fi ;;
+    --list) list_only=1; shift ;;
+    --jobs) [ "$#" -ge 2 ] || usage; jobs=$2; shift 2 ;;
+    --jobs=*) jobs=${1#--jobs=}; shift ;;
+    *) if [ -n "$affected" ] && [ -z "$base_ref" ]; then base_ref=$1; shift; else usage; fi ;;
+  esac
+done
+[ -z "$list_only" ] || [ -n "$affected" ] || usage
+# --affected is the shortcut for a person or an agent calling smoke by hand (UAK-129); it is an argument only, so nothing an
+# agent exports makes the merge gate's run partial. It runs the package suite, never the product smoke.
+[ -z "$affected" ] || [ "$mode" != product ] || mode=package
+for script in .uak/bin/uak .uak/bin/uak-coordination .uak/bin/guard .uak/bin/doctor .uak/bin/graph .uak/bin/loop .uak/bin/board .uak/bin/stats .uak/bin/up .uak/bin/demo .uak/bin/policy .uak/bin/secret-scan .uak/bin/wt .uak/bin/q .uak/bin/hook .uak/bin/tokens .uak/bin/map .uak/bin/cap .uak/bin/clock .uak/bin/skill .uak/bin/lib/*.sh .githooks/pre-commit; do
   [ ! -f "$script" ] || bash -n "$script"
 done
 if git rev-parse --show-toplevel >/dev/null 2>&1; then
@@ -20,7 +33,13 @@ if git rev-parse --show-toplevel >/dev/null 2>&1; then
 else
   bash .uak/bin/secret-scan --directory "$root"
 fi
-if [ "$mode" != product ]; then
+# A light install (UAK-127) has no .uak/tests: the kit's protocol suite runs in the kit's repository (install.sh --with-tests
+# puts it here). This project's own checks above and the product smoke below still run.
+if [ ! -d .uak/tests ]; then
+  printf '%s\n' "The kit's protocol suite runs in the kit's repository (install.sh --with-tests puts it here); this smoke ran the project's own checks."
+  case "$mode" in full) mode=product;; package) mode=light;; esac
+fi
+if [ "$mode" != product ] && [ "$mode" != light ]; then
   python_runtime=''
   for candidate in python3 python; do
     if command -v "$candidate" >/dev/null 2>&1 && "$candidate" -c 'import sys; assert sys.version_info >= (3, 8)' >/dev/null 2>&1; then
@@ -29,22 +48,180 @@ if [ "$mode" != product ]; then
     fi
   done
   [ -n "$python_runtime" ] || { printf '%s\n' 'PACKAGE_UNVERIFIED: tests need Python 3.8+ (standard library).' >&2; exit 2; }
-  "$python_runtime" .uak/tests/test_hack.py --package "$root"
-  if [ -f .uak/tests/test_policy.py ]; then "$python_runtime" .uak/tests/test_policy.py --package "$root"; fi
-  "$python_runtime" .uak/tests/test_coordination.py --package "$root"
-  "$python_runtime" .uak/tests/test_review_merge.py --package "$root"
-  "$python_runtime" .uak/tests/test_v21_security.py --package "$root"
-  "$python_runtime" .uak/tests/test_v3.py --package "$root"
-  "$python_runtime" .uak/tests/test_v41.py --package "$root"
-  "$python_runtime" .uak/tests/test_v42.py --package "$root"
-  "$python_runtime" .uak/tests/test_v43.py --package "$root"
-  "$python_runtime" .uak/tests/test_v5.py --package "$root"
-  "$python_runtime" .uak/tests/test_v51.py --package "$root"
-  "$python_runtime" .uak/tests/test_v52.py --package "$root"
-  "$python_runtime" .uak/tests/test_v53.py --package "$root"
+  PYTHONIOENCODING=utf-8; PYTHONUTF8=1; export PYTHONIOENCODING PYTHONUTF8  # a Windows console is cp1252: "→" crashed a print
+  # Every .uak/tests/test_*.py, in C order: a new test file runs here with no edit (kit_lint checks the discovery).
+  # shellcheck disable=SC2012
+  tests=$(LC_ALL=C ls -1 .uak/tests 2>/dev/null | LC_ALL=C grep -E '^test_[A-Za-z0-9_]+[.]py$' || :)
+  [ -n "$tests" ] || { printf '%s\n' 'PACKAGE_UNVERIFIED: no .uak/tests/test_*.py found.' >&2; exit 2; }
+  # CI runs the suite in shards (UAK-018: 15.6 min on one macOS job): UAK_SMOKE_TESTS names this shard's files, as
+  # `scripts/kit_lint.py --ci-shards` prints them. Every name must be a test found here, or the shard fails: a typo never
+  # runs less quietly. Unset (the merge gate, a laptop), every test runs.
+  # Merge-Smoke: affected with no affected test file (UAK-052): the merge gate says so with this internal variable (a token file only the gate creates), never
+  # with a value of UAK_SMOKE_TESTS, so a user's export cannot skip the suite. Lint and the rest of the gate still ran.
+  if [ -n "$affected" ]; then
+    # shellcheck disable=SC1091
+    . .uak/bin/lib/tests.sh
+    unset UAK_SMOKE_TESTS UAK_SMOKE_GATE_NONE   # a shard list or a stale token of the caller is not this run's choice (lesson #4)
+    top=$(git rev-parse --show-toplevel 2>/dev/null) || { printf '%s\n' 'smoke --affected needs a Git checkout.' >&2; exit 2; }
+    prefix=$(git rev-parse --show-prefix)
+    if [ -z "$base_ref" ]; then
+      for c in origin/main main HEAD; do
+        if [ -z "$base_ref" ] && git rev-parse --verify -q "$c^{commit}" >/dev/null 2>&1; then base_ref=$c; fi
+      done
+    fi
+    git rev-parse --verify -q "$base_ref^{commit}" >/dev/null 2>&1 || { printf 'smoke --affected: no such base %s\n' "$base_ref" >&2; exit 2; }
+    mb=$(git merge-base "$base_ref" HEAD 2>/dev/null) || mb=$(git rev-parse "$base_ref^{commit}")
+    aw=$(mktemp -d "${TMPDIR:-/tmp}/uak-smoke-affected.XXXXXX")
+    trap 'rm -rf "$aw"' EXIT
+    # The branch's commits, the working tree and the files not yet added: what the author is about to hand over.
+    { git -C "$top" -c core.quotePath=false diff --name-only "$mb"; git -C "$top" -c core.quotePath=false ls-files -o --exclude-standard; } | LC_ALL=C sort -u |
+      while IFS= read -r p; do
+        [ -n "$p" ] || continue
+        case "$prefix" in '') printf '%s\n' "$p" ;; *) case "$p" in "$prefix"*) printf '%s\n' "${p#"$prefix"}" ;; *) printf '../%s\n' "$p" ;; esac ;; esac
+      done > "$aw/changed"
+    printf '%s\n' $tests > "$aw/tests"
+    n_all=$(grep -c . "$aw/tests" || :)
+    tf_affected_select "$root" "$aw/changed" "$aw/tests" > "$aw/sel"
+    printf 'Affected against %s (%s changed files):\n' "$base_ref" "$(grep -c . "$aw/changed" || :)"
+    if grep -q '^ALL' "$aw/sel"; then
+      picked=$tests n_picked=$n_all
+      printf '  all %s test files: %s\n' "$n_all" "$(sed -n 's/^ALL\t//p' "$aw/sel" | head -n 1)"
+    else
+      picked='' n_picked=0
+      while IFS="$(printf '\t')" read -r t why; do
+        [ -n "$t" ] || continue
+        if [ "$t" = - ]; then printf '  note: %s\n' "$why"; else printf '  %s: %s\n' "$t" "$why"; picked="$picked $t"; n_picked=$((n_picked + 1)); fi
+      done < "$aw/sel"
+    fi
+    printf 'Affected: %s of %s test files; left %s of %s test files for the merge gate (it runs the whole suite).\n' "$n_picked" "$n_all" "$((n_all - n_picked))" "$n_all"
+    [ -z "$list_only" ] || exit 0
+    tests=$picked
+    # The lint and the task's Verify run whatever the diff selected.
+    for c in "$root/../scripts/kit_lint.py" "$root/scripts/kit_lint.py"; do
+      if [ -f "$c" ]; then "$python_runtime" "$c" || { printf '%s\n' 'PACKAGE_FAIL: kit_lint.' >&2; exit 1; }; break; fi
+    done
+  elif [ -f "${UAK_SMOKE_GATE_NONE:-/nonexistent}" ] && [ "$(cat "$UAK_SMOKE_GATE_NONE" 2>/dev/null)" = affected-none ] && [ -z "${UAK_SMOKE_TESTS+set}" ]; then
+    printf 'Shard: 0 of %s test files (merge gate: no test file affected).\n' "$(printf '%s\n' $tests | wc -l | tr -d ' ')"
+    tests=''
+  elif [ -n "${UAK_SMOKE_TESTS+set}" ]; then
+    picked='' n_all=0 n_picked=0
+    for t in $tests; do n_all=$((n_all + 1)); done
+    set -f
+    for want in $UAK_SMOKE_TESTS; do
+      found=''
+      for t in $tests; do [ "$t" != "$want.py" ] || found=1; done
+      [ -n "$found" ] || { set +f; printf 'PACKAGE_UNVERIFIED: UAK_SMOKE_TESTS names %s: no .uak/tests/%s.py here.\n' "$want" "$want" >&2; exit 2; }
+      picked="$picked $want.py"; n_picked=$((n_picked + 1))
+    done
+    set +f
+    [ -n "$picked" ] || { printf '%s\n' 'PACKAGE_UNVERIFIED: UAK_SMOKE_TESTS is set and empty: no test to run.' >&2; exit 2; }
+    printf 'Shard: %s of %s test files (UAK_SMOKE_TESTS).\n' "$n_picked" "$n_all"
+    tests=$picked
+  fi
+  # The shard list and the gate's none-signal are this run's choice, not the tests': a test that starts its own smoke
+  # inherited them and looked for files its package does not have. Why (v6.1.1 CI, the second time after lesson #4).
+  unset UAK_SMOKE_TESTS UAK_SMOKE_GATE_NONE
+  # UAK-054 parallel shards: --jobs N, else `Smoke-Jobs: N` in .uak/PROJECT.md (the kit's one reader), else 1. N = auto is the
+  # CPU count minus one, at most 4. Why (v6.1.0, v6.1.1): the whole suite ran serially on every merge, 10+ min.
+  if [ -z "$jobs" ] && [ -f ".uak/bin/lib/config.sh" ]; then
+    # shellcheck disable=SC1091
+    . ".uak/bin/lib/config.sh"
+    uak_cfg_var "$root/.uak/PROJECT.md" Smoke-Jobs 1; jobs=$CFG
+  fi
+  [ -n "$jobs" ] || jobs=1
+  if [ "$jobs" = auto ]; then
+    cpus=$( (nproc || sysctl -n hw.ncpu || printf '%s' "${NUMBER_OF_PROCESSORS:-1}") 2>/dev/null | head -n 1)
+    case "$cpus" in ''|*[!0-9]*) cpus=1 ;; esac
+    jobs=$((cpus - 1)); [ "$jobs" -le 4 ] || jobs=4; [ "$jobs" -ge 1 ] || jobs=1
+  fi
+  case "$jobs" in ''|*[!0-9]*|0|0[0-9]*) printf 'smoke: --jobs / Smoke-Jobs must be a number of 1 or more, or auto, not %s\n' "$jobs" >&2; exit 2 ;; esac
+  n_tests=$(printf '%s\n' $tests | grep -c . || :)
+  [ "$jobs" -le "$n_tests" ] || jobs=$n_tests
+  if [ "$jobs" -gt 1 ]; then
+    # Balance by the seconds the CI split already knows (scripts/kit_lint.py CI_SECONDS, source repository only): longest
+    # first, each file to the lightest shard. Without kit_lint every file counts the same.
+    lint=''
+    for c in "$root/../scripts/kit_lint.py" "$root/scripts/kit_lint.py"; do
+      if [ -z "$lint" ] && [ -f "$c" ]; then lint=$c; fi
+    done
+    work=$(mktemp -d "${TMPDIR:-/tmp}/uak-smoke-shards.XXXXXX")
+    trap 'rm -rf "$work"' EXIT
+    secs=''
+    if [ -n "$lint" ]; then
+      secs=$(for t in $tests; do printf '%s\n' "${t%.py}"; done | "$python_runtime" -c 'import importlib.util as u, sys
+s = u.spec_from_file_location("kit_lint_for_smoke", sys.argv[1]); m = u.module_from_spec(s); s.loader.exec_module(m)
+for line in sys.stdin:
+    t = line.strip()
+    if t: print("%d %s" % (m.ci_seconds(t), t))' "$lint" 2>/dev/null || :)
+    fi
+    [ -n "$secs" ] || secs=$(for t in $tests; do printf '60 %s\n' "${t%.py}"; done)
+    printf '%s\n' "$secs" | LC_ALL=C sort -k1,1nr -k2,2 | awk -v n="$jobs" '
+      { best = 1; for (k = 2; k <= n; k++) if (load[k] < load[best]) best = k
+        load[best] += $1; print best, $2 ".py" }' > "$work/plan"
+    printf 'Jobs: %s shards of %s test files.\n' "$jobs" "$n_tests"
+    k=1; pids=''
+    while [ "$k" -le "$jobs" ]; do
+      mkdir -p "$work/shard$k/tmp" "$work/shard$k/home"
+      [ ! -f "${HOME:-/nonexistent}/.gitconfig" ] || cp "$HOME/.gitconfig" "$work/shard$k/home/.gitconfig" 2>/dev/null || :
+      list=$(awk -v k="$k" '$1 == k { print $2 }' "$work/plan")
+      (
+        TMPDIR="$work/shard$k/tmp" TEMP="$work/shard$k/tmp" TMP="$work/shard$k/tmp" HOME="$work/shard$k/home"
+        export TMPDIR TEMP TMP HOME
+        for t in $list; do
+          [ "$t" != test_v57_install.py ] || [ -f "$root/../install.sh" ] || continue
+          "$python_runtime" ".uak/tests/$t" --package "$root" || exit 1
+        done
+      ) < /dev/null > "$work/shard$k.log" 2>&1 &
+      pids="$pids $!"; k=$((k + 1))
+    done
+    k=1; failed=''
+    for pid in $pids; do
+      if wait "$pid"; then
+        printf 'Shard %s of %s passed (%s).\n' "$k" "$jobs" "$(awk -v k="$k" '$1 == k { printf "%s ", $2 }' "$work/plan" | sed 's/ $//')"
+        cat "$work/shard$k.log"
+      else
+        failed="$failed $k"
+      fi
+      k=$((k + 1))
+    done
+    if [ -n "$failed" ]; then
+      for k in $failed; do
+        printf 'Shard %s of %s failed (%s); last 40 lines:\n' "$k" "$jobs" "$(awk -v k="$k" '$1 == k { printf "%s ", $2 }' "$work/plan" | sed 's/ $//')"
+        tail -n 40 "$work/shard$k.log"
+      done
+      printf 'PACKAGE_FAIL: shard%s failed.\n' "$failed" >&2
+      exit 1
+    fi
+  else
+    # Names are [A-Za-z0-9_.] only: plain word splitting, and stdin stays the caller's (a test may read it).
+    for t in $tests; do
+      # The installer lives next to the kit in the source repository, not in an installed project.
+      [ "$t" != test_v57_install.py ] || [ -f "$root/../install.sh" ] || continue
+      "$python_runtime" ".uak/tests/$t" --package "$root"
+    done
+  fi
+  if [ -n "$affected" ]; then
+    task=$(sed -n 's/^UAK_TASK=//p' "$top/.uak-env" "$root/.uak-env" 2>/dev/null | head -n 1 | tr -d '\r')
+    verify=''
+    for tf in "$top/.uak/TASKS.md" "$root/.uak/TASKS.md"; do
+      if [ -n "$task" ] && [ -z "$verify" ] && [ -f "$tf" ]; then
+        verify=$(awk -v id="$task" '/^## / { on = ($2 == id) } on { s = $0; gsub(/\*\*/, "", s); sub(/^[[:space:]]*-[[:space:]]*/, "", s)
+          if (index(s, "Verify:") == 1) { sub(/^Verify:[[:space:]]*/, "", s); print s; exit } }' "$tf")
+      fi
+    done
+    # The roadmap of a coordinated repository lives on the claims branch, not in TASKS.md: ask uak, as `uak red` does.
+    if [ -n "$task" ] && [ -z "$verify" ]; then verify=$(bash .uak/bin/uak status --task "$task" --full 2>/dev/null | sed -n 's/^Verify: //p' | head -n 1); fi
+    verify=${verify#\`}; verify=${verify%\`}
+    if [ -n "$verify" ]; then
+      printf 'Verify (%s): %s\n' "$task" "$verify"
+      (cd "$top" && bash -c "$verify") || { printf 'PACKAGE_FAIL: the task Verify failed.\n' >&2; exit 1; }
+    else
+      printf '%s\n' 'Verify: no task in this checkout (.uak-env), none run.'
+    fi
+  fi
   printf '%s\n' 'PACKAGE_PASS: coordination verified with real Git processes and a local bare remote.'
 fi
-if [ "$mode" = package ]; then
+if [ "$mode" = package ] || [ "$mode" = light ]; then
   printf '%s\n' 'PRODUCT_UNVERIFIED: --package-only does not run the app nor enable product auto-merge.'
   exit 0
 fi

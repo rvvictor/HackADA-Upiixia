@@ -25,9 +25,44 @@ jobs:
             case "$f" in *.sh) bash -n "$f"; continue;; esac
             if head -n 1 "$f" | grep -qE '^#!.*(bash|/sh|[[:space:]]sh)([[:space:]]|$)'; then bash -n "$f"; fi
           done
-          python3 -c 'import ast, sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' .uak/bin/uak-mcp
+          # python3 can be the Windows Store alias (it exits 49): try python too.
+          for py in python3 python; do "$py" -c 'import sys' 2>/dev/null && break; done
+          "$py" -c 'import ast, sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' .uak/bin/uak-mcp
       - name: Backlog graph (no cycles, no unknown deps)
         run: if [ -f .uak/TASKS.md ]; then bash .uak/bin/graph --file .uak/TASKS.md; fi
+      # The product smoke needs the stack's tools; a runner has none of uv, a current Node, Java 21 or Go.
+      # Why (Chilangatón): 59 of 60 runs failed with "uv: command not found", so every PR was red and pr-sync told
+      # each task "CI failed" for a tool the runner lacked.
+      - name: Python toolchain (uv)
+        if: hashFiles('**/uv.lock', '**/pyproject.toml') != ''
+        uses: astral-sh/setup-uv@v6
+      - name: Node toolchain
+        if: hashFiles('**/package.json') != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Java toolchain
+        if: hashFiles('**/pom.xml', '**/build.gradle', '**/build.gradle.kts') != ''
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Go toolchain
+        if: hashFiles('**/go.mod') != ''
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      # The smoke runs the web build; a runner has no node_modules. Why (DevDay hackathon, 2026-11-08): main failed 9 times
+      # and every PR with "tsc: not found" until the team patched this file by hand.
+      - name: Web dependencies
+        if: hashFiles('package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'web/package-lock.json', 'web/pnpm-lock.yaml', 'web/yarn.lock', 'frontend/package-lock.json', 'frontend/pnpm-lock.yaml', 'frontend/yarn.lock', 'client/package-lock.json', 'client/pnpm-lock.yaml', 'client/yarn.lock') != ''
+        run: |
+          for d in . web frontend client; do
+            if [ -f "$d/package-lock.json" ]; then npm --prefix "$d" ci --no-audit --no-fund
+            elif [ -f "$d/pnpm-lock.yaml" ]; then corepack enable && (cd "$d" && pnpm install --frozen-lockfile)
+            elif [ -f "$d/yarn.lock" ]; then corepack enable && (cd "$d" && yarn install --frozen-lockfile)
+            fi
+          done
       - name: Product smoke
         run: |
           if [ -f .uak/bin/smoke-project ]; then bash .uak/bin/smoke-project

@@ -23,14 +23,20 @@
 # Why: at Reap and MLB "it burns tokens reading the same stuff again and again" — agents opened file after file to
 # learn the structure; graphify reported 71.5x fewer tokens per question on a 52-file corpus with a graph instead.
 set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
 LC_ALL=C; export LC_ALL
 die() { printf 'map: %s\n' "$*" >&2; exit 2; }
+# Git Bash rewrites "rev:.path" arguments for native git unless told not to (the same list as uak).
+MSYS2_ARG_CONV_EXCL="refs/;origin/;${UAK_REMOTE:-origin}/;HEAD;FETCH_HEAD;:"; export MSYS2_ARG_CONV_EXCL
 top=$(git rev-parse --show-toplevel 2>/dev/null) || die "not a Git repository"
 cd "$top" || exit 2
 gd=$(git rev-parse --absolute-git-dir) || exit 2
 out="$gd/uak-map"
 mkdir -p "$out" || die "cannot write $out"
-notes="$(git rev-parse --path-format=absolute --git-common-dir)/uak-map-notes.tsv"   # shared by all worktrees
+# Shared by all worktrees. --path-format needs git 2.31: older git echoes the flag (portability audit, Oct 2026).
+cdir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null | tail -n 1)
+case "$cdir" in /*|[A-Za-z]:*) ;; *) cdir=$(cd "$(git rev-parse --git-common-dir)" && pwd -P);; esac
+notes="$cdir/uak-map-notes.tsv"
 stamp() { printf '%s %s' "$(git rev-parse HEAD 2>/dev/null || echo none)" "$( { git diff HEAD --stat 2>/dev/null; git ls-files --others --exclude-standard 2>/dev/null; } | cksum | awk '{print $1}')"; }
 
 build() {
@@ -336,13 +342,15 @@ case "$cmd" in
       else printf 'UPSTREAM: %s changed on %s (%s); your %s imports it\n' "$u" "${ref#origin/}" "$who" "$f"; fi
     done < "$out/drift.hits"
     [ "$n" -le 6 ] || printf 'UPSTREAM: … %d more\n' $((n - 6))
-    printf 'Fix now, not at merge: git fetch origin && git merge %s, then rerun Verify (bash .uak/bin/q <Verify>).\n' "$ref";;
+    printf 'Fix now, not at merge: git fetch origin && git merge --no-edit %s, then rerun Verify (bash .uak/bin/q <Verify>).\n' "$ref";;
   brief)
     # The task's slice of the map, printed when the task is claimed: the files in its Paths (size, what they
     # define, who imports them), and who outside imports them (the contract audience). Why (MLB, v5 week): the
     # claim said "run uak map show" and agents did 9 times in 67 tasks; the slice itself is what they need.
     id= paths= backlog="$top/.uak/TASKS.md"
-    while [ "$#" -gt 0 ]; do case "$1" in --paths) paths=${2:-}; shift 2;; --backlog) backlog=${2:-$backlog}; shift 2;; *) id=$1; shift;; esac; done
+    while [ "$#" -gt 0 ]; do case "$1" in --paths) paths=${2:-}; shift $(($# > 1 ? 2 : 1));; --backlog) backlog=${2:-$backlog}; shift $(($# > 1 ? 2 : 1));; *) id=$1; shift;; esac; done
+    # A CRLF checkout (Windows, core.autocrlf) kept a \r on the last path of every task (portability audit, Oct 2026).
+    tr -d '\r' < "$backlog" > "$out/brief.backlog" 2>/dev/null && backlog="$out/brief.backlog"
     [ -n "$id" ] || die "Usage: map brief ID [--paths P,Q] [--backlog FILE]"
     [ -n "$paths" ] || paths=$(awk -v id="$id" '/^## / {on = ($2 == id)} on {s = $0; gsub(/\*\*/, "", s); sub(/^[ \t]*-[ \t]*/, "", s); if (s ~ /^Paths:/) {sub(/^Paths:[ \t]*/, "", s); print s; exit}}' "$backlog" 2>/dev/null)
     [ -n "$paths" ] || exit 1
@@ -414,7 +422,7 @@ case "$cmd" in
     esac;;
   notes)
     agent=${UAK_MAP_AGENT:-} max=30 batch=6 dry=no
-    while [ "$#" -gt 0 ]; do case "$1" in --agent) agent=${2:-}; shift 2;; --max) max=${2:-30}; shift 2;; --dry-run) dry=yes; shift;; *) die "Usage: map notes [--agent CMD] [--max N] [--dry-run]";; esac; done
+    while [ "$#" -gt 0 ]; do case "$1" in --agent) agent=${2:-}; shift $(($# > 1 ? 2 : 1));; --max) max=${2:-30}; shift $(($# > 1 ? 2 : 1));; --dry-run) dry=yes; shift;; *) die "Usage: map notes [--agent CMD] [--max N] [--dry-run]";; esac; done
     case "$max" in ''|*[!0-9]*) die "--max takes a number";; esac
     ensure
     if [ -z "$agent" ]; then
@@ -487,9 +495,18 @@ case "$cmd" in
         if (!(b in prev)) { print "no import path from " a " to " b; exit 1 }
         p = b; s = b; while (prev[p] != "-") { p = prev[p]; s = p " → " s }; print s }' "$out/edges.tsv";;
   impact)
-    only_tasks=no backlog="$top/.uak/TASKS.md"
-    while :; do case "${1:-}" in --tasks) only_tasks=yes; shift;; --backlog) backlog=${2:-$backlog}; shift 2;; *) break;; esac; done
+    only_tasks=no backlog=
+    while :; do case "${1:-}" in --tasks) only_tasks=yes; shift;; --backlog) backlog=${2:-}; shift $(($# > 1 ? 2 : 1));; *) break;; esac; done
     [ "$#" -gt 0 ] || die "Usage: map impact [--tasks] [--backlog FILE] ID|FILE..."; ensure
+    # No --backlog: main's TASKS.md plus the tasks published on claims with uak plan. Why (audit, Oct 2026): map impact
+    # ID failed for every task published with uak plan ("has no Paths in the backlog").
+    if [ -z "$backlog" ]; then
+      backlog="$out/impact.backlog"; tr -d '\r' < "$top/.uak/TASKS.md" > "$backlog" 2>/dev/null || : > "$backlog"
+      if git -C "$top" fetch -q "${UAK_REMOTE:-origin}" "+refs/heads/claims:refs/uak/map-claims-$$" 2>/dev/null; then
+        { printf '\n'; git -C "$top" show "refs/uak/map-claims-$$:backlog/TASKS.md" 2>/dev/null | tr -d '\r'; } >> "$backlog"
+        git -C "$top" update-ref -d "refs/uak/map-claims-$$" 2>/dev/null || true
+      fi
+    fi
     : > "$out/impact.prefixes"
     for x in "$@"; do
       if printf '%s' "$x" | grep -Eq '^[A-Za-z][A-Za-z0-9]*-[0-9]+$'; then

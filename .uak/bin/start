@@ -5,6 +5,9 @@
 # Why (a solo marathon project, Oct 2026): "two hours and I still cannot start". An unapproved backlog, Review-Mode gh
 # with one human and an OWNERS row: each a one-line fix, each found by hand.
 set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
+# Git Bash rewrites "rev:.path" arguments for native git unless told not to (the same list as uak).
+MSYS2_ARG_CONV_EXCL="refs/;origin/;${UAK_REMOTE:-origin}/;HEAD;FETCH_HEAD;:"; export MSYS2_ARG_CONV_EXCL
 LC_ALL=C; export LC_ALL
 fix=no
 for a in "$@"; do case "$a" in --fix) fix=yes;; *) printf 'Usage: uak start [--fix]\n' >&2; exit 2;; esac; done
@@ -22,19 +25,46 @@ finish() {
   else printf 'START · %s things to do before the first claim, in this order. Then run uak start again.\n' "$todo"; fi
   exit 1
 }
-from() { sed -n "s/^[-* ]*$1:[* ]*//p" | head -n 1 | tr -d '\r`'; }
+. "$here/lib/config.sh"
+from() { uak_cfg - "$1"; }
 
 root=$(git rev-parse --show-toplevel 2>/dev/null) || {
   need "a Git repository" "git init -b main, then: bash ~/.uak-kit/install.sh --mode sprint|marathon ."; finish; }
 cd "$root" || exit 1
 
 # 1. The kit
-mode=$(from Mode < .uak/PROJECT.md 2>/dev/null)
+mode=$({ from Mode < .uak/PROJECT.md; } 2>/dev/null)
 case "$mode" in
   sprint|marathon) ok "kit installed ($mode, uak $(cat "$here/../VERSION" 2>/dev/null))";;
   *) need "install the kit" "bash ~/.uak-kit/install.sh --mode sprint .   (deadline with judges)" \
           "bash ~/.uak-kit/install.sh --mode marathon .   (a product; add --solo if you are alone on the GitHub repo)"; finish;;
 esac
+# A project started from an older one keeps that one's kit. Why (HackADA): the repo began as a copy of the previous
+# hackathon's and ran uak 5.3.0, without five releases of fixes (the frontend gate among them).
+vnum() { printf '%s\n' "$1" | awk -F. '/^[0-9]+\.[0-9]+\.[0-9]+$/ {printf "%d\n", $1 * 1000000 + $2 * 1000 + $3; exit} {print 0}'; }
+kit_home=${UAK_KIT_HOME:-$HOME/.uak-kit}
+# { …; } 2>/dev/null: a plain `< file 2>/dev/null` opens the file before stderr moves, so a missing ~/.uak-kit printed
+# "No such file or directory" (Windows audit, Oct 2026).
+mine=$({ tr -d '\r' < "$here/../VERSION"; } 2>/dev/null)
+newest=$({ tr -d '\r' < "$kit_home/kit/.uak/VERSION"; } 2>/dev/null) where=$kit_home
+# Without a local clone (installed from another checkout or the plugin), ask the kit's GitHub directly: HackADA's copied
+# repo is exactly the case that has no ~/.uak-kit. The low-speed limit keeps an offline laptop from waiting.
+kit_url=${UAK_KIT_URL:-https://github.com/JoahanMorales/upiixia-agentic-kit}
+if [ -d "$kit_home/.git" ]; then tags_dir=$kit_home tags_from=origin; else tags_dir=. tags_from=$kit_url; fi
+tag=$(GIT_TERMINAL_PROMPT=0 git -C "$tags_dir" -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=5 \
+      ls-remote --tags --refs "$tags_from" 'v*' 2>/dev/null | sed 's#.*refs/tags/v##' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' |
+      sort -t. -k1,1n -k2,2n -k3,3n | tail -n 1)
+pull=
+if [ -n "$tag" ] && [ "$(vnum "$tag")" -gt "$(vnum "${newest:-0.0.0}")" ]; then
+  newest=$tag where="the kit's GitHub"
+  if [ -d "$kit_home/.git" ]; then pull="git -C $kit_home pull --ff-only, then "
+  else pull="git clone --depth 1 $kit_url $kit_home, then "; fi
+fi
+if [ -n "$newest" ] && [ "$(vnum "$newest")" -gt "$(vnum "${mine:-0.0.0}")" ] && [ -z "${UAK_KIT_PIN:-}" ]; then
+  need "update the kit: this project has uak $mine and $where has $newest" \
+       "${pull}bash $kit_home/install.sh --mode $mode --update .   (keeps PROJECT.md, TASKS.md and OWNERS.md; commit and push it)" \
+       "to stay on $mine on purpose: UAK_KIT_PIN=1 uak start"
+fi
 
 # 2. The remote: claims, branches and reviews all live there.
 url=$(git config --get "remote.$remote.url" 2>/dev/null) ||
@@ -62,7 +92,7 @@ else
 $fails
 EOF
   printf '%s\n' "$fails" | grep -Eq 'only collaborator|core.hooksPath is not set|not executable' &&
-    set -- "$@" "uak start --fix does the hooks and, alone on the repo, Review-Mode: claims"
+    set -- "$@" "uak start --fix does the hooks, the skills folders and, alone on the repo, Review-Mode: claims"
   need "preflight: doctor found $(printf '%s\n' "$fails" | grep -c .) failure(s)" "$@"
 fi
 
@@ -114,7 +144,7 @@ fi
 # Approved here but not pushed yet: step 4 already says to push it.
 if [ "$tasks" -gt 0 ] && [ "$p_approved" != yes ] && [ "$(from Backlog-Approved < .uak/PROJECT.md)" != yes ]; then
   need "approve the plan: Backlog-Approved is not yes on $base, so nothing can be claimed for 10 min and then only P0" \
-       "you are the human: read .uak/TASKS.md, set Backlog-Approved: yes in .uak/PROJECT.md, push it to $base"
+       "you are the human: read the backlog (uak graph, or .uak/TASKS.md plus what uak plan published), set Backlog-Approved: yes in .uak/PROJECT.md, push it to $base"
 fi
 
 # Who reviews the first PR: on claims a reviewer needs its own live claim or a registered role.

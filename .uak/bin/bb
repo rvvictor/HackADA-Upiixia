@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # uak black box: a flight recorder of what went wrong with the kit, so the kit itself can improve.
-#   bb add KIND TEXT... [--fix IDEA] [--cmd CMD]   KIND: bug|friction|idea|need|praise (agents and humans)
+#   bb add KIND TEXT... [--fix IDEA] [--cmd CMD] [--task ID]   KIND: bug|friction|idea|need|praise|manual (agents and humans)
+#   bb note manual "what I did by hand" --fix "what the kit should do"   (note = add; UAK-121: work done outside the kit)
 #   bb auto CODE CMD TEXT                           internal: uak/guard call this on every error (local, ~1 ms)
 #   bb flush [--quiet]                              publish pending lines to claims:blackbox/ (one push)
 #   bb show [N] · bb export [FILE] · bb status
@@ -12,6 +13,7 @@
 # Why: at UpiixSol (Oct 2026) the same kit errors repeated across 3 sessions and 2 humans, and the only
 # record was buried in 30 MB of transcripts nobody would read.
 set -u
+[ -z "${UAK_LG_OWED:-}" ] || { . "${0%/*}/lib/ledger.sh"; ledger_owed; }  # closes the ledger line (UAK-136)
 LC_ALL=C; export LC_ALL
 MSYS2_ARG_CONV_EXCL="refs/;origin/;HEAD;FETCH_HEAD;:"; export MSYS2_ARG_CONV_EXCL
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
@@ -26,12 +28,13 @@ die() { say "BB_ERROR: $*" >&2; exit 2; }
 enabled() {
   case "${UAK_BLACKBOX:-}" in off|0|no|false) return 1;; esac
   [ -n "$top" ] || return 1
-  v=$(sed -n 's/^[-* ]*Blackbox:[* ]*//p' "$top/.uak/PROJECT.md" 2>/dev/null | head -n 1 | tr -d '\r `' | tr 'A-Z' 'a-z')
-  case "$v" in off|no|false|0) return 1;; esac
+  uak_cfg_var "$top/.uak/PROJECT.md" Blackbox
+  case "$CFG" in [Oo][Ff][Ff]|[Nn][Oo]|[Ff][Aa][Ll][Ss][Ee]|0) return 1;; esac
   return 0
 }
 version() { cat "$here/../VERSION" 2>/dev/null | head -n 1 | tr -d '\r\n ' || true; }
-mode() { m=$(sed -n 's/^[-* ]*Mode:[* ]*//p' "$top/.uak/PROJECT.md" 2>/dev/null | head -n 1 | tr -d '\r `'); printf '%s' "${m:-sprint}"; }
+. "$here/lib/config.sh"
+mode() { uak_cfg "$top/.uak/PROJECT.md" Mode sprint; }
 harness() {
   [ -z "${UAK_HARNESS:-}" ] || { printf '%s' "$UAK_HARNESS"; return; }
   if [ -n "${CLAUDECODE:-}" ]; then printf claude-code
@@ -67,12 +70,39 @@ line() { # kind src cmd text fix
     "$(mode)" "$2" "$1" "${c:--}" "$t" "${f:--}"
 }
 
-publish() { # $1 file with lines
+# The manual moves the black boxes show most (UAK-121): a fixed text per kind, so no command text can reach the line.
+manual_line() { # kind [task]
+  case "$1" in
+    worktree) w="git worktree add by hand"; f="wt new ID makes the worktree, the identity and the claim";;
+    direct-main) w="commit on the base branch from the main checkout"; f="work in a task worktree (wt new ID) so the change has a task and a review";;
+    merge-human) w="gh pr merge run after MERGE_HUMAN"; f="a uak command a human runs to merge and integrate in one step";;
+    claims-push) w="git push to claims refused by the guard"; f="a uak command for what the push was meant to write";;
+    *) return 0;;
+  esac
+  [ -z "${2:-}" ] || w="$w ($2)"
+  line manual auto - "$w" "$f"
+}
+# metrics/<day>-<machine>.tsv: the ledger's lines (UAK-116), capped at UAK_LEDGER_CAP data lines per file (default 5000);
+# the oldest beyond it become "#sum<TAB>command<TAB>ok|fail<TAB>count" rows (merged on every flush), so claims stays small.
+ledger_merge() { # $1 existing file (may not exist) $2 new lines → stdout
+  awk -F'\t' -v cap="${UAK_LEDGER_CAP:-5000}" '
+    $1 == "#sum" { k = $2 "\t" $3; if (!(k in s)) { so[++sn] = k }; s[k] += $4; next }
+    $1 == "#" || $1 == "" { next }
+    { d[++n] = $0 }
+    END {
+      drop = n - cap
+      for (i = 1; i <= drop; i++) { split(d[i], f, "\t"); k = f[2] "\t" (f[4] == "0" ? "ok" : "fail")
+        if (!(k in s)) so[++sn] = k; s[k]++ }
+      print "# ledger: epoch, command, task, exit, code, ms, agent, harness (exit - = ended in an exec; #sum rows = older lines, counted)"
+      for (i = 1; i <= sn; i++) print "#sum\t" so[i] "\t" s[so[i]]
+      for (i = (drop > 0 ? drop + 1 : 1); i <= n; i++) print d[i] }' "$1" "$2"
+}
+publish() { # $1 file with black box lines (may be empty) · $2 ledger lines (optional)
   url=$(git config --get "remote.$REMOTE.url" 2>/dev/null) || return 1
   case "$url" in /*|[A-Za-z]:*|*://*|*@*:*) ;; *) url="${common:-$top/.git}/../$url";; esac
   tmp=$(mktemp -d "${TMPDIR:-/tmp}/uak-bb.XXXXXX") || return 1
   host=$( (hostname 2>/dev/null || uname -n) | cksum | awk '{print $1 % 100000}')
-  rel="blackbox/$(date -u +%Y-%m-%d)-$host.md"
+  day=$(date -u +%Y-%m-%d); rel="blackbox/$day-$host.md"; mrel="metrics/$day-$host.tsv"
   ok=1
   git -C "$tmp" init -q && git -C "$tmp" remote add origin "$url" &&
     git -C "$tmp" config user.name "${UAK_AGENT:-uak}" && git -C "$tmp" config user.email uak@localhost || { rm -rf "$tmp"; return 1; }
@@ -82,10 +112,18 @@ publish() { # $1 file with lines
     else
       git -C "$tmp" checkout -q --orphan claims 2>/dev/null || git -C "$tmp" checkout -q claims || break
     fi
-    mkdir -p "$tmp/blackbox"
-    [ -f "$tmp/$rel" ] || printf '# Black box · %s\n\nOne line per event: time | kit | harness | mode | source | kind | command | what | fix\n\n' "$rel" > "$tmp/$rel"
-    cat "$1" >> "$tmp/$rel"
-    git -C "$tmp" add "$rel" && git -C "$tmp" commit -q -m "uak: blackbox +$(awk 'END{print NR}' "$1")" || break
+    nb=$(awk 'END{print NR+0}' "$1"); nl=0
+    if [ "$nb" -gt 0 ]; then
+      mkdir -p "$tmp/blackbox"
+      [ -f "$tmp/$rel" ] || printf '# Black box · %s\n\nOne line per event: time | kit | harness | mode | source | kind | command | what | fix\n\n' "$rel" > "$tmp/$rel"
+      cat "$1" >> "$tmp/$rel"; git -C "$tmp" add "$rel" || break
+    fi
+    if [ -n "${2:-}" ]; then
+      nl=$(awk 'END{print NR+0}' "$2"); mkdir -p "$tmp/metrics"; : >> "$tmp/$mrel"
+      ledger_merge "$tmp/$mrel" "$2" > "$tmp/ledger.new" && mv "$tmp/ledger.new" "$tmp/$mrel" || break
+      git -C "$tmp" add "$mrel" || break
+    fi
+    git -C "$tmp" commit -q -m "uak: blackbox +$nb, metrics +$nl" || break
     if git -C "$tmp" push -q origin HEAD:refs/heads/claims 2>/dev/null; then ok=0; break; fi
     sleep "$attempt"
   done
@@ -98,8 +136,15 @@ flush() {
   [ -s "$calls" ] && {
     summary=$(sort "$calls" | uniq -c | awk '{printf "%s%s:%s", (NR>1?" ":""), $2, $1}')
     line usage auto calls "$summary" - >> "$pending"; : > "$calls"; }
-  [ -s "$pending" ] || { [ -n "$quiet" ] || say "BB: nothing pending"; return 0; }
-  snap="$pending.$$"; mv "$pending" "$snap" || return 0
+  lpend="${common:-${TMPDIR:-/tmp}}/uak-ledger.pending"; lsnap=
+  if [ -s "$lpend" ]; then
+    lsnap="$lpend.$$"
+    # Lines from bash 3.2 have no epoch (-): they get the flush time, which is within minutes of the command.
+    mv "$lpend" "$lsnap" || lsnap=
+  fi
+  [ -s "$pending" ] || [ -n "$lsnap" ] || { [ -n "$quiet" ] || say "BB: nothing pending"; return 0; }
+  snap="$pending.$$"
+  if [ -s "$pending" ]; then mv "$pending" "$snap" || { [ -z "$lsnap" ] || mv "$lsnap" "$lpend"; return 0; }; else : > "$snap"; fi
   # Identical lines (same everything but the minute) become one line with (xN).
   # Why (Reap buildathon): one FREEZE refusal was published 153 times.
   awk -F' [|] ' '{
@@ -110,11 +155,15 @@ flush() {
     END { for (i = 1; i <= m; i++) { k = order[i]; line = first[k] k
         if (n[k] > 1) { c = split(line, f, / [|] /); f[8] = f[8] " (x" n[k] ")"; line = f[1]; for (j = 2; j <= c; j++) line = line " | " f[j] }
         print line } }' "$snap" > "$snap.d" && mv "$snap.d" "$snap"
-  if publish "$snap"; then
+  if [ -n "$lsnap" ]; then
+    awk -F'\t' -v OFS='\t' -v now="$(date +%s)" '$1 !~ /^[0-9]+$/ { $1 = now } { print }' "$lsnap" > "$lsnap.d" && mv "$lsnap.d" "$lsnap"
+  fi
+  if publish "$snap" "$lsnap"; then
     [ -n "$quiet" ] || say "BB: published $(awk 'END{print NR}' "$snap") line(s) to claims:blackbox/"
-    rm -f "$snap"; touch "${common:-${TMPDIR:-/tmp}}/uak-blackbox.flushed" 2>/dev/null
+    rm -f "$snap" "$lsnap"; touch "${common:-${TMPDIR:-/tmp}}/uak-blackbox.flushed" 2>/dev/null
   else
     cat "$snap" >> "$pending"; rm -f "$snap"
+    [ -z "$lsnap" ] || { cat "$lsnap" >> "$lpend"; rm -f "$lsnap"; }
     [ -n "$quiet" ] || say "BB: could not push (offline?); lines stay pending" >&2
   fi
   return 0
@@ -131,22 +180,32 @@ case "$cmd" in
   auto)
     enabled || exit 0
     code=${1:-?} c=${2:-?}; shift 2 2>/dev/null || true
-    line "exit$code" auto "uak $c" "$*" - >> "$pending" 2>/dev/null; exit 0;;
+    line "exit$code" auto "uak $c" "$*" - >> "$pending" 2>/dev/null
+    # The guard refused a push to claims: someone tried it by hand (the kind only, never the command).
+    case "$*" in *"claims branch is written only by uak commands"*) manual_line claims-push >> "$pending" 2>/dev/null;; esac
+    exit 0;;
+  manual) # internal (the output hook): bb manual KIND [TASK]; the KIND of manual move, never the command that showed it
+    enabled || exit 0
+    l=$(manual_line "${1:-}" "${2:-}"); [ -n "$l" ] || exit 0
+    printf '%s\n' "$l" >> "$pending" 2>/dev/null; exit 0;;
   call) enabled || exit 0; printf '%s\n' "${1:-?}" >> "$calls" 2>/dev/null; exit 0;;
   harness) harness; printf '\n'; exit 0;;
-  add)
+  add|note)
     enabled || { say "BB: off (Blackbox: off in PROJECT.md or UAK_BLACKBOX=off); nothing recorded"; exit 0; }
     kind=${1:-}; [ "$#" -eq 0 ] || shift
-    case "$kind" in bug|friction|idea|need|praise) ;; *) die "Usage: bb add bug|friction|idea|need|praise TEXT [--fix IDEA] [--cmd CMD]";; esac
-    text= fix=- c=-
+    case "$kind" in bug|friction|idea|need|praise|manual) ;; *) die "Usage: bb add bug|friction|idea|need|praise|manual TEXT [--fix IDEA] [--cmd CMD] [--task ID]";; esac
+    text= fix=- c=- tk=${UAK_TASK:-}
+    if [ -z "$tk" ] && [ -f "$top/.uak-env" ]; then tk=$(sed -n 's/^UAK_TASK=//p' "$top/.uak-env" | head -n 1 | tr -d '\r'); fi
     while [ "$#" -gt 0 ]; do
       case "$1" in
         --fix) fix=${2:-}; shift 2 || shift;;
         --cmd) c=${2:-}; shift 2 || shift;;
+        --task) tk=${2:-}; shift 2 || shift;;
         *) text="$text${text:+ }$1"; shift;;
       esac
     done
     [ -n "$text" ] || die "bb add needs a text: what happened, in one line."
+    [ "$kind" != manual ] || [ -z "$tk" ] || text="$text ($tk)"
     l=$(line "$kind" agent "$c" "$text" "$fix")
     [ -n "$l" ] || die "dropped: the text looks like it contains a secret, a credential URL or is empty."
     printf '%s\n' "$l" >> "$pending"
@@ -157,7 +216,9 @@ case "$cmd" in
     all_lines | tail -n "$n";;
   export)
     out=${1:-${top:-.}/.uak/BLACKBOX.md}
-    tmp="${TMPDIR:-/tmp}/uak-bb-export.$$"; all_lines | sort -u > "$tmp"
+    tmp=$(mktemp "${TMPDIR:-/tmp}/uak-bb-export.XXXXXX") || die "Could not create a temporary file in ${TMPDIR:-/tmp}."
+    trap 'rm -f "$tmp"' EXIT
+    all_lines | sort -u > "$tmp"
     {
       printf '%s\n' '# BLACKBOX' '' \
         '> What went wrong with the uak kit in this repo, recorded by agents and by uak itself.' \
@@ -176,7 +237,8 @@ case "$cmd" in
     rm -f "$tmp"; say "BB: wrote ${out#$top/} (commit it in a PR to share it)";;
   status)
     if enabled; then st=on; else st=off; fi
-    say "BB: $st · pending $(awk 'END{print NR+0}' "$pending" 2>/dev/null || echo 0) line(s) · harness $(harness) · kit v$(version)";;
-  *) die "Usage: bb add KIND TEXT [--fix IDEA] · bb flush · bb show [N] · bb export [FILE] · bb status";;
+    say "BB: $st · pending $(awk 'END{print NR+0}' "$pending" 2>/dev/null || echo 0) line(s) · harness $(harness) · kit v$(version)"
+    say "BB: did something by hand the kit should do (refused or failed command, worktree, merge, push)? bash .uak/bin/uak bb note manual \"what you did\" --fix \"what the kit should do\"";;
+  *) die "Usage: bb add KIND TEXT [--fix IDEA] · bb note manual TEXT [--fix IDEA] · bb flush · bb show [N] · bb export [FILE] · bb status";;
 esac
 exit 0
